@@ -1,0 +1,8 @@
+{
+  "name": "farsund-grappling",
+  "compatibility_date": "2025-08-08",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "pages_build_output_dir": ".vercel/output/static"
+}
