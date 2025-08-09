@@ -1,28 +1,7 @@
 // Facilities information
-export interface Facility {
-  id: number;
-  title: string;
-  description: string;
-}
-
 export const facilityInfo = {
-  introduction: [
-    "Farsund Grappling holder til hos Løft Gym i Vanse, med et dedikert treningsområde for kampsport.",
-    "Våre lokaler har alle fasiliteter du trenger for en effektiv og trygg treningsopplevelse.",
-  ],
-  
-  facilities: [
-    {
-      id: 1,
-      title: "Kampsportområde",
-      description: "Treningsområdet vårt har profesjonelle tatami-matter som gir en trygg og komfortabel overflate for kampsporten. Området er romslig, godt ventilert og perfekt for både teknisk trening og sparring.",
-    },
-    {
-      id: 2,
-      title: "Treningssenter",
-      description: "Vi har også et utvalg av treningsutstyr, inkludert vekter og funksjonelt treningsutstyr som komplementerer kampsporttreningen din.",
-    },
-  ],
+  trainingAreaImage: "/grapplingStockImages/trainingArea.png",
+  trainingAreaAlt: "Treningsområdet til Farsund Grappling hos Løft Gym",
   
   location: {
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2126.0447605433777!2d6.662111315906984!3d58.09529538122932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x463a1c3789a47b93%3A0xd2030cbcc7839aba!2sOreveien%2017%2C%204560%20Vanse%2C%20Norway!5e0!3m2!1sen!2sus!4v1626244892015!5m2!1sen!2sus",

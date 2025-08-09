@@ -114,12 +114,34 @@ export default function TrainingPage() {
       
       <ScrollReveal>
         <div className="mt-8 bg-gray-100 rounded-lg p-6 border border-gray-300">
-        <h3 className="text-lg font-semibold mb-2 text-gray-900">Hva bør du ta med?</h3>
-        <ul className="list-disc list-inside text-gray-800 space-y-1">
-          <li>Komfortable treningsklær (t-skjorte, shorts), eventuelt rashguard og spats</li>
-          <li>Vannflaske</li>
-          <li>Håndkle</li>
-        </ul>
+        <h3 className="text-lg font-semibold mb-4 text-gray-900">Generell informasjon</h3>
+        
+        <div className="mb-6">
+          <h4 className="font-semibold mb-2 text-gray-900">Hva bør du ta med?</h4>
+          <ul className="list-disc list-inside text-gray-800 space-y-1">
+            <li>Komfortable treningsklær (t-skjorte, shorts), eventuelt rashguard og spats</li>
+            <li>Vannflaske</li>
+            <li>Håndkle</li>
+          </ul>
+        </div>
+
+        <div className="mb-6">
+          <h4 className="font-semibold mb-2 text-gray-900">Hygiene:</h4>
+          <p className="text-gray-800 mb-2">Minner alle om at dette er en nærkontakt sport hvor god hygiene er viktig:</p>
+          <ul className="list-disc list-inside text-gray-800 space-y-1">
+            <li>Generell god hygiene (ta heller en vask for mye)</li>
+            <li>Alltid rent treningstøy</li>
+            <li>Klipp negler</li>
+            <li>Ikke kom på trening om man er syk</li>
+            <li>Ikke kom på trening om man har smittsomme sykdommer / utslett / åpne sår etc. er man usikker kan du ta kontakt med trener eller enda bedre, en lege.</li>
+            <li>Dusj grundig så fort som mulig etter trening for å unngå infeksjoner og bakterier.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="font-semibold mb-2 text-gray-900">Miljø:</h4>
+          <p className="text-gray-800">Dette skal være et trygt miljø, der alle skal behandle hverandre med respekt og skal ta hensyn til hverandres sikkerhet. Dette området vil vi ha høyt fokus på fremover.</p>
+        </div>
       </div>
       </ScrollReveal>
     </div>

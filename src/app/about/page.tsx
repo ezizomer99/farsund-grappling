@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { clubInfo } from "@/data/clubInfo";
 import { instructors } from "@/data/instructors";
 import { facilityInfo } from "@/data/facilities";
@@ -32,8 +33,14 @@ export default function AboutPage() {
           {instructors.map((instructor) => (
             <div key={instructor.id} className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/3 h-64 bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500">{instructor.imagePlaceholder}</span>
+                <div className="md:w-1/3 h-64 bg-gray-200 flex items-center justify-center relative">
+                  <Image
+                    src={instructor.imagePlaceholder}
+                    alt={instructor.imageAlt}
+                    fill
+                    className="object-cover grayscale"
+                    style={{ objectPosition: '50% 30%' }}
+                  />
                 </div>
                 <div className="md:w-2/3 p-6">
                   <h3 className="text-xl font-semibold mb-1 text-gray-900">{instructor.name}</h3>
@@ -52,23 +59,41 @@ export default function AboutPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4 text-gray-300">Våre Fasiliteter</h2>
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-6">
-            {facilityInfo.introduction.map((paragraph, index) => (
-              <p key={index} className={`text-gray-800 ${index < facilityInfo.introduction.length - 1 ? 'mb-4' : 'mb-6'}`}>
-                {paragraph}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left side - Training area info and image */}
+            <div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                Treningsarealet er inne hos Løft Gym.
+              </h3>
+              <p className="text-lg font-medium mb-6 text-gray-700 flex items-center">
+                Dette er vårt område
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
               </p>
-            ))}
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {facilityInfo.facilities.map((facility) => (
-              <div key={facility.id}>
-                <h3 className="text-xl font-medium mb-2 text-gray-900">{facility.title}</h3>
-                <p className="text-gray-800">
-                  {facility.description}
-                </p>
+              <div className="relative h-100 rounded-lg overflow-hidden">
+                <Image
+                  src={facilityInfo.trainingAreaImage}
+                  alt={facilityInfo.trainingAreaAlt}
+                  fill
+                  className="object-cover"
+                />
               </div>
-            ))}
+            </div>
+            
+            {/* Right side - Opportunities */}
+            <div>
+              <h3 className="text-xl font-semibold mb-4 text-gray-900">Muligheter</h3>
+              <p className="text-gray-800 mb-4">
+                Det å ha et BJJ-område inne i et styrketreningsstudio gir deg unike muligheter.
+              </p>
+              <p className="text-gray-800 mb-4">
+                Du kan kombinere kampsporttrening med styrketrening i samme økt, noe som gir deg en komplett treningsopplevelse.
+              </p>
+              <p className="text-gray-800">
+                Etter en intens BJJ-økt kan du fokusere på styrke og kondisjon, eller omvendt - starte med styrketrening før du går over til teknikk og sparring.
+              </p>
+            </div>
           </div>
         </div>
       </section>
