@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ScrollEffectsWrapper from "@/components/ScrollEffectsWrapper";
+import StudioLink from "@/components/StudioLink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <StudioLink />
       </body>
     </html>
   );

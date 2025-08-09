@@ -1,12 +1,13 @@
-'use client';
-
 import Image from "next/image";
 import { clubInfo } from "@/data/clubInfo";
-import { instructors } from "@/data/instructors";
+import { getInstructors } from "@/lib/sanity.queries";
 import { facilityInfo } from "@/data/facilities";
 import { PageTransition, FadeIn } from "@/components/animations";
+import { RichText } from "@/components/RichText";
+import { urlFor } from "@/lib/sanity.queries";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const instructors = await getInstructors();
   return (
     <PageTransition> 
       <div className="container mx-auto px-4 py-12">
@@ -28,26 +29,45 @@ export default function AboutPage() {
       
       {/* Instructors */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-300">Vår Instruktør</h2>
-        <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-300">Våre Instruktører</h2>
+        <div className="max-w-3xl mx-auto space-y-8">
           {instructors.map((instructor) => (
-            <div key={instructor.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div key={instructor._id} className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="flex flex-col md:flex-row">
                 <div className="md:w-1/3 h-64 bg-gray-200 flex items-center justify-center relative">
-                  <Image
-                    src={instructor.imagePlaceholder}
-                    alt={instructor.imageAlt}
-                    fill
-                    className="object-cover grayscale"
-                    style={{ objectPosition: '50% 30%' }}
-                  />
+                  {instructor.profileImage?.asset ? (
+                    <Image
+                      src={urlFor(instructor.profileImage.asset).width(400).height(400).url()}
+                      alt={instructor.profileImage.alt || instructor.name}
+                      fill
+                      className="object-cover grayscale"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-full bg-gray-300">
+                      <span className="text-gray-500 text-4xl">👤</span>
+                    </div>
+                  )}
                 </div>
                 <div className="md:w-2/3 p-6">
                   <h3 className="text-xl font-semibold mb-1 text-gray-900">{instructor.name}</h3>
                   <p className="text-blue-700 font-medium mb-3">{instructor.title} • {instructor.beltLevel}</p>
-                  <p className="text-gray-700">
-                    {instructor.bio}
-                  </p>
+                  <div className="text-gray-700">
+                    <RichText content={instructor.bio} />
+                  </div>
+                  {(instructor.email || instructor.phone) && (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      {instructor.email && (
+                        <p className="text-sm text-gray-600">
+                          📧 <a href={`mailto:${instructor.email}`} className="text-blue-600 hover:underline">{instructor.email}</a>
+                        </p>
+                      )}
+                      {instructor.phone && (
+                        <p className="text-sm text-gray-600">
+                          📞 <a href={`tel:${instructor.phone}`} className="text-blue-600 hover:underline">{instructor.phone}</a>
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

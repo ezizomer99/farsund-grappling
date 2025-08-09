@@ -19,6 +19,11 @@
 
 # production
 /build
+/dist
+
+# cache directories
+.cache/
+.turbo/
 
 # misc
 .DS_Store
@@ -39,3 +44,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# test files
+test-news.js
+test-*.js
+
+# Sanity build artifacts
+.sanity/dist/
