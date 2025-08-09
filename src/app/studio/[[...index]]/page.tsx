@@ -2,6 +2,9 @@
 
 import { useEffect } from 'react'
 
+// Configure for Edge Runtime (required for Cloudflare Pages)
+export const runtime = 'edge'
+
 export default function StudioPage() {
   useEffect(() => {
     // Redirect to the hosted Sanity Studio
