@@ -26,7 +26,6 @@ body {
 }
 
 .bg-grappling-image {
-  background-image: url('/grapplingStockImages/background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

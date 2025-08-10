@@ -26,16 +26,16 @@ export default async function Home() {
               </h1>
             </FadeIn>
             <FadeIn delay={0.6}>
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Link 
                   href="/training" 
-                  className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-md transition-colors"
+                  className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   {homepage?.heroSection?.scheduleButtonText || 'Se Timeplanen'}
                 </Link>
                 <Link 
                   href="/become-member" 
-                  className="bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-bold py-3 px-6 rounded-md transition-colors"
+                  className="inline-flex items-center justify-center bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm"
                 >
                   {homepage?.heroSection?.memberButtonText || 'Bli Medlem'}
                 </Link>
@@ -127,9 +127,12 @@ export default async function Home() {
           <ScrollReveal delay={0.4}>
             <Link 
               href="/become-member" 
-              className="bg-white text-blue-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-md inline-block transition-colors"
+              className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-blue-50 font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              {homepage?.whatIsGrappling?.ctaButtonText || 'Start i Dag'}
+              <span>{homepage?.whatIsGrappling?.ctaButtonText || 'Start i Dag'}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </Link>
           </ScrollReveal>
         </div>
@@ -143,8 +146,11 @@ export default async function Home() {
               <h2 className="text-3xl font-bold text-gray-900">
                 {homepage?.newsSection?.title || 'Siste Nytt'}
               </h2>
-              <Link href="/news" className="text-blue-700 hover:underline">
-                {homepage?.newsSection?.viewAllText || 'Se Alle'}
+              <Link href="/news" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
+                <span>{homepage?.newsSection?.viewAllText || 'Se Alle'}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
           </ScrollReveal>
@@ -163,8 +169,11 @@ export default async function Home() {
                       </p>
                       <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
                       <p className="text-gray-800 mb-4">{article.summary}</p>
-                      <Link href="/news" className="text-blue-700 hover:underline">
-                        {homepage?.newsSection?.readMoreText || 'Les Mer'}
+                      <Link href="/news" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
+                        <span>{homepage?.newsSection?.readMoreText || 'Les Mer'}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                       </Link>
                     </div>
                   </div>

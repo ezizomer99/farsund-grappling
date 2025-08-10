@@ -1,7 +1,8 @@
-import { clubInfo } from "@/data/clubInfo";
+import { getClubInfo } from "@/lib/sanity.queries";
 import { PageTransition, FadeIn, ScrollReveal } from "@/components/animations";
 
-export default function BecomeMemberPage() {
+export default async function BecomeMemberPage() {
+  const clubInfo = await getClubInfo();
   return (
     <PageTransition>
       <div className="container mx-auto px-4 py-16">
@@ -16,7 +17,7 @@ export default function BecomeMemberPage() {
             <h2 className="text-2xl font-semibold mb-6 text-gray-900">Medlemsregistrering</h2>
           
           <p className="text-gray-800 text-lg mb-8">
-            Medlemsregistrering og betalinger for {clubInfo.name} håndteres gjennom Løft Gym.
+            Medlemsregistrering og betalinger for {clubInfo?.title || 'Farsund Grappling'} håndteres gjennom Løft Gym.
             Klikk på knappen nedenfor for å bli omdirigert til deres registreringsside for å fullføre
             din medlemsregistrering.
           </p>

@@ -34,6 +34,9 @@ export default defineConfig({
             S.listItem()
               .title('Facilities')
               .child(S.documentTypeList('facility').title('Facilities')),
+            S.listItem()
+              .title('Website Background')
+              .child(S.documentTypeList('background').title('Website Background')),
           ]),
     }),
     visionTool(),

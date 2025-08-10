@@ -66,6 +66,14 @@ export interface ClubInfo {
       instagram?: string
     }
   }
+  location?: {
+    title?: string
+    mapEmbedUrl?: string
+    directionsUrl?: string
+    findUsTitle?: string
+    description?: string
+    directionsText?: string
+  }
 }
 
 export interface TrainingProgram {
@@ -131,39 +139,17 @@ export interface Facility {
     title: string
     description: any[]
   }
-  location: {
-    title: string
-    mapEmbedUrl: string
-    directionsUrl: string
-    findUsTitle: string
-    description: string
-    directionsText: string
-  }
 }
 
-export interface Facility {
+export interface Background {
   _id: string
   title: string
-  trainingArea: {
-    title: string
-    subtitle: string
-    image: {
-      asset: any
-      alt: string
-    }
+  backgroundImage: {
+    asset: any
+    alt: string
   }
-  opportunities: {
-    title: string
-    description: any[]
-  }
-  location: {
-    title: string
-    mapEmbedUrl: string
-    directionsUrl: string
-    findUsTitle: string
-    description: string
-    directionsText: string
-  }
+  overlayOpacity: number
+  overlayColor: string
 }
 
 // Queries
@@ -198,7 +184,23 @@ const clubInfoQuery = groq`*[_type == "clubInfo"][0] {
   story,
   mission,
   values,
-  contactInfo
+  contactInfo {
+    email,
+    phone,
+    address,
+    socialMedia {
+      facebook,
+      instagram
+    }
+  },
+  location {
+    title,
+    mapEmbedUrl,
+    directionsUrl,
+    findUsTitle,
+    description,
+    directionsText
+  }
 }`
 
 const trainingProgramsQuery = groq`*[_type == "trainingProgram" && isActive == true] | order(order asc) {
@@ -235,14 +237,6 @@ const facilityQuery = groq`*[_type == "facility"][0] {
   opportunities{
     title,
     description
-  },
-  location{
-    title,
-    mapEmbedUrl,
-    directionsUrl,
-    findUsTitle,
-    description,
-    directionsText
   }
 }`
 
@@ -272,6 +266,20 @@ const homepageQuery = groq`*[_type == "homepage"][0] {
     viewAllText,
     readMoreText
   }
+}`
+
+const backgroundQuery = groq`*[_type == "background"][0] {
+  _id,
+  title,
+  backgroundImage{
+    asset->{
+      _id,
+      url
+    },
+    alt
+  },
+  overlayOpacity,
+  overlayColor
 }`
 
 // Fetch functions
@@ -328,4 +336,8 @@ export async function getFacility(): Promise<Facility | null> {
 
 export async function getHomepage(): Promise<Homepage | null> {
   return client.fetch(homepageQuery)
+}
+
+export async function getBackground(): Promise<Background | null> {
+  return client.fetch(backgroundQuery)
 }

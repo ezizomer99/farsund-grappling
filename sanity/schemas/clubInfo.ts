@@ -121,6 +121,50 @@ export default defineType({
         }
       ]
     }),
+    defineField({
+      name: 'location',
+      title: 'Location',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'title',
+          title: 'Location Title',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+          initialValue: 'Beliggenhet'
+        }),
+        defineField({
+          name: 'mapEmbedUrl',
+          title: 'Google Maps Embed URL',
+          type: 'url',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'directionsUrl',
+          title: 'Google Maps Directions URL',
+          type: 'url',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'findUsTitle',
+          title: 'Find Us Title',
+          type: 'string',
+          initialValue: 'Finn Oss'
+        }),
+        defineField({
+          name: 'description',
+          title: 'Location Description',
+          type: 'string',
+          initialValue: 'Vi holder til i Vanse. Her finner du oss:'
+        }),
+        defineField({
+          name: 'directionsText',
+          title: 'Directions Link Text',
+          type: 'string',
+          initialValue: 'Få veibeskrivelser i Google Maps'
+        }),
+      ],
+    }),
   ],
 
   preview: {
