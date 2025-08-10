@@ -184,13 +184,6 @@ export default async function TrainingPage() {
                 <div className="text-sm mt-3 text-gray-600">
                   <p><strong>Nivå:</strong> {program.level}</p>
                   <p><strong>Aldersgruppe:</strong> {program.ageGroup}</p>
-                  {program.price && (
-                    <p><strong>Pris:</strong> 
-                      {program.price.monthly && ` ${program.price.monthly}kr/måned`}
-                      {program.price.dropIn && ` ${program.price.dropIn}kr drop-in`}
-                      {program.price.trial && ` ${program.price.trial}kr prøvetime`}
-                    </p>
-                  )}
                 </div>
               </div>
             ))

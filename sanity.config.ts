@@ -4,7 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './sanity/schemas'
 
 export default defineConfig({
-  name: 'farsund-grappling',
+  name: 'farsundgrappling',
   title: 'Farsund Grappling CMS',
 
   projectId: '53ylspsq',
@@ -17,6 +17,9 @@ export default defineConfig({
           .title('Content')
           .items([
             S.listItem()
+              .title('Homepage')
+              .child(S.documentTypeList('homepage').title('Homepage')),
+            S.listItem()
               .title('News Articles')
               .child(S.documentTypeList('newsArticle').title('News Articles')),
             S.listItem()
@@ -28,6 +31,9 @@ export default defineConfig({
             S.listItem()
               .title('Training Programs')
               .child(S.documentTypeList('trainingProgram').title('Training Programs')),
+            S.listItem()
+              .title('Facilities')
+              .child(S.documentTypeList('facility').title('Facilities')),
           ]),
     }),
     visionTool(),

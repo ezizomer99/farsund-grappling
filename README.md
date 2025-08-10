@@ -1,6 +1,10 @@
 # Grappling Club Website
 
-A modern, dynamic website for a grappling club built with Next.js and powered by Sanity CMS. This website provides information about the club, training programs, membership options, news, and instructor profiles.
+A modern, dynamic website for a grappling club built with Next.js and powered by Sanity CMS. This website providpublic/                          # Static assets
+├── images/                      # Club photos and images
+├── instructors/                 # Instructor photos
+└── favicon.ico                  # Site favicon (create at favicon.io)
+```ation about the club, training programs, membership options, news, and instructor profiles.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.4.6-000000?style=flat&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat&logo=typescript&logoColor=white)
@@ -139,7 +143,7 @@ sanity/                          # Sanity CMS configuration
 public/                          # Static assets
 ├── images/                      # Club photos and images
 ├── instructors/                 # Instructor photos
-└── favicon.ico                  # Site favicon
+└── favicon.ico                  # Site favicon (create at favicon.io)
 
 scripts/                         # Utility scripts
 ├── migrate-to-sanity.ts         # Data migration script

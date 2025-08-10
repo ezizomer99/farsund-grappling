@@ -84,13 +84,86 @@ export interface TrainingProgram {
       slug: { current: string }
     }
   }>
-  price?: {
-    monthly?: number
-    dropIn?: number
-    trial?: number
-  }
   isActive: boolean
   order: number
+}
+
+export interface Homepage {
+  _id: string
+  title: string
+  heroSection: {
+    title: string
+    scheduleButtonText: string
+    memberButtonText: string
+  }
+  whyTrainWithUs: {
+    title: string
+    features: Array<{
+      icon: string
+      title: string
+      description: string
+    }>
+  }
+  whatIsGrappling: {
+    title: string
+    content: any[]
+    ctaButtonText: string
+  }
+  newsSection: {
+    title: string
+    viewAllText: string
+    readMoreText: string
+  }
+}
+
+export interface Facility {
+  _id: string
+  title: string
+  trainingArea: {
+    title: string
+    subtitle: string
+    image: {
+      asset: any
+      alt: string
+    }
+  }
+  opportunities: {
+    title: string
+    description: any[]
+  }
+  location: {
+    title: string
+    mapEmbedUrl: string
+    directionsUrl: string
+    findUsTitle: string
+    description: string
+    directionsText: string
+  }
+}
+
+export interface Facility {
+  _id: string
+  title: string
+  trainingArea: {
+    title: string
+    subtitle: string
+    image: {
+      asset: any
+      alt: string
+    }
+  }
+  opportunities: {
+    title: string
+    description: any[]
+  }
+  location: {
+    title: string
+    mapEmbedUrl: string
+    directionsUrl: string
+    findUsTitle: string
+    description: string
+    directionsText: string
+  }
 }
 
 // Queries
@@ -141,9 +214,64 @@ const trainingProgramsQuery = groq`*[_type == "trainingProgram" && isActive == t
     endTime,
     instructor->{name, slug}
   },
-  price,
   isActive,
   order
+}`
+
+const facilityQuery = groq`*[_type == "facility"][0] {
+  _id,
+  title,
+  trainingArea{
+    title,
+    subtitle,
+    image{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    }
+  },
+  opportunities{
+    title,
+    description
+  },
+  location{
+    title,
+    mapEmbedUrl,
+    directionsUrl,
+    findUsTitle,
+    description,
+    directionsText
+  }
+}`
+
+const homepageQuery = groq`*[_type == "homepage"][0] {
+  _id,
+  title,
+  heroSection{
+    title,
+    scheduleButtonText,
+    memberButtonText
+  },
+  whyTrainWithUs{
+    title,
+    features[]{
+      icon,
+      title,
+      description
+    }
+  },
+  whatIsGrappling{
+    title,
+    content,
+    ctaButtonText
+  },
+  newsSection{
+    title,
+    viewAllText,
+    readMoreText
+  }
 }`
 
 // Fetch functions
@@ -192,4 +320,12 @@ export async function getClubInfo(): Promise<ClubInfo | null> {
 
 export async function getTrainingPrograms(): Promise<TrainingProgram[]> {
   return client.fetch(trainingProgramsQuery)
+}
+
+export async function getFacility(): Promise<Facility | null> {
+  return client.fetch(facilityQuery)
+}
+
+export async function getHomepage(): Promise<Homepage | null> {
+  return client.fetch(homepageQuery)
 }

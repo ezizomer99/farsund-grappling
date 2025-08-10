@@ -2,12 +2,12 @@ import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'trainingProgram',
-  title: 'Training Program',
+  title: 'Treningsprogram',
   type: 'document',
   fields: [
     defineField({
       name: 'name',
-      title: 'Program Name',
+      title: 'Programnavn',
       type: 'string',
       validation: Rule => Rule.required()
     }),
@@ -23,7 +23,7 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Beskrivelse',
       type: 'array',
       of: [
         {
@@ -33,12 +33,12 @@ export default defineType({
             {title: 'H3', value: 'h3'},
           ],
           lists: [
-            {title: 'Bullet', value: 'bullet'},
+            {title: 'Punktliste', value: 'bullet'},
           ],
           marks: {
             decorators: [
-              {title: 'Strong', value: 'strong'},
-              {title: 'Emphasis', value: 'em'},
+              {title: 'Fet', value: 'strong'},
+              {title: 'Kursiv', value: 'em'},
             ],
           },
         },
@@ -47,35 +47,35 @@ export default defineType({
     }),
     defineField({
       name: 'level',
-      title: 'Level',
+      title: 'Nivå',
       type: 'string',
       options: {
         list: [
-          {title: 'Beginner', value: 'beginner'},
-          {title: 'Intermediate', value: 'intermediate'},
-          {title: 'Advanced', value: 'advanced'},
-          {title: 'All Levels', value: 'all'},
+          {title: 'Nybegynner', value: 'beginner'},
+          {title: 'Erfaren', value: 'intermediate'},
+          {title: 'Avansert', value: 'advanced'},
+          {title: 'Alle nivåer', value: 'all'},
         ],
       },
       validation: Rule => Rule.required()
     }),
     defineField({
       name: 'ageGroup',
-      title: 'Age Group',
+      title: 'Aldersgruppe',
       type: 'string',
       options: {
         list: [
-          {title: 'Kids (6-12)', value: 'kids'},
-          {title: 'Teens (13-17)', value: 'teens'},
-          {title: 'Adults (18+)', value: 'adults'},
-          {title: 'All Ages', value: 'all'},
+          {title: 'Barn (6-12)', value: 'kids'},
+          {title: 'Ungdom (13-17)', value: 'teens'},
+          {title: 'Voksne (18+)', value: 'adults'},
+          {title: 'Alle aldre', value: 'all'},
         ],
       },
       validation: Rule => Rule.required()
     }),
     defineField({
       name: 'schedule',
-      title: 'Schedule',
+      title: 'Timeplan',
       type: 'array',
       of: [
         {
@@ -83,36 +83,36 @@ export default defineType({
           fields: [
             {
               name: 'day',
-              title: 'Day',
+              title: 'Dag',
               type: 'string',
               options: {
                 list: [
-                  {title: 'Monday', value: 'monday'},
-                  {title: 'Tuesday', value: 'tuesday'},
-                  {title: 'Wednesday', value: 'wednesday'},
-                  {title: 'Thursday', value: 'thursday'},
-                  {title: 'Friday', value: 'friday'},
-                  {title: 'Saturday', value: 'saturday'},
-                  {title: 'Sunday', value: 'sunday'},
+                  {title: 'Mandag', value: 'monday'},
+                  {title: 'Tirsdag', value: 'tuesday'},
+                  {title: 'Onsdag', value: 'wednesday'},
+                  {title: 'Torsdag', value: 'thursday'},
+                  {title: 'Fredag', value: 'friday'},
+                  {title: 'Lørdag', value: 'saturday'},
+                  {title: 'Søndag', value: 'sunday'},
                 ],
               },
               validation: Rule => Rule.required()
             },
             {
               name: 'startTime',
-              title: 'Start Time',
+              title: 'Starttid',
               type: 'string',
               validation: Rule => Rule.required()
             },
             {
               name: 'endTime',
-              title: 'End Time',
+              title: 'Sluttid',
               type: 'string',
               validation: Rule => Rule.required()
             },
             {
               name: 'instructor',
-              title: 'Instructor',
+              title: 'Instruktør',
               type: 'reference',
               to: {type: 'instructor'},
             },
@@ -128,7 +128,7 @@ export default defineType({
               const {day, startTime, endTime, instructor} = selection
               return {
                 title: `${day}: ${startTime} - ${endTime}`,
-                subtitle: instructor ? `with ${instructor}` : 'No instructor assigned',
+                subtitle: instructor ? `med ${instructor}` : 'Ingen instruktør tildelt',
               }
             },
           },
@@ -136,38 +136,16 @@ export default defineType({
       ]
     }),
     defineField({
-      name: 'price',
-      title: 'Price Information',
-      type: 'object',
-      fields: [
-        {
-          name: 'monthly',
-          title: 'Monthly Price (NOK)',
-          type: 'number',
-        },
-        {
-          name: 'dropIn',
-          title: 'Drop-in Price (NOK)',
-          type: 'number',
-        },
-        {
-          name: 'trial',
-          title: 'Trial Price (NOK)',
-          type: 'number',
-        },
-      ]
-    }),
-    defineField({
       name: 'isActive',
-      title: 'Is Active',
+      title: 'Er aktiv',
       type: 'boolean',
       initialValue: true,
     }),
     defineField({
       name: 'order',
-      title: 'Display Order',
+      title: 'Visningsrekkefølge',
       type: 'number',
-      description: 'Lower numbers appear first',
+      description: 'Lavere tall vises først',
       initialValue: 1,
     }),
   ],
@@ -189,7 +167,7 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Display Order',
+      title: 'Visningsrekkefølge',
       name: 'orderAsc',
       by: [
         {field: 'order', direction: 'asc'}

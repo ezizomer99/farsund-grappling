@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { clubInfo } from "@/data/clubInfo";
-import { getInstructors } from "@/lib/sanity.queries";
-import { facilityInfo } from "@/data/facilities";
+import { getInstructors, getFacility } from "@/lib/sanity.queries";
 import { PageTransition, FadeIn } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import { urlFor } from "@/lib/sanity.queries";
 
 export default async function AboutPage() {
   const instructors = await getInstructors();
+  const facility = await getFacility();
   return (
     <PageTransition> 
       <div className="container mx-auto px-4 py-12">
@@ -77,42 +77,61 @@ export default async function AboutPage() {
       
       {/* Facilities */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-300">Våre Fasiliteter</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-300">{facility?.title || 'Våre Fasiliteter'}</h2>
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left side - Training area info and image */}
             <div>
               <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                Treningsarealet er inne hos Løft Gym.
+                {facility?.trainingArea?.title || 'Treningsarealet er inne hos Løft Gym.'}
               </h3>
               <p className="text-lg font-medium mb-6 text-gray-700 flex items-center">
-                Dette er vårt område
+                {facility?.trainingArea?.subtitle || 'Dette er vårt område'}
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </p>
               <div className="relative h-100 rounded-lg overflow-hidden">
-                <Image
-                  src={facilityInfo.trainingAreaImage}
-                  alt={facilityInfo.trainingAreaAlt}
-                  fill
-                  className="object-cover"
-                />
+                {facility?.trainingArea?.image ? (
+                  <Image
+                    src={urlFor(facility.trainingArea.image.asset).url()}
+                    alt={facility.trainingArea.image.alt}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <Image
+                    src="/grapplingStockImages/trainingArea.png"
+                    alt="Treningsområdet til Farsund Grappling"
+                    fill
+                    className="object-cover"
+                  />
+                )}
               </div>
             </div>
             
             {/* Right side - Opportunities */}
             <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-900">Muligheter</h3>
-              <p className="text-gray-800 mb-4">
-                Det å ha et BJJ-område inne i et styrketreningsstudio gir deg unike muligheter.
-              </p>
-              <p className="text-gray-800 mb-4">
-                Du kan kombinere kampsporttrening med styrketrening i samme økt, noe som gir deg en komplett treningsopplevelse.
-              </p>
-              <p className="text-gray-800">
-                Etter en intens BJJ-økt kan du fokusere på styrke og kondisjon, eller omvendt - starte med styrketrening før du går over til teknikk og sparring.
-              </p>
+              <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                {facility?.opportunities?.title || 'Muligheter'}
+              </h3>
+              {facility?.opportunities?.description ? (
+                <div className="text-gray-800">
+                  <RichText content={facility.opportunities.description} />
+                </div>
+              ) : (
+                <>
+                  <p className="text-gray-800 mb-4">
+                    Det å ha et BJJ-område inne i et styrketreningsstudio gir deg unike muligheter.
+                  </p>
+                  <p className="text-gray-800 mb-4">
+                    Du kan kombinere kampsporttrening med styrketrening i samme økt, noe som gir deg en komplett treningsopplevelse.
+                  </p>
+                  <p className="text-gray-800">
+                    Etter en intens BJJ-økt kan du fokusere på styrke og kondisjon, eller omvendt - starte med styrketrening før du går over til teknikk og sparring.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -120,11 +139,11 @@ export default async function AboutPage() {
       
       {/* Location */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4 text-gray-300">Beliggenhet</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-300">{facility?.location?.title || 'Beliggenhet'}</h2>
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="h-96 w-full">
             <iframe
-              src={facilityInfo.location.mapEmbedUrl}
+              src={facility?.location?.mapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2126.0447605433777!2d6.662111315906984!3d58.09529538122932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x463a1c3789a47b93%3A0xd2030cbcc7839aba!2sOreveien%2017%2C%204560%20Vanse%2C%20Norway!5e0!3m2!1sen!2sus!4v1626244892015!5m2!1sen!2sus"}
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -136,15 +155,15 @@ export default async function AboutPage() {
             ></iframe>
           </div>
           <div className="p-6">
-            <h3 className="text-xl font-medium mb-2 text-gray-900">Finn Oss</h3>
+            <h3 className="text-xl font-medium mb-2 text-gray-900">{facility?.location?.findUsTitle || 'Finn Oss'}</h3>
             <p className="text-gray-800 mb-4">
-              Vi holder til i Vanse. Her finner du oss:
+              {facility?.location?.description || 'Vi holder til i Vanse. Her finner du oss:'}
             </p>
             <address className="not-italic text-gray-800">
               <p>{clubInfo.name}</p>
               <p>
                 <a 
-                  href={facilityInfo.location.directionsUrl}
+                  href={facility?.location?.directionsUrl || "https://www.google.com/maps/search/?api=1&query=Oreveien+17+4560+Vanse+Norge"}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-blue-700 hover:underline"
@@ -160,12 +179,12 @@ export default async function AboutPage() {
             
             <div className="mt-6">
               <a 
-                href={facilityInfo.location.directionsUrl}
+                href={facility?.location?.directionsUrl || "https://www.google.com/maps/search/?api=1&query=Oreveien+17+4560+Vanse+Norge"}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-blue-700 hover:text-blue-800"
               >
-                Få veibeskrivelser i Google Maps
+                {facility?.location?.directionsText || 'Få veibeskrivelser i Google Maps'}
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
