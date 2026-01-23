@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -66,20 +67,25 @@ export default function Navigation() {
               sx={{ flexGrow: 1 }}
             >
               <Link href="/" style={{ textDecoration: 'none' }}>
-                <Typography
-                  variant="h6"
-                  component="span"
+                <Box
                   sx={{
-                    fontWeight: 700,
-                    color: 'white',
-                    transition: 'color 0.3s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    transition: 'opacity 0.3s',
                     '&:hover': {
-                      color: 'primary.main',
+                      opacity: 0.8,
                     },
                   }}
                 >
-                  Farsund Grappling
-                </Typography>
+                  <Image
+                    src="/logo.png"
+                    alt="Farsund Grappling"
+                    width={180}
+                    height={60}
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </Box>
               </Link>
             </Box>
 

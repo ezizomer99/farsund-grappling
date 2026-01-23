@@ -164,7 +164,7 @@ export const clubInfo: ClubInfo = {
       ]
     }
   ],
-  mission: 'Å tilby kvalitetstrening i grappling for alle ferdighetsnivåer i et trygt og støttende miljø.',
+  mission: 'Submission Wrestling for alle i Farsund',
   contactInfo: {
     email: 'kontakt@farsundgrappling.no',
     phone: '+47 123 45 678',

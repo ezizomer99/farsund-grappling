@@ -1,6 +1,6 @@
 import { getClubInfo } from "@/lib/data";
-import { Box, Container, Grid, Typography, Link as MuiLink, Divider } from '@mui/material';
-import Link from 'next/link';
+import { Box, Container, Typography, Link as MuiLink, Divider, Grid } from '@mui/material';
+import Image from 'next/image';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -21,16 +21,22 @@ export default function Footer() {
     >
       <Container maxWidth="lg">
         <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'white' }}>
-              {clubInfo?.title || 'Farsund Grappling'}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'white', lineHeight: 1.7 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+              <Image
+                src="/logo.png"
+                alt="Farsund Grappling"
+                width={450}
+                height={150}
+                style={{ objectFit: 'contain' }}
+              />
+            </Box>
+            <Typography variant="body2" sx={{ color: 'white', lineHeight: 1.7, textAlign: 'center' }}>
               {clubInfo?.mission || 'En dedikert kampsportklubb i Farsund som tilbyr grappling og Brazilian Jiu-Jitsu for alle nivåer.'}
             </Typography>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'white' }}>
               Kontakt
             </Typography>
@@ -83,7 +89,7 @@ export default function Footer() {
             </Box>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'white' }}>
               Sosialt
             </Typography>
