@@ -1,188 +1,361 @@
 import Link from "next/link";
-import { getNewsArticles, getHomepage } from "@/lib/sanity.queries";
+import { getNewsArticles, getHomepage } from "@/lib/data";
 import { FadeIn, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import ClientPageWrapper from "@/components/ClientPageWrapper";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Stack,
+} from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-export default async function Home() {
-  const [newsArticles, homepage] = await Promise.all([
-    getNewsArticles(),
-    getHomepage()
-  ]);
+export default function Home() {
+  const newsArticles = getNewsArticles();
+  const homepage = getHomepage();
   return (
     <ClientPageWrapper>
       {/* Hero Section */}
-      <div className="relative text-white">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-transparent z-10"></div>
-        <div className="relative h-[70vh] overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-          </div>
-        </div>
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="text-center max-w-5xl px-4">
-            <FadeIn delay={0.3}>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-                {homepage?.heroSection?.title || 'Velkommen til Farsund Grappling'}
-              </h1>
-            </FadeIn>
-            <FadeIn delay={0.6}>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link 
-                  href="/training" 
-                  className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                  {homepage?.heroSection?.scheduleButtonText || 'Se Timeplanen'}
-                </Link>
-                <Link 
-                  href="/become-member" 
-                  className="inline-flex items-center justify-center bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm"
-                >
-                  {homepage?.heroSection?.memberButtonText || 'Bli Medlem'}
-                </Link>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
+      <Box
+        sx={{
+          position: 'relative',
+          color: 'white',
+          minHeight: '70vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), transparent)',
+            zIndex: 1,
+          }}
+        />
+        <Container
+          maxWidth="lg"
+          sx={{
+            position: 'relative',
+            zIndex: 2,
+            textAlign: 'center',
+            py: 8,
+          }}
+        >
+          <FadeIn delay={0.3}>
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: 700,
+                mb: 4,
+                fontSize: { xs: '2.5rem', sm: '3rem', md: '3.75rem' },
+              }}
+            >
+              {homepage?.heroSection?.title || 'Velkommen til Farsund Grappling'}
+            </Typography>
+          </FadeIn>
+          <FadeIn delay={0.6}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Button
+                component={Link}
+                href="/training"
+                variant="contained"
+                size="large"
+                sx={{
+                  py: 2,
+                  px: 4,
+                  fontSize: '1.1rem',
+                }}
+              >
+                {homepage?.heroSection?.scheduleButtonText || 'Se Timeplanen'}
+              </Button>
+              <Button
+                component={Link}
+                href="/become-member"
+                variant="outlined"
+                size="large"
+                sx={{
+                  py: 2,
+                  px: 4,
+                  fontSize: '1.1rem',
+                  borderColor: 'white',
+                  color: 'white',
+                  backdropFilter: 'blur(8px)',
+                  '&:hover': {
+                    backgroundColor: 'white',
+                    borderColor: 'white',
+                    color: 'text.primary',
+                  },
+                }}
+              >
+                {homepage?.heroSection?.memberButtonText || 'Bli Medlem'}
+              </Button>
+            </Stack>
+          </FadeIn>
+        </Container>
+      </Box>
       
       {/* Features Section */}
-      <div className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <Box sx={{ py: 8, px: 2, bgcolor: 'background.paper' }}>
+        <Container maxWidth="lg">
           <ScrollReveal>
-            <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
+            <Typography
+              variant="h2"
+              align="center"
+              sx={{ mb: 8, fontWeight: 700, color: 'text.primary' }}
+            >
               {homepage?.whyTrainWithUs?.title || 'Hvorfor Trene Med Oss?'}
-            </h2>
+            </Typography>
           </ScrollReveal>
           
           <StaggerContainer>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Grid container spacing={4}>
               {homepage?.whyTrainWithUs?.features ? (
                 homepage.whyTrainWithUs.features.map((feature, index) => (
-                  <StaggerItem key={index}>
-                    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-                      <div className="text-blue-700 text-4xl mb-4">{feature.icon}</div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">{feature.title}</h3>
-                      <p className="text-gray-800">{feature.description}</p>
-                    </div>
-                  </StaggerItem>
+                  <Grid size={{ xs: 12, md: 4 }} key={index}>
+                    <StaggerItem>
+                      <Card
+                        sx={{
+                          height: '100%',
+                          bgcolor: 'grey.100',
+                        }}
+                      >
+                        <CardContent sx={{ p: 4 }}>
+                          <Typography
+                            variant="h1"
+                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                          >
+                            {feature.icon}
+                          </Typography>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                            {feature.title}
+                          </Typography>
+                          <Typography variant="body1" color="text.secondary">
+                            {feature.description}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </StaggerItem>
+                  </Grid>
                 ))
               ) : (
                 // Fallback content
                 <>
-                  <StaggerItem>
-                    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-                      <div className="text-blue-700 text-4xl mb-4">🥋</div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Erfaren Instruktør</h3>
-                      <p className="text-gray-800">Lær fra en erfaren instruktør, som vil veilede deg gjennom teknikker og konsepter.</p>
-                    </div>
-                  </StaggerItem>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <StaggerItem>
+                      <Card sx={{ height: '100%', bgcolor: 'grey.100' }}>
+                        <CardContent sx={{ p: 4 }}>
+                          <Typography
+                            variant="h1"
+                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                          >
+                            🥋
+                          </Typography>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                            Erfaren Instruktør
+                          </Typography>
+                          <Typography variant="body1" color="text.secondary">
+                            Lær fra en erfaren instruktør, som vil veilede deg gjennom teknikker og konsepter.
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </StaggerItem>
+                  </Grid>
                   
-                  <StaggerItem>
-                    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-                      <div className="text-blue-700 text-4xl mb-4" >👨‍👩‍👧‍👦</div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Støttende Fellesskap</h3>
-                      <p className="text-gray-800">Bli med i et vennlig og inkluderende miljø hvor alle hjelper hverandre med å bli bedre.</p>
-                    </div>
-                  </StaggerItem>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <StaggerItem>
+                      <Card sx={{ height: '100%', bgcolor: 'grey.100' }}>
+                        <CardContent sx={{ p: 4 }}>
+                          <Typography
+                            variant="h1"
+                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                          >
+                            👨‍👩‍👧‍👦
+                          </Typography>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                            Støttende Fellesskap
+                          </Typography>
+                          <Typography variant="body1" color="text.secondary">
+                            Bli med i et vennlig og inkluderende miljø hvor alle hjelper hverandre med å bli bedre.
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </StaggerItem>
+                  </Grid>
                   
-                  <StaggerItem>
-                    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-                      <div className="text-blue-700 text-4xl mb-4">🏆</div>
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900">Alle Ferdighetsnivåer</h3>
-                      <p className="text-gray-800">Uansett om du er helt nybegynner eller en erfaren utøver, har vi klasser for deg.</p>
-                    </div>
-                  </StaggerItem>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <StaggerItem>
+                      <Card sx={{ height: '100%', bgcolor: 'grey.100' }}>
+                        <CardContent sx={{ p: 4 }}>
+                          <Typography
+                            variant="h1"
+                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                          >
+                            🏆
+                          </Typography>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                            Alle Ferdighetsnivåer
+                          </Typography>
+                          <Typography variant="body1" color="text.secondary">
+                            Uansett om du er helt nybegynner eller en erfaren utøver, har vi klasser for deg.
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </StaggerItem>
+                  </Grid>
                 </>
               )}
-            </div>
+            </Grid>
           </StaggerContainer>
-        </div>
-      </div>
+        </Container>
+      </Box>
       
       {/* CTA Section */}
-      <div className="py-16 px-4 relative text-white">
-        <div className="absolute inset-0 backdrop"></div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+      <Box
+        sx={{
+          py: 8,
+          px: 2,
+          position: 'relative',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            backdropFilter: 'blur(4px)',
+          }}
+        />
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <ScrollReveal>
-            <h2 className="text-3xl font-bold mb-6 text-white">
+            <Typography variant="h2" sx={{ fontWeight: 700, mb: 4, color: 'text.primary' }}>
               {homepage?.whatIsGrappling?.title || '🤼‍♂️ Hva er Grappling?'}
-            </h2>
+            </Typography>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            {homepage?.whatIsGrappling?.content ? (
-              <div className="text-xl mb-8">
-                <RichText content={homepage.whatIsGrappling.content} />
-              </div>
-            ) : (
-              <>
-                <p className="text-xl mb-8">
-                  Grappling er en fellesnevner for kampsporter som er grepsbaserte (BJJ / judo / bryting / submission wrestling), i motsetning til de som benytter slag og spark. I stedet brukes teknikker som kast, posisjonering og bakkekontroll – med mål om å avslutte kampen ved hjelp av leddlåser eller kvelinger.
-                </p>
-                <p className="text-xl mb-8">
-                  Disse avslutningene kalles submissions, fordi motstanderen må gi seg (&quot;tappe ut&quot;) for å unngå skade når teknikken utføres korrekt. (obs: man skader ikke hverandre på trening med vilje)          
-                </p>
-              </>
-            )}
+            <Box sx={{ mb: 4 }}>
+              {homepage?.whatIsGrappling?.content ? (
+                <Box sx={{ fontSize: '1.25rem', color: 'text.primary' }}>
+                  <RichText content={homepage.whatIsGrappling.content} />
+                </Box>
+              ) : (
+                <>
+                  <Typography variant="h6" sx={{ mb: 4, lineHeight: 1.8, color: 'text.primary' }}>
+                    Grappling er en fellesnevner for kampsporter som er grepsbaserte (BJJ / judo / bryting / submission wrestling), i motsetning til de som benytter slag og spark. I stedet brukes teknikker som kast, posisjonering og bakkekontroll – med mål om å avslutte kampen ved hjelp av leddlåser eller kvelinger.
+                  </Typography>
+                  <Typography variant="h6" sx={{ mb: 4, lineHeight: 1.8, color: 'text.primary' }}>
+                    Disse avslutningene kalles submissions, fordi motstanderen må gi seg (&quot;tappe ut&quot;) for å unngå skade når teknikken utføres korrekt. (obs: man skader ikke hverandre på trening med vilje)          
+                  </Typography>
+                </>
+              )}
+            </Box>
           </ScrollReveal>
           <ScrollReveal delay={0.4}>
-            <Link 
-              href="/become-member" 
-              className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-blue-50 font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            <Button
+              component={Link}
+              href="/become-member"
+              variant="contained"
+              size="large"
+              endIcon={<ArrowForwardIcon />}
+              sx={{
+                py: 2,
+                px: 4,
+                fontSize: '1.1rem',
+              }}
             >
-              <span>{homepage?.whatIsGrappling?.ctaButtonText || 'Start i Dag'}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
+              {homepage?.whatIsGrappling?.ctaButtonText || 'Start i Dag'}
+            </Button>
           </ScrollReveal>
-        </div>
-      </div>
+        </Container>
+      </Box>
       
       {/* Latest News Preview Section */}
-      <div className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <Box sx={{ py: 8, px: 2, bgcolor: 'background.paper' }}>
+        <Container maxWidth="lg">
           <ScrollReveal>
-            <div className="flex justify-between items-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900">
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mb: 6,
+              }}
+            >
+              <Typography variant="h2" sx={{ fontWeight: 700, color: 'text.primary' }}>
                 {homepage?.newsSection?.title || 'Siste Nytt'}
-              </h2>
-              <Link href="/news" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
-                <span>{homepage?.newsSection?.viewAllText || 'Se Alle'}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
+              </Typography>
+              <Button
+                component={Link}
+                href="/news"
+                endIcon={<ChevronRightIcon />}
+                sx={{ fontWeight: 500 }}
+              >
+                {homepage?.newsSection?.viewAllText || 'Se Alle'}
+              </Button>
+            </Box>
           </ScrollReveal>
           
           <StaggerContainer>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Grid container spacing={4}>
               {newsArticles.slice(0, 3).map((article) => (
-                <StaggerItem key={article._id}>
-                  <div className="border rounded-lg overflow-hidden shadow-md">
-                    <div className="bg-gray-200 h-48 flex items-center justify-center">
-                      <span className="text-gray-500">Nyhetsbilde plassholder</span>
-                    </div>
-                    <div className="p-6">
-                      <p className="text-sm text-gray-500 mb-2">
-                        {new Date(article.publishedAt).toLocaleDateString('no-NO')}
-                      </p>
-                      <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
-                      <p className="text-gray-800 mb-4">{article.summary}</p>
-                      <Link href="/news" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200">
-                        <span>{homepage?.newsSection?.readMoreText || 'Les Mer'}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                </StaggerItem>
+                <Grid size={{ xs: 12, md: 4 }} key={article._id}>
+                  <StaggerItem>
+                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                      <Box
+                        sx={{
+                          bgcolor: 'grey.200',
+                          height: 192,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Typography color="text.secondary">
+                          Nyhetsbilde plassholder
+                        </Typography>
+                      </Box>
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          sx={{ mb: 1, display: 'block' }}
+                        >
+                          {new Date(article.publishedAt).toLocaleDateString('no-NO')}
+                        </Typography>
+                        <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                          {article.title}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                          {article.summary}
+                        </Typography>
+                        <Button
+                          component={Link}
+                          href="/news"
+                          endIcon={<ArrowForwardIcon />}
+                          sx={{ fontWeight: 500 }}
+                        >
+                          {homepage?.newsSection?.readMoreText || 'Les Mer'}
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </StaggerItem>
+                </Grid>
               ))}
-            </div>
+            </Grid>
           </StaggerContainer>
-        </div>
-      </div>
+        </Container>
+      </Box>
     </ClientPageWrapper>
   );
 }

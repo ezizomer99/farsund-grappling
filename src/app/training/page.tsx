@@ -1,6 +1,18 @@
-import { getTrainingPrograms } from "@/lib/sanity.queries";
+import { getTrainingPrograms } from "@/lib/data";
 import { PageTransition, FadeIn, ScrollReveal } from "@/components/animations";
 import { RichText } from "@/components/RichText";
+import {
+  Container,
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 
 // Helper types for calendar display
 type ClassType = string;
@@ -36,11 +48,20 @@ const dayMap: { [key: string]: string } = {
   'sunday': 'Søndag'
 };
 
+// Map class types to MUI color presets
+const colorMap: { [key: string]: any } = {
+  'bg-blue-700': 'primary',
+  'bg-green-700': 'success',
+  'bg-purple-700': 'secondary',
+  'bg-red-700': 'error',
+  'bg-indigo-700': 'info',
+};
+
 // Function to build schedule from Sanity data
 function buildScheduleFromPrograms(programs: any[]): { schedule: WeeklySchedule, classTypes: Record<string, ClassInfo> } {
   const schedule: WeeklySchedule = {};
   const classTypes: Record<string, ClassInfo> = {};
-  const colors = ['bg-blue-700', 'bg-green-700', 'bg-purple-700', 'bg-red-700', 'bg-indigo-700'];
+  const colors = ['primary', 'success', 'secondary', 'error', 'info'];
   let colorIndex = 0;
 
   // Initialize empty schedule
@@ -75,155 +96,271 @@ function buildScheduleFromPrograms(programs: any[]): { schedule: WeeklySchedule,
   return { schedule, classTypes };
 }
 
-export default async function TrainingPage() {
-  const programs = await getTrainingPrograms();
+export default function TrainingPage() {
+  const programs = getTrainingPrograms();
   const { schedule: weeklySchedule, classTypes } = buildScheduleFromPrograms(programs);
   
   return (
     <PageTransition>
-      <div className="container mx-auto px-4 py-12">
+      <Container maxWidth="xl" sx={{ py: 8 }}>
         <FadeIn>
-          <h1 className="text-4xl font-bold mb-8 text-white">Treningskalender</h1>
+          <Typography variant="h1" sx={{ mb: 6, color: 'text.primary', fontWeight: 700 }}>
+            Treningskalender
+          </Typography>
         </FadeIn>
       
-      {/* Class type legend */}
-      <ScrollReveal>
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-white">Klassetyper</h2>
-          <div className="flex flex-wrap gap-4">
-            {Object.entries(classTypes).map(([key, { name, color }]) => (
-              <div key={key} className="flex items-center">
-                <span className={`inline-block w-4 h-4 mr-2 ${color} rounded-sm`}></span>
-                <span className="text-white">{name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </ScrollReveal>
+        {/* Class type legend */}
+        <ScrollReveal>
+          <Box sx={{ mb: 6 }}>
+            <Typography variant="h5" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+              Klassetyper
+            </Typography>
+            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+              {Object.entries(classTypes).map(([key, { name, color }]) => (
+                <Chip
+                  key={key}
+                  label={name}
+                  color={color as any}
+                  sx={{ fontWeight: 500 }}
+                />
+              ))}
+            </Stack>
+          </Box>
+        </ScrollReveal>
       
-      {/* Calendar grid */}
-      <ScrollReveal>
-        <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
-        <div className="min-w-[800px]">
-          <div className="grid grid-cols-8 bg-gray-100">
-            {/* Empty corner */}
-            <div className="p-3 border-b border-r border-gray-200 font-medium text-center text-gray-900">
-              Tid
-            </div>
-            
-            {/* Day headers */}
-            {days.map((day, index) => (
-              <div 
-                key={day}
-                className={`p-3 border-b border-r border-gray-200 font-medium text-center text-gray-900 ${
-                  index === days.length - 1 || index === days.length - 2 ? 'bg-gray-200' : ''
-                }`}
-              >
-                {day}
-              </div>
-            ))}
-          </div>
-          
-          {/* Time slots and classes */}
-          {timeSlots.map((timeSlot) => (
-            <div key={timeSlot} className="grid grid-cols-8">
-              {/* Time label */}
-              <div className="p-3 border-b border-r border-gray-200 bg-gray-50 text-sm font-medium flex items-center justify-center text-gray-900">
-                {timeSlot}
-              </div>
-              
-              {/* Schedule cells */}
-              {days.map((day) => {
-                const classType = weeklySchedule[day]?.[timeSlot] as ClassType | undefined;
-                
-                return (
-                  <div 
-                    key={`${day}-${timeSlot}`}
-                    className={`p-3 border-b border-r border-gray-200 text-center h-20 ${
-                      (day === 'Lørdag' || day === 'Søndag') ? 'bg-gray-50' : ''
-                    }`}
+        {/* Calendar grid */}
+        <ScrollReveal>
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+              overflow: 'hidden',
+              boxShadow: 3,
+            }}
+          >
+            <Box sx={{ overflowX: 'auto' }}>
+              <Box sx={{ minWidth: 800 }}>
+                {/* Header Row */}
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(8, 1fr)',
+                    bgcolor: 'grey.100',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      borderBottom: 1,
+                      borderRight: 1,
+                      borderColor: 'grey.300',
+                      fontWeight: 600,
+                      textAlign: 'center',
+                    }}
                   >
-                    {classType && classTypes[classType] && (
-                      <div className={`h-full ${classTypes[classType].color} text-white rounded-md p-2 flex items-center justify-center shadow-sm`}>
-                        <span className="text-sm font-medium">
-                          {classTypes[classType].name}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-      </ScrollReveal>
-      
-      {/* Class descriptions */}
-      <ScrollReveal>
-        <div className="mt-12 grid gap-6">
-          {programs.length === 0 ? (
-            <div className="bg-white rounded-lg shadow-md p-6 text-center">
-              <p className="text-gray-600">Ingen treningsprogrammer tilgjengelig for øyeblikket.</p>
-            </div>
-          ) : (
-            programs.map((program) => (
-              <div key={program._id} className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold mb-2 text-gray-900">{program.name}</h3>
-                <div className="text-gray-800 mb-3">
-                  <RichText content={program.description} />
-                </div>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {program.schedule.map((session, index) => (
-                    <span key={index} className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-medium">
-                      {dayMap[session.day.toLowerCase()] || session.day} {session.startTime}-{session.endTime}
-                      {session.instructor && ` (${session.instructor.name})`}
-                    </span>
+                    Tid
+                  </Box>
+                  {days.map((day, index) => (
+                    <Box
+                      key={day}
+                      sx={{
+                        p: 1.5,
+                        borderBottom: 1,
+                        borderRight: 1,
+                        borderColor: 'grey.300',
+                        fontWeight: 600,
+                        textAlign: 'center',
+                        bgcolor: index >= 5 ? 'grey.200' : 'transparent',
+                      }}
+                    >
+                      {day}
+                    </Box>
                   ))}
-                </div>
-                <div className="text-sm mt-3 text-gray-600">
-                  <p><strong>Nivå:</strong> {program.level}</p>
-                  <p><strong>Aldersgruppe:</strong> {program.ageGroup}</p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </ScrollReveal>
+                </Box>
+                
+                {/* Time slots and classes */}
+                {timeSlots.map((timeSlot) => (
+                  <Box
+                    key={timeSlot}
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(8, 1fr)',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        p: 1.5,
+                        borderBottom: 1,
+                        borderRight: 1,
+                        borderColor: 'grey.300',
+                        bgcolor: 'grey.50',
+                        fontSize: '0.875rem',
+                        fontWeight: 500,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {timeSlot}
+                    </Box>
+                    
+                    {days.map((day, dayIndex) => {
+                      const classType = weeklySchedule[day]?.[timeSlot] as ClassType | undefined;
+                      
+                      return (
+                        <Box
+                          key={`${day}-${timeSlot}`}
+                          sx={{
+                            p: 1.5,
+                            borderBottom: 1,
+                            borderRight: 1,
+                            borderColor: 'grey.300',
+                            textAlign: 'center',
+                            height: 80,
+                            bgcolor: dayIndex >= 5 ? 'grey.50' : 'transparent',
+                          }}
+                        >
+                          {classType && classTypes[classType] && (
+                            <Box
+                              sx={{
+                                height: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 1,
+                                px: 1,
+                                bgcolor: `${classTypes[classType].color}.main`,
+                                color: 'white',
+                                boxShadow: 1,
+                              }}
+                            >
+                              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                {classTypes[classType].name}
+                              </Typography>
+                            </Box>
+                          )}
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          </Box>
+        </ScrollReveal>
       
-      <ScrollReveal>
-        <div className="mt-8 bg-gray-100 rounded-lg p-6 border border-gray-300">
-        <h3 className="text-lg font-semibold mb-4 text-gray-900">Generell informasjon</h3>
-        
-        <div className="mb-6">
-          <h4 className="font-semibold mb-2 text-gray-900">Hva bør du ta med?</h4>
-          <ul className="list-disc list-inside text-gray-800 space-y-1">
-            <li>Komfortable treningsklær (t-skjorte, shorts), eventuelt rashguard og spats</li>
-            <li>Vannflaske</li>
-            <li>Håndkle</li>
-          </ul>
-        </div>
+        {/* Class descriptions */}
+        <ScrollReveal>
+          <Stack spacing={3} sx={{ mt: 8 }}>
+            {programs.length === 0 ? (
+              <Card>
+                <CardContent sx={{ textAlign: 'center', py: 4 }}>
+                  <Typography color="text.secondary">
+                    Ingen treningsprogrammer tilgjengelig for øyeblikket.
+                  </Typography>
+                </CardContent>
+              </Card>
+            ) : (
+              programs.map((program) => (
+                <Card key={program._id}>
+                  <CardContent sx={{ p: 4 }}>
+                    <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                      {program.name}
+                    </Typography>
+                    <Box sx={{ mb: 3, color: 'text.secondary' }}>
+                      <RichText content={program.description} />
+                    </Box>
+                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 3 }}>
+                      {program.schedule.map((session: any, index: number) => (
+                        <Chip
+                          key={index}
+                          label={`${dayMap[session.day.toLowerCase()] || session.day} ${session.startTime}-${session.endTime}${session.instructor ? ` (${session.instructor.name})` : ''}`}
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                        />
+                      ))}
+                    </Stack>
+                    <Box sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+                      <Typography variant="body2">
+                        <strong>Nivå:</strong> {program.level}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Aldersgruppe:</strong> {program.ageGroup}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </Stack>
+        </ScrollReveal>
+      
+        <ScrollReveal>
+          <Card sx={{ mt: 6, bgcolor: 'grey.100' }}>
+            <CardContent sx={{ p: 4 }}>
+              <Typography variant="h5" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
+                Generell informasjon
+              </Typography>
+              
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                  Hva bør du ta med?
+                </Typography>
+                <List>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Komfortable treningsklær (t-skjorte, shorts), eventuelt rashguard og spats" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Vannflaske" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Håndkle" />
+                  </ListItem>
+                </List>
+              </Box>
 
-        <div className="mb-6">
-          <h4 className="font-semibold mb-2 text-gray-900">Hygiene:</h4>
-          <p className="text-gray-800 mb-2">Minner alle om at dette er en nærkontakt sport hvor god hygiene er viktig:</p>
-          <ul className="list-disc list-inside text-gray-800 space-y-1">
-            <li>Generell god hygiene (ta heller en vask for mye)</li>
-            <li>Alltid rent treningstøy</li>
-            <li>Klipp negler</li>
-            <li>Ikke kom på trening om man er syk</li>
-            <li>Ikke kom på trening om man har smittsomme sykdommer / utslett / åpne sår etc. er man usikker kan du ta kontakt med trener eller enda bedre, en lege.</li>
-            <li>Dusj grundig så fort som mulig etter trening for å unngå infeksjoner og bakterier.</li>
-          </ul>
-        </div>
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                  Hygiene:
+                </Typography>
+                <Typography sx={{ mb: 2 }}>
+                  Minner alle om at dette er en nærkontakt sport hvor god hygiene er viktig:
+                </Typography>
+                <List>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Generell god hygiene (ta heller en vask for mye)" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Alltid rent treningstøy" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Klipp negler" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Ikke kom på trening om man er syk" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Ikke kom på trening om man har smittsomme sykdommer / utslett / åpne sår etc. er man usikker kan du ta kontakt med trener eller enda bedre, en lege." />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemText primary="Dusj grundig så fort som mulig etter trening for å unngå infeksjoner og bakterier." />
+                  </ListItem>
+                </List>
+              </Box>
 
-        <div>
-          <h4 className="font-semibold mb-2 text-gray-900">Miljø:</h4>
-          <p className="text-gray-800">Dette skal være et trygt miljø, der alle skal behandle hverandre med respekt og skal ta hensyn til hverandres sikkerhet. Dette området vil vi ha høyt fokus på fremover.</p>
-        </div>
-      </div>
-      </ScrollReveal>
-    </div>
+              <Box>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                  Miljø:
+                </Typography>
+                <Typography>
+                  Dette skal være et trygt miljø, der alle skal behandle hverandre med respekt og skal ta hensyn til hverandres sikkerhet. Dette området vil vi ha høyt fokus på fremover.
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </ScrollReveal>
+      </Container>
     </PageTransition>
   );
 }

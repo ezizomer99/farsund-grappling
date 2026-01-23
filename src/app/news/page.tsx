@@ -1,64 +1,100 @@
-import { getNewsArticles } from "@/lib/sanity.queries";
+import { getNewsArticles } from "@/lib/data";
 import { PageTransition, FadeIn, StaggerContainer, StaggerItem } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import Image from "next/image";
-import { urlFor } from "@/lib/sanity.queries";
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Box,
+  Chip,
+  Stack,
+} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 
-export default async function NewsPage() {
-  const articles = await getNewsArticles();
+export default function NewsPage() {
+  const articles = getNewsArticles();
 
   return (
     <PageTransition>
-      <div className="container mx-auto px-4 py-12">
+      <Container maxWidth="md" sx={{ py: 8 }}>
         <FadeIn>
-          <h1 className="text-4xl font-bold mb-8 text-white">Nyheter</h1>
+          <Typography variant="h1" sx={{ mb: 6, color: 'text.primary', fontWeight: 700 }}>
+            Nyheter
+          </Typography>
         </FadeIn>
       
         <StaggerContainer>
-          <div className="grid gap-8 max-w-4xl mx-auto">
+          <Stack spacing={6}>
             {articles.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-md p-6 text-center">
-                <p className="text-gray-600">Ingen nyheter tilgjengelig for øyeblikket.</p>
-              </div>
+              <Card>
+                <CardContent sx={{ textAlign: 'center', py: 4 }}>
+                  <Typography color="text.secondary">
+                    Ingen nyheter tilgjengelig for øyeblikket.
+                  </Typography>
+                </CardContent>
+              </Card>
             ) : (
               articles.map((article) => (
                 <StaggerItem key={article._id}>
-                  <article className="bg-white rounded-lg shadow-md overflow-hidden">
-                    {article.featuredImage && (
-                      <div className="relative h-64 w-full">
+                  <Card component="article" sx={{ boxShadow: 3 }}>
+                    {article.featuredImage?.url && (
+                      <CardMedia
+                        component="div"
+                        sx={{ position: 'relative', height: 256 }}
+                      >
                         <Image
-                          src={urlFor(article.featuredImage.asset).width(800).height(400).url()}
+                          src={article.featuredImage.url}
                           alt={article.featuredImage.alt || article.title}
                           fill
-                          className="object-cover"
+                          style={{ objectFit: 'cover' }}
                         />
-                      </div>
+                      </CardMedia>
                     )}
-                    <div className="p-6">
-                      <h2 className="text-2xl font-semibold mb-2 text-gray-900">{article.title}</h2>
-                      <div className="flex items-center text-gray-500 mb-4 space-x-4">
-                        <p>{new Date(article.publishedAt).toLocaleDateString('en-GB', { 
-                          day: '2-digit', 
-                          month: 'long', 
-                          year: 'numeric' 
-                        })}</p>
+                    <CardContent sx={{ p: 4 }}>
+                      <Typography variant="h4" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                        {article.title}
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        sx={{ mb: 3 }}
+                      >
+                        <Chip
+                          label={new Date(article.publishedAt).toLocaleDateString('no-NO', { 
+                            day: '2-digit', 
+                            month: 'long', 
+                            year: 'numeric' 
+                          })}
+                          size="small"
+                          variant="outlined"
+                        />
                         {article.author && (
-                          <p>av {article.author.name}</p>
+                          <Chip
+                            icon={<PersonIcon />}
+                            label={`av ${article.author.name}`}
+                            size="small"
+                            variant="outlined"
+                          />
                         )}
-                      </div>
+                      </Stack>
                       
-                      <p className="text-gray-700 mb-4">{article.summary}</p>
-                      <div className="text-gray-700">
+                      <Typography variant="body1" sx={{ mb: 3 }} color="text.secondary">
+                        {article.summary}
+                      </Typography>
+                      <Box sx={{ color: 'text.primary' }}>
                         <RichText content={article.content} />
-                      </div>
-                    </div>
-                  </article>
+                      </Box>
+                    </CardContent>
+                  </Card>
                 </StaggerItem>
               ))
             )}
-          </div>
+          </Stack>
         </StaggerContainer>
-      </div>
+      </Container>
     </PageTransition>
   );
 }

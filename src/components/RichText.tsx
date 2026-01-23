@@ -1,17 +1,16 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
-import { urlFor } from '@/lib/sanity.queries'
 
 const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
-      if (!value?.asset?._ref) {
+      if (!value?.url) {
         return null
       }
       return (
         <div className="my-6">
           <Image
-            src={urlFor(value).width(800).height(600).url()}
+            src={value.url}
             alt={value.alt || 'Article image'}
             width={800}
             height={600}
