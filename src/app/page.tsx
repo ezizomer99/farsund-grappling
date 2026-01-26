@@ -50,6 +50,7 @@ export default function Home() {
           }}
         >
           <FadeIn delay={0.3}>
+            <Typography>hello</Typography>
             <Typography
               variant="h1"
               sx={{
