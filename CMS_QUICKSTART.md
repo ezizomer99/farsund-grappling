@@ -1,0 +1,126 @@
+# Farsund Grappling CMS - Quick Start
+
+## 🚀 Quick Setup (5 minutes)
+
+### 1. Install MongoDB (Choose one):
+
+**Option A - MongoDB Atlas (Free Cloud Database):**
+1. Go to [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+2. Sign up and create a free cluster
+3. Get your connection string
+
+**Option B - Local MongoDB:**
+```bash
+# Windows (using Chocolatey)
+choco install mongodb
+
+# Or download from: https://www.mongodb.com/try/download/community
+```
+
+### 2. Configure Environment:
+
+Update `.env.local` with your MongoDB connection:
+```env
+PAYLOAD_SECRET=your-secret-key-min-32-chars
+MONGODB_URI=mongodb://localhost:27017/farsund-grappling
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+```
+
+### 3. Seed Database:
+
+```bash
+npm run seed
+```
+
+### 4. Start Server:
+
+```bash
+npm run dev
+```
+
+### 5. Access CMS:
+
+- **CMS**: http://localhost:3000/admin
+- **Website**: http://localhost:3000
+
+**Default Login:**
+- Email: `admin@farsundgrappling.no`
+- Password: `ChangeThisPassword123!`
+
+⚠️ **Change password immediately after first login!**
+
+## 📚 Full Documentation
+
+See [CMS_SETUP_GUIDE.md](./CMS_SETUP_GUIDE.md) for complete documentation.
+
+## 🎯 What Can Instructors Manage?
+
+### ✅ Homepage
+- Hero section title and buttons
+- "Why Train With Us" cards (with emojis!)
+- "What is Grappling" content
+- News section labels
+
+### ✅ Training Programs
+- Add/edit class types
+- Set schedules
+- Assign instructors
+- Show/hide programs
+
+### ✅ Instructors
+- Upload photos
+- Write bios and accolades
+- Add contact info
+- Control display order
+
+### ✅ News Articles
+- Create and publish news
+- Add featured images
+- Write full articles
+- Draft or publish
+
+### ✅ Membership
+- Edit pricing and options
+- Describe membership types
+- Update contact info
+
+### ✅ About Page
+- Edit club story
+- Manage instructor cards
+- Update facility info
+- Add Google Maps location
+
+### ✅ Visual Settings
+- Upload background images
+- Adjust overlay opacity
+- Change overlay color
+
+## 🛠️ Troubleshooting
+
+**Can't connect to database?**
+- Check MongoDB is running
+- Verify connection string in `.env.local`
+
+**Changes not showing?**
+- Clear browser cache
+- Check "Published" status (for news)
+- Ensure programs are "Active"
+
+**Need help?**
+See [CMS_SETUP_GUIDE.md](./CMS_SETUP_GUIDE.md) for detailed troubleshooting.
+
+## 📱 Production Deployment
+
+When going live:
+1. Use MongoDB Atlas (not local MongoDB)
+2. Generate new secure `PAYLOAD_SECRET`
+3. Update `NEXT_PUBLIC_SERVER_URL` to your domain
+4. Change default admin password
+5. Enable MongoDB IP whitelisting
+
+## 🔒 Security Notes
+
+- Never commit `.env.local` to git (already in `.gitignore`)
+- Use strong passwords for admin accounts
+- Change default credentials immediately
+- Use MongoDB Atlas with IP restrictions for production

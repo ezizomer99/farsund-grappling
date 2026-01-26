@@ -1,4 +1,4 @@
-import { getClubInfo } from "@/lib/data";
+import { getClubInfo } from "@/lib/payload-data";
 import { Box, Container, Typography, Link as MuiLink, Divider, Grid } from '@mui/material';
 import Image from 'next/image';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -6,8 +6,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 
-export default function Footer() {
-  const clubInfo = getClubInfo();
+export default async function Footer() {
+  const clubInfo = await getClubInfo();
   return (
     <Box
       component="footer"

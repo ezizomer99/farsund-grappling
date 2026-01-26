@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getInstructors, getFacility, getClubInfo } from "@/lib/data";
+import { getInstructors, getFacility, getClubInfo } from "@/lib/payload-data";
 import { PageTransition, FadeIn } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import {
@@ -18,10 +18,10 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import PersonIcon from '@mui/icons-material/Person';
 import ImageIcon from '@mui/icons-material/Image';
 
-export default function AboutPage() {
-  const instructors = getInstructors();
-  const facility = getFacility();
-  const clubInfo = getClubInfo();
+export default async function AboutPage() {
+  const instructors = await getInstructors();
+  const facility = await getFacility();
+  const clubInfo = await getClubInfo();
   return (
     <PageTransition> 
       <Container maxWidth="lg" sx={{ py: 8 }}>
@@ -60,7 +60,7 @@ export default function AboutPage() {
             {instructors.map((instructor) => (
               <Card key={instructor._id} sx={{ overflow: 'visible' }}>
                 <Grid container>
-                  <Grid item xs={12} md={4}>
+                  <Grid size={{ xs: 12, md: 4 }}>
                     <Box
                       sx={{
                         height: { xs: 256, md: '100%' },
@@ -87,7 +87,7 @@ export default function AboutPage() {
                       )}
                     </Box>
                   </Grid>
-                  <Grid item xs={12} md={8}>
+                  <Grid size={{ xs: 12, md: 8 }}>
                     <CardContent sx={{ p: 4 }}>
                       <Typography variant="h5" sx={{ mb: 1, fontWeight: 600, color: 'text.primary' }}>
                         {instructor.name}
@@ -152,7 +152,7 @@ export default function AboutPage() {
             <CardContent sx={{ p: 4 }}>
               <Grid container spacing={4}>
                 {/* Left side - Training area info and image */}
-                <Grid item xs={12} lg={6}>
+                <Grid size={{ xs: 12, lg: 6 }}>
                   <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
                     {facility?.trainingArea?.title || ''}
                   </Typography>
@@ -179,10 +179,10 @@ export default function AboutPage() {
                       justifyContent: 'center',
                     }}
                   >
-                    {facility?.trainingArea?.image ? (
+                    {facility?.trainingArea?.image?.url ? (
                       <Image
-                        src={urlFor(facility.trainingArea.image.asset).url()}
-                        alt={facility.trainingArea.image.alt}
+                        src={facility.trainingArea.image.url}
+                        alt={facility.trainingArea.image.alt || 'Training area'}
                         fill
                         style={{ objectFit: 'cover' }}
                       />
@@ -203,7 +203,7 @@ export default function AboutPage() {
                 </Grid>
                 
                 {/* Right side - Opportunities */}
-                <Grid item xs={12} lg={6}>
+                <Grid size={{ xs: 12, lg: 6 }}>
                   <Typography variant="h5" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
                     {facility?.opportunities?.title || 'Muligheter'}
                   </Typography>

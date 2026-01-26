@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { getNewsArticles, getHomepage } from "@/lib/data";
+import Image from "next/image";
 import { FadeIn, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import ClientPageWrapper from "@/components/ClientPageWrapper";
@@ -15,10 +17,14 @@ import {
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import type { NewsArticle, Homepage } from "@/lib/payload-data";
 
-export default function Home() {
-  const newsArticles = getNewsArticles();
-  const homepage = getHomepage();
+interface HomeClientProps {
+  newsArticles: NewsArticle[];
+  homepage: Homepage | null;
+}
+
+export default function HomeClient({ newsArticles, homepage }: HomeClientProps) {
   return (
     <ClientPageWrapper>
       {/* Hero Section */}
@@ -26,7 +32,7 @@ export default function Home() {
         sx={{
           position: 'relative',
           color: 'white',
-          minHeight: '70vh',
+          minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -49,8 +55,19 @@ export default function Home() {
             py: 8,
           }}
         >
+          <FadeIn delay={0.2}>
+            <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
+              <Image
+                src="/logo.png"
+                alt="Farsund Grappling Logo"
+                width={300}
+                height={300}
+                priority
+                style={{ objectFit: 'contain' }}
+              />
+            </Box>
+          </FadeIn>
           <FadeIn delay={0.3}>
-            <Typography>hello</Typography>
             <Typography
               variant="h1"
               sx={{
@@ -124,7 +141,7 @@ export default function Home() {
           <StaggerContainer>
             <Grid container spacing={4}>
               {homepage?.whyTrainWithUs?.features ? (
-                homepage.whyTrainWithUs.features.map((feature, index) => (
+                homepage.whyTrainWithUs.features.map((feature: any, index: any) => (
                   <Grid size={{ xs: 12, md: 4 }} key={index}>
                     <StaggerItem>
                       <Card

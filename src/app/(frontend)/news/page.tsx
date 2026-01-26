@@ -1,4 +1,4 @@
-import { getNewsArticles } from "@/lib/data";
+import { getNewsArticles } from "@/lib/payload-data";
 import { PageTransition, FadeIn, StaggerContainer, StaggerItem } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import Image from "next/image";
@@ -14,8 +14,8 @@ import {
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
-export default function NewsPage() {
-  const articles = getNewsArticles();
+export default async function NewsPage() {
+  const articles = await getNewsArticles();
 
   return (
     <PageTransition>

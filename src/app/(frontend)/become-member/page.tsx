@@ -1,4 +1,4 @@
-import { getClubInfo } from "@/lib/data";
+import { getClubInfo } from "@/lib/payload-data";
 import { PageTransition, FadeIn, ScrollReveal } from "@/components/animations";
 import {
   Container,
@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function BecomeMemberPage() {
-  const clubInfo = getClubInfo();
+export default async function BecomeMemberPage() {
+  const clubInfo = await getClubInfo();
   return (
     <PageTransition>
       <Container maxWidth="md" sx={{ py: 12 }}>

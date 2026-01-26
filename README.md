@@ -1,14 +1,11 @@
-# Grappling Club Website
+# Farsund Grappling Website
 
-A modern, dynamic website for a grappling club built with Next.js and powered by Sanity CMS. This website providpublic/                          # Static assets
-├── images/                      # Club photos and images
-├── instructors/                 # Instructor photos
-└── favicon.ico                  # Site favicon (create at favicon.io)
-```ation about the club, training programs, membership options, news, and instructor profiles.
+A modern, dynamic website for Farsund Grappling Club built with Next.js and powered by **Payload CMS**. This website provides information about the club, training programs, membership options, news, and instructor profiles.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.4.6-000000?style=flat&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat&logo=typescript&logoColor=white)
-![Sanity](https://img.shields.io/badge/Sanity-4.3.0-F03E2F?style=flat&logo=sanity&logoColor=white)
+![Payload CMS](https://img.shields.io/badge/Payload-3.73.0-000000?style=flat&logo=payload&logoColor=white)
+![Material-UI](https://img.shields.io/badge/MUI-7.3.7-007FFF?style=flat&logo=mui&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
 ![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?style=flat&logo=cloudflare&logoColor=white)
 
@@ -17,43 +14,61 @@ A modern, dynamic website for a grappling club built with Next.js and powered by
 ### 🌐 Website Features
 - **Responsive Design**: Optimized for all screen sizes (mobile, tablet, desktop)
 - **Modern Animations**: Smooth page transitions and scroll effects using Framer Motion
-- **Dynamic Content**: All content managed through Sanity CMS
-- **Image Optimization**: Next.js Image component with Sanity CDN integration
+- **Dynamic Content**: All content managed through Payload CMS
+- **Image Optimization**: Next.js Image component with automatic resizing
 - **SEO Optimized**: Proper meta tags and semantic HTML structure
 - **Fast Performance**: Built with Next.js 15 and Turbopack for optimal speed
+- **Material-UI Components**: Professional UI with Material Design
 
 ### 📱 Pages & Sections
-- **Home** (`/`) - Welcome page with club overview
+- **Home** (`/`) - Welcome page with club overview, features, and latest news
 - **Training** (`/training`) - Dynamic training schedule calendar and program descriptions
-- **About** (`/about`) - Club information, instructors, and facilities
-- **News** (`/news`) - Latest club news and updates
-- **Become Member** (`/become-member`) - Membership information and sign-up details
+- **About** (`/about`) - Club information, instructor profiles, and facilities
+- **News** (`/news`) - Latest club news and updates with rich text content
+- **Become Member** (`/become-member`) - Membership information and pricing
 
-### ⚙️ Content Management (Sanity CMS)
-- **News Articles**: Rich text editor for club news and announcements
-- **Instructors**: Instructor profiles with photos, bios, and contact information
-- **Training Programs**: Schedule management with day/time slots and instructor assignments
-- **Club Information**: General club details, mission, and contact information
+### ⚙️ Content Management System (NEW!)
+🎉 **Payload CMS** - Self-hosted, modern CMS that instructors can use to manage all content:
+
+- ✅ **No code required** - User-friendly admin panel
+- ✅ **Real-time updates** - Changes appear instantly
+- ✅ **Image uploads** - Drag and drop with automatic resizing
+- ✅ **Rich text editor** - Format text with ease
+- ✅ **Role-based access** - Admin and instructor roles
+- ✅ **Draft/publish workflow** - Save drafts before publishing
+
+**What Instructors Can Edit:**
+- Homepage content (hero, features, "What is Grappling")
+- Training programs and schedules
+- Instructor profiles with photos and bios
+- News articles with featured images
+- Membership information and pricing
+- Club information and contact details
+- Google Maps location
+- Site-wide visual settings
+
+📚 **[See CMS Setup Guide →](./CMS_QUICKSTART.md)**
 
 ## 🏗️ Technology Stack
 
 ### Frontend
 - **Framework**: Next.js 15.4.6 with App Router
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS 4.0
+- **Styling**: Tailwind CSS 4.0 + Material-UI 7.3.7
 - **Animations**: Framer Motion 12.23.12
-- **Image Handling**: Next.js Image with Sanity Image URL
+- **Image Handling**: Next.js Image with Sharp
 
-### Content Management
-- **CMS**: Sanity 4.3.0
-- **Rich Text**: Portable Text with @portabletext/react
-- **Image Management**: Sanity Asset Pipeline
-- **Real-time Preview**: Sanity Vision Tool
+### Content Management (NEW!)
+- **CMS**: Payload CMS 3.73.0
+- **Database**: MongoDB
+- **Rich Text**: Lexical Editor
+- **Authentication**: JWT with bcrypt
+- **Media**: File uploads with automatic thumbnails
 
 ### Deployment & Hosting
 - **Platform**: Cloudflare Pages
 - **Build Tool**: @cloudflare/next-on-pages
-- **CDN**: Sanity CDN for images
+- **Database**: MongoDB Atlas (recommended)
 - **Environment**: Edge runtime compatible
 
 ### Development Tools
@@ -67,87 +82,139 @@ A modern, dynamic website for a grappling club built with Next.js and powered by
 ### Prerequisites
 - Node.js 18+ installed
 - npm or yarn package manager
-- Sanity account and project access
+- MongoDB (local or Atlas)
 
-### 1. Clone and Install
+### Quick Start
+
+1. **Clone and Install**
 ```bash
 git clone <repository-url>
-cd grappling-club-website
+cd farsund-grappling
 npm install
 ```
 
-### 2. Environment Setup
-Create `.env.local` file in the root directory:
-```bash
-# Sanity Configuration
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_sanity_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_TOKEN=your_sanity_api_token_here
+2. **Set Up MongoDB**
 
-# Optional: Sanity Studio URL
-NEXT_PUBLIC_SANITY_STUDIO_URL=https://your-studio-url.sanity.studio
+Choose one option:
+- **MongoDB Atlas** (recommended): Get free database at [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+- **Local MongoDB**: Install from [mongodb.com](https://www.mongodb.com/try/download/community)
+
+3. **Configure Environment**
+
+Update `.env.local`:
+```env
+PAYLOAD_SECRET=your-super-secret-key-min-32-chars
+MONGODB_URI=mongodb://localhost:27017/farsund-grappling
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 ```
 
-### 3. Development Server
+4. **Seed Database**
+```bash
+npm run seed
+```
+
+5. **Start Development Server**
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view the website.
 
-### 4. Sanity Studio Access
-Access the CMS at: https://your-studio-url.sanity.studio (hosted studio)
+### Access Points
+
+- **Website**: http://localhost:3000
+- **CMS Admin**: http://localhost:3000/admin
+  - Email: `admin@farsundgrappling.no`
+  - Password: `ChangeThisPassword123!`
+  - ⚠️ Change password immediately!
+
+## 📚 Documentation
+
+### 🚀 Getting Started
+- **[Quick Start Guide](./CMS_QUICKSTART.md)** - Get up and running in 5 minutes
+- **[Implementation Summary](./CMS_IMPLEMENTATION_SUMMARY.md)** - Overview of what was built
+
+### 📖 CMS Documentation
+- **[Complete Setup Guide](./CMS_SETUP_GUIDE.md)** - Detailed instructions for instructors
+- **[Architecture Overview](./CMS_ARCHITECTURE.md)** - Technical details and system design
+- **[Implementation Status](./CMS_STATUS.md)** - Migration guide and current status
+
+### 🚢 Deployment
+- **[Deployment Checklist](./DEPLOYMENT_CHECKLIST.md)** - Production deployment guide
+
+### Key Scripts
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run seed         # Populate database with initial content
+npm run payload      # Run Payload CLI commands
+npm run deploy       # Deploy to Cloudflare Pages
+```
 
 ## 📁 Project Structure
 
 ```
-src/
-├── app/                         # Next.js App Router pages
-│   ├── page.tsx                 # Home page
-│   ├── layout.tsx               # Root layout with navigation
-│   ├── globals.css              # Global styles
-│   ├── about/page.tsx           # About page (Sanity integrated)
-│   ├── become-member/page.tsx   # Membership page
-│   ├── news/page.tsx            # News page (Sanity integrated)
-│   ├── training/page.tsx        # Training page (Sanity integrated)
-│   └── studio/                  # Sanity Studio route (optional)
-├── components/                  # Reusable React components
-│   ├── Navigation.tsx           # Main navigation component
-│   ├── Footer.tsx               # Footer component
-│   ├── RichText.tsx             # Portable Text renderer
-│   ├── ScrollEffectsWrapper.tsx # Scroll animation wrapper
-│   └── animations/              # Animation components
-│       ├── FadeIn.tsx           # Fade in animation
-│       ├── PageTransition.tsx   # Page transition effects
-│       ├── ScrollReveal.tsx     # Scroll-triggered animations
-│       └── Stagger.tsx          # Staggered animations
-├── lib/                         # Utility libraries
-│   ├── sanity.client.ts         # Sanity client configuration
-│   ├── sanity.queries.ts        # Data fetching functions
-│   └── env.ts                   # Environment variable validation
-└── data/                        # Static data (legacy, mostly replaced by Sanity)
-    ├── clubInfo.ts              # Club information
-    ├── facilities.ts            # Facilities data
-    ├── instructors.ts           # Static instructor data
-    ├── news.ts                  # Static news data
-    └── training.ts              # Static training data
-
-sanity/                          # Sanity CMS configuration
-├── schemas/                     # Content type definitions
-│   ├── newsArticle.ts           # News article schema
-│   ├── instructor.ts            # Instructor schema
-│   ├── clubInfo.ts              # Club info schema
-│   ├── trainingProgram.ts       # Training program schema
-│   └── index.ts                 # Schema exports
-└── structure.ts                 # Sanity Studio structure
-
-public/                          # Static assets
-├── images/                      # Club photos and images
-├── instructors/                 # Instructor photos
-└── favicon.ico                  # Site favicon (create at favicon.io)
-
-scripts/                         # Utility scripts
-├── migrate-to-sanity.ts         # Data migration script
-└── test-sanity.ts               # Sanity connection test
+farsund-grappling/
+├── src/
+│   ├── app/                         # Next.js App Router
+│   │   ├── (payload)/               # CMS Admin Panel Routes
+│   │   │   ├── [...segments]/       # Dynamic admin routes
+│   │   │   └── api/[...slug]/       # Payload API endpoints
+│   │   ├── page.tsx                 # Home page
+│   │   ├── layout.tsx               # Root layout
+│   │   ├── globals.css              # Global styles
+│   │   ├── about/page.tsx           # About page
+│   │   ├── become-member/page.tsx   # Membership page
+│   │   ├── news/page.tsx            # News page
+│   │   └── training/page.tsx        # Training page
+│   │
+│   ├── collections/                 # Payload CMS Collections
+│   │   ├── Users.ts                 # User accounts & roles
+│   │   ├── Media.ts                 # Image uploads
+│   │   ├── Homepage.ts              # Homepage content
+│   │   ├── ClubInfo.ts              # Club information
+│   │   ├── Instructors.ts           # Instructor profiles
+│   │   ├── TrainingPrograms.ts      # Training classes
+│   │   ├── News.ts                  # News articles
+│   │   ├── MembershipInfo.ts        # Membership details
+│   │   ├── Facility.ts              # Facility information
+│   │   └── Background.ts            # Visual settings
+│   │
+│   ├── components/                  # Reusable React components
+│   │   ├── Navigation.tsx           # Main navigation
+│   │   ├── Footer.tsx               # Footer component
+│   │   ├── RichText.tsx             # Rich text renderer
+│   │   ├── ScrollEffectsWrapper.tsx # Scroll animations
+│   │   └── animations/              # Animation components
+│   │       ├── FadeIn.tsx
+│   │       ├── PageTransition.tsx
+│   │       ├── ScrollReveal.tsx
+│   │       └── Stagger.tsx
+│   │
+│   ├── lib/
+│   │   ├── data.ts                  # Static data (backup/types)
+│   │   └── payload-data.ts          # CMS data fetching
+│   │
+│   ├── scripts/
+│   │   └── seed.ts                  # Database seeding
+│   │
+│   ├── payload.config.ts            # Payload CMS config
+│   └── theme.ts                     # Material-UI theme
+│
+├── public/
+│   ├── media/                       # Uploaded images (CMS)
+│   └── logo.png                     # Site logo
+│
+├── .env.local                       # Environment variables (not in git)
+├── CMS_QUICKSTART.md                # Quick setup guide
+├── CMS_SETUP_GUIDE.md               # Complete CMS documentation
+├── CMS_STATUS.md                    # Implementation status
+├── CMS_ARCHITECTURE.md              # Technical architecture
+├── CMS_IMPLEMENTATION_SUMMARY.md    # What was built
+├── DEPLOYMENT_CHECKLIST.md          # Production deployment
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+└── wrangler.jsonc                   # Cloudflare Pages config
 ```
 
 ## 🎨 Styling & Design

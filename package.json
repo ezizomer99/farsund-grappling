@@ -1,6 +1,7 @@
 {
   "name": "farsund-grappling",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,7 +10,9 @@
     "lint": "next lint",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy"
+    "deploy": "npm run pages:build && wrangler pages deploy",
+    "seed": "tsx src/scripts/seed.ts",
+    "payload": "payload"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -20,12 +23,17 @@
     "@mui/material": "^7.3.7",
     "@mui/material-nextjs": "^7.3.7",
     "@opennextjs/cloudflare": "^1.6.5",
+    "@payloadcms/db-mongodb": "^3.73.0",
+    "@payloadcms/next": "^3.73.0",
+    "@payloadcms/richtext-lexical": "^3.73.0",
     "@portabletext/react": "^3.2.1",
     "dotenv": "^17.2.1",
     "framer-motion": "^12.23.12",
-    "next": "15.4.6",
+    "next": "^16.1.4",
+    "payload": "^3.73.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sharp": "^0.34.5",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {

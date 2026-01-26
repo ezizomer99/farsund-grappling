@@ -1,4 +1,4 @@
-import { getTrainingPrograms } from "@/lib/data";
+import { getTrainingPrograms } from "@/lib/payload-data";
 import { PageTransition, FadeIn, ScrollReveal } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import {
@@ -96,8 +96,8 @@ function buildScheduleFromPrograms(programs: any[]): { schedule: WeeklySchedule,
   return { schedule, classTypes };
 }
 
-export default function TrainingPage() {
-  const programs = getTrainingPrograms();
+export default async function TrainingPage() {
+  const programs = await getTrainingPrograms();
   const { schedule: weeklySchedule, classTypes } = buildScheduleFromPrograms(programs);
   
   return (
