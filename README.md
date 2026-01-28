@@ -300,7 +300,7 @@ npm run deploy
 #### Environment Variables (Cloudflare Dashboard)
 ```env
 PAYLOAD_SECRET=your-production-secret-32-chars-min
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/farsund-grappling
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>
 NEXT_PUBLIC_SERVER_URL=https://your-domain.com
 ```
 
@@ -371,8 +371,8 @@ npm run deploy           # Deploy to Cloudflare Pages
 #### MongoDB Connection Failed
 ```bash
 # Check connection string format
-# Atlas: mongodb+srv://user:pass@cluster.mongodb.net/dbname
-# Local: mongodb://localhost:27017/dbname
+# Atlas: mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>
+# Local: mongodb://localhost:27017/<database>
 
 # Verify network access in Atlas (whitelist IP)
 ```
