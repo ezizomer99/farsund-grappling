@@ -336,8 +336,6 @@ async function seed() {
       collection: "background",
       data: {
         title: "Background Settings",
-        overlayOpacity: 0.7,
-        overlayColor: "#000000",
       },
     });
 
