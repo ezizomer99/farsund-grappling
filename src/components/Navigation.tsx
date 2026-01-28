@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
   AppBar,
   Toolbar,
@@ -17,7 +17,6 @@ import {
   ListItemButton,
   ListItemText,
   Box,
-  Typography,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -27,61 +26,113 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function Navigation() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
+  useEffect(() => {
+    setMounted(true);
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 20);
+    };
+    // Check initial scroll position
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Scroll to top when pathname changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   
   // Navigation links
   const navLinks = [
-    { name: 'Hjem', href: '/' },
-    { name: 'Trening', href: '/training' },
-    { name: 'Bli Medlem', href: '/become-member' },
-    { name: 'Om Oss', href: '/about' },
-    { name: 'Nyheter', href: '/news' },
+    { name: 'Hjem', href: '/', icon: '🏠' },
+    { name: 'Trening', href: '/training', icon: '🥋' },
+    { name: 'Bli Medlem', href: '/become-member', icon: '✨' },
+    { name: 'Om Oss', href: '/about', icon: '👥' },
+    { name: 'Nyheter', href: '/news', icon: '📰' },
   ];
 
   const toggleDrawer = (open: boolean) => () => {
     setIsMenuOpen(open);
   };
 
+  // Prevent hydration mismatch by not rendering conditional content until mounted
+  if (!mounted) {
+    return (
+      <AppBar 
+        position="fixed" 
+        elevation={0}
+        sx={{ 
+          backgroundColor: 'rgba(48, 54, 79, 0.95)',
+          backdropFilter: 'blur(20px)',
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters sx={{ py: { xs: 0.5, md: 1 }, minHeight: { xs: 64, md: 72 } }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Image
+                  src="/logo.svg"
+                  alt="Farsund Grappling"
+                  width={150}
+                  height={50}
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Link>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    );
+  }
+
   return (
     <>
       <AppBar 
         position="fixed" 
-        component={motion.div}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+        elevation={0}
         sx={{ 
-          backgroundColor: 'rgba(0, 0, 0, 0.7)', 
-          backdropFilter: 'blur(8px)',
+          backgroundColor: hasScrolled ? 'rgba(48, 54, 79, 0.95)' : 'rgba(48, 54, 79, 0.85)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: hasScrolled ? '1px solid rgba(225, 217, 188, 0.1)' : 'none',
+          transition: 'background-color 0.3s ease, border-bottom 0.3s ease',
+          zIndex: theme.zIndex.appBar,
+          boxSizing: 'border-box',
         }}
       >
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ py: 1 }}>
+          <Toolbar 
+            disableGutters 
+            sx={{ 
+              py: { xs: 0.5, md: 1 }, 
+              minHeight: { xs: 64, md: 72 },
+              justifyContent: 'space-between',
+            }}
+          >
             {/* Logo */}
-            <Box
-              component={motion.div}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              sx={{ flexGrow: 1 }}
-            >
+            <Box>
               <Link href="/" style={{ textDecoration: 'none' }}>
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    transition: 'opacity 0.3s',
+                    transition: 'opacity 0.2s',
                     '&:hover': {
-                      opacity: 0.8,
+                      opacity: 0.85,
                     },
                   }}
                 >
                   <Image
-                    src="/logo.png"
+                    src="/logo.svg"
                     alt="Farsund Grappling"
-                    width={180}
-                    height={60}
+                    width={isMobile ? 120 : 150}
+                    height={isMobile ? 42 : 50}
                     style={{ objectFit: 'contain' }}
                     priority
                   />
@@ -91,59 +142,59 @@ export default function Navigation() {
 
             {/* Desktop Navigation */}
             {!isMobile && (
-              <Box sx={{ display: 'flex', gap: 0.5 }}>
-                {navLinks.map((link, index) => {
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  gap: 0.5,
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  padding: 0.75,
+                }}
+              >
+                {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   
                   return (
                     <Box
                       key={link.name}
-                      component={motion.div}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ 
-                        duration: 0.3, 
-                        delay: 0.1 * index,
-                        type: 'spring',
-                        stiffness: 100,
-                      }}
                       sx={{ position: 'relative' }}
                     >
+                      {isActive && (
+                        <Box
+                          component={motion.div}
+                          layoutId="activeNavPill"
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                          sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'linear-gradient(135deg, rgba(225, 217, 188, 0.25) 0%, rgba(225, 217, 188, 0.15) 100%)',
+                            borderRadius: 2,
+                            boxShadow: '0 0 20px rgba(225, 217, 188, 0.2)',
+                          }}
+                        />
+                      )}
                       <Button
                         component={Link}
                         href={link.href}
                         sx={{
-                          color: 'white',
-                          px: 2,
+                          color: '#F0F0DB',
+                          px: 2.5,
                           py: 1,
                           fontWeight: isActive ? 600 : 400,
-                          backgroundColor: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
+                          fontSize: '0.95rem',
+                          position: 'relative',
+                          zIndex: 1,
+                          textTransform: 'none',
+                          letterSpacing: '0.3px',
+                          borderRadius: 2,
                           '&:hover': {
-                            backgroundColor: 'rgba(255,255,255,0.15)',
-                            color: 'primary.light',
+                            backgroundColor: isActive ? 'transparent' : 'rgba(240,240,219,0.1)',
                           },
-                          transition: 'all 0.3s',
+                          transition: 'background-color 0.2s ease',
                         }}
                       >
                         {link.name}
                       </Button>
-                      {isActive && (
-                        <Box
-                          component={motion.div}
-                          layoutId="activeNavIndicator"
-                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                          sx={{
-                            position: 'absolute',
-                            bottom: 0,
-                            left: 16,
-                            right: 16,
-                            height: 4,
-                            backgroundColor: 'primary.main',
-                            borderTopLeftRadius: 4,
-                            borderTopRightRadius: 4,
-                          }}
-                        />
-                      )}
                     </Box>
                   );
                 })}
@@ -153,13 +204,16 @@ export default function Navigation() {
             {/* Mobile Menu Icon */}
             {isMobile && (
               <IconButton
-                component={motion.button}
-                whileTap={{ scale: 0.95 }}
-                edge="end"
-                color="inherit"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ ml: 2 }}
+                sx={{ 
+                  color: '#F0F0DB',
+                  backgroundColor: 'rgba(225, 217, 188, 0.1)',
+                  padding: 1,
+                  '&:hover': {
+                    backgroundColor: 'rgba(225, 217, 188, 0.2)',
+                  },
+                }}
               >
                 <MenuIcon />
               </IconButton>
@@ -175,81 +229,115 @@ export default function Navigation() {
         onClose={toggleDrawer(false)}
         sx={{
           '& .MuiDrawer-paper': {
-            width: 280,
-            backgroundColor: 'rgba(0, 0, 0, 0.95)',
-            backdropFilter: 'blur(8px)',
-            color: 'white',
+            width: '80%',
+            maxWidth: 300,
+            background: 'linear-gradient(180deg, #30364F 0%, #252a3d 100%)',
+            color: '#F0F0DB',
+            borderLeft: '1px solid rgba(225, 217, 188, 0.1)',
           },
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          p: 2,
+          borderBottom: '1px solid rgba(225, 217, 188, 0.1)',
+        }}>
+          <Image
+            src="/logo.svg"
+            alt="Farsund Grappling"
+            width={100}
+            height={35}
+            style={{ objectFit: 'contain' }}
+          />
           <IconButton
             onClick={toggleDrawer(false)}
-            sx={{ color: 'white' }}
+            sx={{ 
+              color: '#F0F0DB',
+              backgroundColor: 'rgba(225, 217, 188, 0.1)',
+              '&:hover': {
+                backgroundColor: 'rgba(225, 217, 188, 0.2)',
+              },
+            }}
           >
             <CloseIcon />
           </IconButton>
         </Box>
         
-        <List>
-          <AnimatePresence>
-            {navLinks.map((link, index) => {
-              const isActive = pathname === link.href;
-              
-              return (
-                <ListItem 
-                  key={link.name} 
-                  disablePadding
-                  component={motion.div}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.05 * index }}
-                  sx={{ position: 'relative' }}
+        <List sx={{ pt: 2, px: 1 }}>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            
+            return (
+              <ListItem 
+                key={link.name} 
+                disablePadding
+                sx={{ mb: 0.5 }}
+              >
+                <ListItemButton
+                  component={Link}
+                  href={link.href}
+                  onClick={toggleDrawer(false)}
+                  sx={{
+                    py: 1.5,
+                    px: 2,
+                    borderRadius: 2,
+                    backgroundColor: isActive 
+                      ? 'rgba(225, 217, 188, 0.15)' 
+                      : 'transparent',
+                    border: isActive 
+                      ? '1px solid rgba(225, 217, 188, 0.2)' 
+                      : '1px solid transparent',
+                    '&:hover': {
+                      backgroundColor: 'rgba(225, 217, 188, 0.1)',
+                    },
+                  }}
                 >
-                  <ListItemButton
-                    component={Link}
-                    href={link.href}
-                    onClick={toggleDrawer(false)}
-                    sx={{
-                      py: 2,
-                      px: 3,
-                      backgroundColor: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255,255,255,0.15)',
-                        color: 'primary.light',
-                      },
-                      transition: 'all 0.3s',
+                  <Box sx={{ mr: 2, fontSize: '1.1rem' }}>{link.icon}</Box>
+                  <ListItemText 
+                    primary={link.name}
+                    primaryTypographyProps={{
+                      fontWeight: isActive ? 600 : 400,
+                      fontSize: '1rem',
                     }}
-                  >
-                    <ListItemText 
-                      primary={link.name}
-                      primaryTypographyProps={{
-                        fontWeight: isActive ? 600 : 400,
-                      }}
-                    />
-                  </ListItemButton>
+                  />
                   {isActive && (
                     <Box
-                      component={motion.div}
-                      layoutId="mobileActiveIndicator"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                       sx={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 4,
-                        backgroundColor: 'primary.main',
-                        borderTopRightRadius: 4,
-                        borderBottomRightRadius: 4,
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        backgroundColor: '#E1D9BC',
+                        boxShadow: '0 0 10px rgba(225, 217, 188, 0.5)',
                       }}
                     />
                   )}
-                </ListItem>
-              );
-            })}
-          </AnimatePresence>
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
+        
+        {/* Decorative element */}
+        <Box 
+          sx={{ 
+            mt: 'auto', 
+            p: 2,
+            borderTop: '1px solid rgba(225, 217, 188, 0.1)',
+            textAlign: 'center',
+          }}
+        >
+          <Box sx={{ fontSize: '1.5rem', mb: 0.5 }}>🥋</Box>
+          <Box sx={{ 
+            fontSize: '0.7rem', 
+            color: 'rgba(240, 240, 219, 0.6)',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+          }}>
+            Train Hard, Stay Humble
+          </Box>
+        </Box>
       </Drawer>
     </>
   );

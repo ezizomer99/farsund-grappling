@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto, Oswald } from "next/font/google";
+import { unstable_noStore as noStore } from 'next/cache';
 import "../globals.css";
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -21,11 +22,18 @@ const roboto = Roboto({
   variable: '--font-roboto',
 });
 
+const oswald = Oswald({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-oswald',
+});
+
 export const metadata: Metadata = {
   title: "Farsund Grappling",
   description: "Welcome to Farsund Grappling",
   icons: {
-    icon: '/logo.png',
+    icon: '/logo.svg',
   },
 };
 
@@ -34,40 +42,45 @@ export default async function FrontendLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  noStore(); // Get fresh background data
   const background = await getBackground();
   
   const backgroundImageUrl = background?.backgroundImage?.url || null;
   
-  const overlayOpacity = background?.overlayOpacity ?? 0.7;
-  const overlayColor = background?.overlayColor ?? 'black';
-  
   return (
-    <html lang="en" className={roboto.variable}>
+    <html lang="en" className={`${roboto.variable} ${oswald.variable}`}>
       <body
-        className="antialiased flex flex-col min-h-screen"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale',
+        }}
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* Dynamic Background Image */}
-            {backgroundImageUrl ? (
-              <div 
-                className="fixed inset-0 z-[-2] bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${backgroundImageUrl})` }}
-              ></div>
-            ) : (
-              <div className="bg-grappling-image fixed inset-0 z-[-2]"></div>
-            )}
-            
-            {/* Dynamic Overlay */}
+            {/* Dynamic Background Image - always show, no gradient fallback */}
             <div 
-              className={`fixed inset-0 z-[-1] bg-${overlayColor}`}
-              style={{ opacity: overlayOpacity }}
+              style={{ 
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: -1,
+                backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
+                backgroundColor: '#F0F0DB',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
             ></div>
             
             <ClientScrollEffects />
             <Navigation />
-            <main className="flex-grow pt-20">
+            <main style={{ flexGrow: 1, paddingTop: '72px' }}>
               {children}
             </main>
             <Footer />

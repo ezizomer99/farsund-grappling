@@ -1,11 +1,22 @@
 ****# Farsund Grappling CMS Architecture
 
+## Technology Stack
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Framework** | Next.js 16.x | React framework with App Router |
+| **CMS** | Payload CMS 3.x | Content management |
+| **Database** | MongoDB | Document storage |
+| **UI** | Material-UI 7.x | Component library & styling |
+| **Animations** | Framer Motion | Page transitions |
+| **Deployment** | Cloudflare Pages | Edge hosting |
+
 ## System Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    FARSUND GRAPPLING WEBSITE                    │
-│                     (Next.js 15 + Payload CMS)                  │
+│                  (Next.js 16 + Payload CMS 3.x)                 │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────┐      ┌──────────────────────────────────┐
@@ -38,14 +49,23 @@ farsund-grappling/
 │
 ├── src/
 │   ├── app/                          # Next.js App Router
+│   │   ├── (frontend)/               # Public Pages (route group)
+│   │   │   ├── page.tsx              # Homepage
+│   │   │   ├── layout.tsx            # Frontend layout
+│   │   │   ├── training/page.tsx     # Training page
+│   │   │   ├── about/page.tsx        # About page
+│   │   │   ├── news/page.tsx         # News page
+│   │   │   └── become-member/page.tsx # Membership page
+│   │   │
 │   │   ├── (payload)/                # CMS Routes (Protected)
 │   │   │   ├── admin/                # Admin Panel UI
-│   │   │   └── api/                  # Payload API
-│   │   ├── page.tsx                  # Homepage
-│   │   ├── training/page.tsx         # Training page
-│   │   ├── about/page.tsx            # About page
-│   │   ├── news/page.tsx             # News page
-│   │   └── become-member/page.tsx    # Membership page
+│   │   │   │   └── [[...segments]]/  # Dynamic admin routes
+│   │   │   └── api/                  # Payload API routes
+│   │   │       ├── [...slug]/        # REST API endpoints
+│   │   │       └── graphql/          # GraphQL API
+│   │   │
+│   │   ├── layout.tsx                # Root layout
+│   │   └── globals.css               # Global styles
 │   │
 │   ├── collections/                  # CMS Collection Definitions
 │   │   ├── Users.ts                  # User accounts & roles
@@ -54,10 +74,16 @@ farsund-grappling/
 │   │   ├── ClubInfo.ts               # Club information
 │   │   ├── Instructors.ts            # Instructor profiles
 │   │   ├── TrainingPrograms.ts       # Class schedules
+│   │   ├── TrainingPage.ts           # Training page settings
 │   │   ├── News.ts                   # News articles
-│   │   ├── MembershipInfo.ts         # Membership details
 │   │   ├── Facility.ts               # Facility information
 │   │   └── Background.ts             # Visual settings
+│   │
+│   ├── components/                   # Reusable React components
+│   │   ├── Navigation.tsx            # Main navigation (MUI)
+│   │   ├── Footer.tsx                # Site footer
+│   │   ├── RichText.tsx              # Lexical rich text renderer
+│   │   └── animations/               # Framer Motion components
 │   │
 │   ├── lib/
 │   │   ├── data.ts                   # Static data (backup/types)
@@ -66,15 +92,20 @@ farsund-grappling/
 │   ├── scripts/
 │   │   └── seed.ts                   # Database seeding script
 │   │
-│   └── payload.config.ts             # Payload CMS configuration
+│   ├── payload.config.ts             # Payload CMS configuration
+│   ├── payload-types.ts              # Generated TypeScript types
+│   └── theme.ts                      # Material-UI theme config
 │
 ├── public/
 │   └── media/                        # Uploaded images stored here
 │
 ├── .env.local                        # Environment variables (SECRET!)
+├── CLAUDE.md                         # Claude Code AI instructions
 ├── CMS_QUICKSTART.md                 # Quick setup guide
 ├── CMS_SETUP_GUIDE.md                # Complete documentation
-└── CMS_STATUS.md                     # Implementation status
+├── CMS_STATUS.md                     # Implementation status
+├── CMS_ARCHITECTURE.md               # This file
+└── DEPLOYMENT_CHECKLIST.md           # Production deployment guide
 ```
 
 ## Data Flow
@@ -263,11 +294,11 @@ Cloudflare Pages
 
 ```
 Frontend:
-├── Next.js 15 (App Router)
+├── Next.js 16 (App Router)
 ├── React 18
 ├── Material-UI 7
 ├── TypeScript 5
-└── TailwindCSS 4
+└── Framer Motion 12
 
 Backend:
 ├── Payload CMS 3.x

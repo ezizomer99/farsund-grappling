@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import Image from "next/image";
 import { getInstructors, getFacility, getClubInfo } from "@/lib/payload-data";
 import { PageTransition, FadeIn } from "@/components/animations";
@@ -18,32 +19,50 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import PersonIcon from '@mui/icons-material/Person';
 import ImageIcon from '@mui/icons-material/Image';
 
+export const revalidate = 60; // Revalidate every 60 seconds
+
 export default async function AboutPage() {
+  noStore(); // Opt out of static generation for fresh data
   const instructors = await getInstructors();
   const facility = await getFacility();
   const clubInfo = await getClubInfo();
   return (
     <PageTransition> 
+      <Box
+        sx={{
+          bgcolor: 'rgba(240, 240, 219, 0.5)',
+          backdropFilter: 'blur(8px)',
+          minHeight: '100vh',
+          py: 4,
+        }}
+      >
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <FadeIn>
-          <Typography variant="h1" sx={{ mb: 6, color: 'text.primary', fontWeight: 700 }}>
+          <Typography variant="h1" sx={{ mb: 6, color: '#30364F', fontWeight: 700 }}>
             Om Farsund Grappling
           </Typography>
         </FadeIn>
       
         {/* Club Story */}
         <Box component="section" sx={{ mb: 8 }}>
-          <Typography variant="h4" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ mb: 3, color: '#30364F', fontWeight: 600 }}>
             Vår Historie
           </Typography>
-          <Card>
+          <Card sx={{ 
+            bgcolor: '#E1D9BC',
+            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: 4,
+            },
+          }}>
             <CardContent sx={{ p: 4 }}>
               {clubInfo?.story ? (
-                <Box sx={{ color: 'text.primary' }}>
+                <Box sx={{ color: '#30364F' }}>
                   <RichText content={clubInfo.story} />
                 </Box>
               ) : (
-                <Typography color="text.secondary">
+                <Typography sx={{ color: '#4a5268' }}>
                   Club story not available. Please add content to the data file.
                 </Typography>
               )}
@@ -53,12 +72,20 @@ export default async function AboutPage() {
       
         {/* Instructors */}
         <Box component="section" sx={{ mb: 8 }}>
-          <Typography variant="h4" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ mb: 3, color: '#30364F', fontWeight: 600 }}>
             Våre Instruktører
           </Typography>
           <Stack spacing={4}>
             {instructors.map((instructor) => (
-              <Card key={instructor._id} sx={{ overflow: 'visible' }}>
+              <Card key={instructor._id} sx={{ 
+                overflow: 'visible', 
+                bgcolor: '#E1D9BC',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: 4,
+                },
+              }}>
                 <Grid container>
                   <Grid size={{ xs: 12, md: 4 }}>
                     <Box
@@ -66,7 +93,7 @@ export default async function AboutPage() {
                         height: { xs: 256, md: '100%' },
                         minHeight: 256,
                         position: 'relative',
-                        bgcolor: 'grey.200',
+                        bgcolor: '#F0F0DB',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -83,23 +110,22 @@ export default async function AboutPage() {
                           }}
                         />
                       ) : (
-                        <PersonIcon sx={{ fontSize: 64, color: 'grey.500' }} />
+                        <PersonIcon sx={{ fontSize: 64, color: '#4a5268' }} />
                       )}
                     </Box>
                   </Grid>
                   <Grid size={{ xs: 12, md: 8 }}>
                     <CardContent sx={{ p: 4 }}>
-                      <Typography variant="h5" sx={{ mb: 1, fontWeight: 600, color: 'text.primary' }}>
+                      <Typography variant="h5" sx={{ mb: 1, fontWeight: 600, color: '#30364F' }}>
                         {instructor.name}
                       </Typography>
                       <Typography
                         variant="subtitle1"
-                        color="primary"
-                        sx={{ mb: 3, fontWeight: 500 }}
+                        sx={{ mb: 3, fontWeight: 500, color: '#4a5268' }}
                       >
                         {instructor.title} • {instructor.beltLevel}
                       </Typography>
-                      <Box sx={{ color: 'text.primary', mb: 2 }}>
+                      <Box sx={{ color: '#30364F', mb: 2 }}>
                         <RichText content={instructor.bio} />
                       </Box>
                       {(instructor.email || instructor.phone) && (
@@ -108,15 +134,15 @@ export default async function AboutPage() {
                             mt: 3,
                             pt: 3,
                             borderTop: 1,
-                            borderColor: 'divider',
+                            borderColor: 'rgba(48, 54, 79, 0.2)',
                           }}
                         >
                           {instructor.email && (
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                              <EmailIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
+                              <EmailIcon sx={{ fontSize: 20, color: '#4a5268' }} />
                               <MuiLink
                                 href={`mailto:${instructor.email}`}
-                                sx={{ color: 'primary.main', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                                sx={{ color: '#30364F', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                               >
                                 <Typography variant="body2">{instructor.email}</Typography>
                               </MuiLink>
@@ -124,10 +150,10 @@ export default async function AboutPage() {
                           )}
                           {instructor.phone && (
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <PhoneIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
+                              <PhoneIcon sx={{ fontSize: 20, color: '#4a5268' }} />
                               <MuiLink
                                 href={`tel:${instructor.phone}`}
-                                sx={{ color: 'primary.main', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+                                sx={{ color: '#30364F', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
                               >
                                 <Typography variant="body2">{instructor.phone}</Typography>
                               </MuiLink>
@@ -145,15 +171,22 @@ export default async function AboutPage() {
       
         {/* Facilities */}
         <Box component="section" sx={{ mb: 8 }}>
-          <Typography variant="h4" sx={{ mb: 3, color: 'text.primary', fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ mb: 3, color: '#30364F', fontWeight: 600 }}>
             {facility?.title || 'Våre Fasiliteter'}
           </Typography>
-          <Card>
+          <Card sx={{ 
+            bgcolor: '#E1D9BC',
+            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: 4,
+            },
+          }}>
             <CardContent sx={{ p: 4 }}>
               <Grid container spacing={4}>
                 {/* Left side - Training area info and image */}
                 <Grid size={{ xs: 12, lg: 6 }}>
-                  <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                  <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                     {facility?.trainingArea?.title || ''}
                   </Typography>
                   <Typography
@@ -162,7 +195,7 @@ export default async function AboutPage() {
                       mb: 4,
                       display: 'flex',
                       alignItems: 'center',
-                      color: 'text.secondary',
+                      color: '#4a5268',
                     }}
                   >
                     {facility?.trainingArea?.subtitle || 'Dette er vårt område'}
@@ -173,7 +206,7 @@ export default async function AboutPage() {
                       height: 400,
                       borderRadius: 2,
                       overflow: 'hidden',
-                      bgcolor: 'grey.100',
+                      bgcolor: '#F0F0DB',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -190,7 +223,7 @@ export default async function AboutPage() {
                       <Box
                         sx={{
                           textAlign: 'center',
-                          color: 'grey.500',
+                          color: '#4a5268',
                         }}
                       >
                         <ImageIcon sx={{ fontSize: 48, mb: 1 }} />
@@ -204,22 +237,22 @@ export default async function AboutPage() {
                 
                 {/* Right side - Opportunities */}
                 <Grid size={{ xs: 12, lg: 6 }}>
-                  <Typography variant="h5" sx={{ mb: 3, fontWeight: 600, color: 'text.primary' }}>
+                  <Typography variant="h5" sx={{ mb: 3, fontWeight: 600, color: '#30364F' }}>
                     {facility?.opportunities?.title || 'Muligheter'}
                   </Typography>
                   {facility?.opportunities?.description ? (
-                    <Box sx={{ color: 'text.primary' }}>
+                    <Box sx={{ color: '#30364F' }}>
                       <RichText content={facility.opportunities.description} />
                     </Box>
                   ) : (
                     <>
-                      <Typography sx={{ mb: 3 }}>
+                      <Typography sx={{ mb: 3, color: '#30364F' }}>
                         Det å ha et BJJ-område inne i et styrketreningsstudio gir deg unike muligheter.
                       </Typography>
-                      <Typography sx={{ mb: 3 }}>
+                      <Typography sx={{ mb: 3, color: '#30364F' }}>
                         Du kan kombinere kampsporttrening med styrketrening i samme økt, noe som gir deg en komplett treningsopplevelse.
                       </Typography>
-                      <Typography>
+                      <Typography sx={{ color: '#30364F' }}>
                         Etter en intens BJJ-økt kan du fokusere på styrke og kondisjon, eller omvendt - starte med styrketrening før du går over til teknikk og sparring.
                       </Typography>
                     </>
@@ -232,10 +265,17 @@ export default async function AboutPage() {
       
         {/* Location */}
         <Box component="section">
-          <Typography variant="h4" sx={{ mb: 3, color: 'grey.300', fontWeight: 600 }}>
+          <Typography variant="h4" sx={{ mb: 3, color: '#30364F', fontWeight: 600 }}>
             {clubInfo?.location?.title || 'Beliggenhet'}
           </Typography>
-          <Card>
+          <Card sx={{ 
+            bgcolor: '#E1D9BC',
+            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            overflow: 'hidden',
+            '&:hover': {
+              boxShadow: 4,
+            },
+          }}>
             <Box
               sx={{
                 height: 384,
@@ -258,21 +298,21 @@ export default async function AboutPage() {
               />
             </Box>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+              <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                 {clubInfo?.location?.findUsTitle || 'Finn Oss'}
               </Typography>
-              <Typography sx={{ mb: 3 }}>
+              <Typography sx={{ mb: 3, color: '#30364F' }}>
                 {clubInfo?.location?.description || 'Vi holder til i Vanse. Her finner du oss:'}
               </Typography>
               <Box component="address" sx={{ fontStyle: 'normal' }}>
-                <Typography sx={{ mb: 2 }}>{clubInfo?.title || 'Farsund Grappling'}</Typography>
+                <Typography sx={{ mb: 2, color: '#30364F' }}>{clubInfo?.title || 'Farsund Grappling'}</Typography>
                 {clubInfo?.contactInfo?.address && (
                   <MuiLink
                     href={clubInfo?.location?.directionsUrl || "https://www.google.com/maps/search/?api=1&query=Oreveien+17+4560+Vanse+Norge"}
                     target="_blank"
                     rel="noopener noreferrer"
                     sx={{
-                      color: 'primary.main',
+                      color: '#30364F',
                       textDecoration: 'none',
                       '&:hover': { textDecoration: 'underline' },
                       display: 'block',
@@ -284,14 +324,14 @@ export default async function AboutPage() {
                   </MuiLink>
                 )}
                 {clubInfo?.contactInfo?.email && (
-                  <Typography sx={{ mb: 1 }}>
+                  <Typography sx={{ mb: 1, color: '#30364F' }}>
                     E-post:{' '}
                     <MuiLink
                       href={`mailto:${clubInfo.contactInfo.email}`}
                       sx={{
-                        color: 'primary.main',
+                        color: '#30364F',
                         textDecoration: 'underline',
-                        '&:hover': { color: 'primary.dark' },
+                        '&:hover': { color: '#4a5268' },
                       }}
                     >
                       {clubInfo.contactInfo.email}
@@ -299,7 +339,7 @@ export default async function AboutPage() {
                   </Typography>
                 )}
                 {clubInfo?.contactInfo?.phone && (
-                  <Typography>Telefon: {clubInfo.contactInfo.phone}</Typography>
+                  <Typography sx={{ color: '#30364F' }}>Telefon: {clubInfo.contactInfo.phone}</Typography>
                 )}
               </Box>
               
@@ -312,9 +352,9 @@ export default async function AboutPage() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 0.5,
-                    color: 'primary.main',
+                    color: '#30364F',
                     textDecoration: 'none',
-                    '&:hover': { color: 'primary.dark', textDecoration: 'underline' },
+                    '&:hover': { color: '#4a5268', textDecoration: 'underline' },
                   }}
                 >
                   {clubInfo?.location?.directionsText || 'Få veibeskrivelser i Google Maps'}
@@ -324,6 +364,7 @@ export default async function AboutPage() {
           </Card>
         </Box>
       </Container>
+      </Box>
     </PageTransition>
   );
 }

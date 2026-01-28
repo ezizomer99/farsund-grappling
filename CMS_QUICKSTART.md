@@ -1,15 +1,18 @@
 # Farsund Grappling CMS - Quick Start
 
-## 🚀 Quick Setup (5 minutes)
+> 5-minute setup guide for Payload CMS with Next.js 16
 
-### 1. Install MongoDB (Choose one):
+## 🚀 Quick Setup
 
-**Option A - MongoDB Atlas (Free Cloud Database):**
+### 1. Install MongoDB
+
+**Option A - MongoDB Atlas (Recommended for production):**
 1. Go to [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
-2. Sign up and create a free cluster
-3. Get your connection string
+2. Sign up for free account
+3. Create a free cluster
+4. Get your connection string
 
-**Option B - Local MongoDB:**
+**Option B - Local MongoDB (For development):**
 ```bash
 # Windows (using Chocolatey)
 choco install mongodb
@@ -17,37 +20,44 @@ choco install mongodb
 # Or download from: https://www.mongodb.com/try/download/community
 ```
 
-### 2. Configure Environment:
+### 2. Configure Environment
 
-Update `.env.local` with your MongoDB connection:
+Create or update `.env.local`:
 ```env
-PAYLOAD_SECRET=your-secret-key-min-32-chars
+# Secret key for CMS authentication (min 32 characters)
+PAYLOAD_SECRET=your-secret-key-min-32-chars-here
+
+# MongoDB connection string
 MONGODB_URI=mongodb://localhost:27017/farsund-grappling
+
+# Site URL
 NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 ```
 
-### 3. Seed Database:
+### 3. Seed Database
 
 ```bash
 npm run seed
 ```
 
-### 4. Start Server:
+### 4. Start Server
 
 ```bash
 npm run dev
 ```
 
-### 5. Access CMS:
+### 5. Access CMS
 
-- **CMS**: http://localhost:3000/admin
-- **Website**: http://localhost:3000
+| URL | Description |
+|-----|-------------|
+| http://localhost:3000 | Website |
+| http://localhost:3000/admin | CMS Admin Panel |
 
 **Default Login:**
 - Email: `admin@farsundgrappling.no`
 - Password: `ChangeThisPassword123!`
 
-⚠️ **Change password immediately after first login!**
+⚠️ **IMPORTANT: Change password immediately after first login!**
 
 ## 📚 Full Documentation
 
@@ -63,7 +73,7 @@ See [CMS_SETUP_GUIDE.md](./CMS_SETUP_GUIDE.md) for complete documentation.
 
 ### ✅ Training Programs
 - Add/edit class types
-- Set schedules
+- Set schedules (day, time, instructor)
 - Assign instructors
 - Show/hide programs
 
@@ -76,8 +86,8 @@ See [CMS_SETUP_GUIDE.md](./CMS_SETUP_GUIDE.md) for complete documentation.
 ### ✅ News Articles
 - Create and publish news
 - Add featured images
-- Write full articles
-- Draft or publish
+- Write rich text articles
+- Save as draft or publish
 
 ### ✅ Membership
 - Edit pricing and options
@@ -97,7 +107,7 @@ See [CMS_SETUP_GUIDE.md](./CMS_SETUP_GUIDE.md) for complete documentation.
 
 ## 🛠️ Troubleshooting
 
-**Can't connect to database?**
+### Can't connect to database?
 - Check MongoDB is running
 - Verify connection string in `.env.local`
 

@@ -1,3 +1,17 @@
+/* Farsund Grappling Color Palette */
+:root {
+  --color-navbar: #30364F;
+  /* --color-background: #ACBAC4; */
+  --color-cards: #E1D9BC;
+  --color-accent: #F0F0DB;
+  
+  /* RGB values for opacity variations */
+  --color-navbar-rgb: 48, 54, 79;
+  --color-background-rgb: 172, 186, 196;
+  --color-cards-rgb: 225, 217, 188;
+  --color-accent-rgb: 240, 240, 219;
+}
+
 /* Custom utility classes for background images */
 .bg-grappling-image {
   background-size: cover;
@@ -7,5 +21,10 @@
 }
 
 .bg-grappling-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(var(--color-navbar-rgb), 0.7);
+}
+
+/* Background gradient utility */
+.bg-gradient-custom {
+  background: linear-gradient(135deg, var(--color-background) 0%, var(--color-accent) 100%);
 }

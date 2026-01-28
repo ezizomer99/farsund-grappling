@@ -31,18 +31,20 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
       <Box
         sx={{
           position: 'relative',
-          color: 'white',
+          color: '#F0F0DB',
           minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          mt: '-72px', // Pull up to cover navbar area
+          pt: '72px', // Add padding to compensate for the negative margin
         }}
       >
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), transparent)',
+            background: 'linear-gradient(to bottom, rgba(48, 54, 79, 0.5), transparent)',
             zIndex: 1,
           }}
         />
@@ -58,10 +60,10 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
           <FadeIn delay={0.2}>
             <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="Farsund Grappling Logo"
-                width={300}
-                height={300}
+                width={400}
+                height={400}
                 priority
                 style={{ objectFit: 'contain' }}
               />
@@ -95,6 +97,14 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                   py: 2,
                   px: 4,
                   fontSize: '1.1rem',
+                  bgcolor: '#30364F',
+                  color: '#F0F0DB',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    bgcolor: '#4a5268',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 6px 20px rgba(48, 54, 79, 0.4)',
+                  },
                 }}
               >
                 {homepage?.heroSection?.scheduleButtonText || 'Se Timeplanen'}
@@ -108,13 +118,16 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                   py: 2,
                   px: 4,
                   fontSize: '1.1rem',
-                  borderColor: 'white',
-                  color: 'white',
+                  borderColor: '#F0F0DB',
+                  color: '#F0F0DB',
                   backdropFilter: 'blur(8px)',
+                  transition: 'all 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'white',
-                    borderColor: 'white',
-                    color: 'text.primary',
+                    backgroundColor: '#F0F0DB',
+                    borderColor: '#F0F0DB',
+                    color: '#30364F',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 6px 20px rgba(240, 240, 219, 0.3)',
                   },
                 }}
               >
@@ -126,13 +139,13 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
       </Box>
       
       {/* Features Section */}
-      <Box sx={{ py: 8, px: 2, bgcolor: 'background.paper' }}>
+      <Box sx={{ py: 8, px: 2, bgcolor: 'rgba(240, 240, 219, 0.7)' }}>
         <Container maxWidth="lg">
           <ScrollReveal>
             <Typography
               variant="h2"
               align="center"
-              sx={{ mb: 8, fontWeight: 700, color: 'text.primary' }}
+              sx={{ mb: 8, fontWeight: 700, color: '#30364F' }}
             >
               {homepage?.whyTrainWithUs?.title || 'Hvorfor Trene Med Oss?'}
             </Typography>
@@ -147,20 +160,25 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                       <Card
                         sx={{
                           height: '100%',
-                          bgcolor: 'grey.100',
+                          bgcolor: '#E1D9BC',
+                          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: 6,
+                          },
                         }}
                       >
                         <CardContent sx={{ p: 4 }}>
                           <Typography
                             variant="h1"
-                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                            sx={{ fontSize: '3rem', mb: 2, color: '#30364F' }}
                           >
                             {feature.icon}
                           </Typography>
-                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                             {feature.title}
                           </Typography>
-                          <Typography variant="body1" color="text.secondary">
+                          <Typography variant="body1" sx={{ color: '#4a5268' }}>
                             {feature.description}
                           </Typography>
                         </CardContent>
@@ -173,18 +191,26 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                 <>
                   <Grid size={{ xs: 12, md: 4 }}>
                     <StaggerItem>
-                      <Card sx={{ height: '100%', bgcolor: 'grey.100' }}>
+                      <Card sx={{ 
+                        height: '100%', 
+                        bgcolor: '#E1D9BC',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: 6,
+                        },
+                      }}>
                         <CardContent sx={{ p: 4 }}>
                           <Typography
                             variant="h1"
-                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                            sx={{ fontSize: '3rem', mb: 2, color: '#30364F' }}
                           >
                             🥋
                           </Typography>
-                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                             Erfaren Instruktør
                           </Typography>
-                          <Typography variant="body1" color="text.secondary">
+                          <Typography variant="body1" sx={{ color: '#4a5268' }}>
                             Lær fra en erfaren instruktør, som vil veilede deg gjennom teknikker og konsepter.
                           </Typography>
                         </CardContent>
@@ -194,18 +220,26 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                   
                   <Grid size={{ xs: 12, md: 4 }}>
                     <StaggerItem>
-                      <Card sx={{ height: '100%', bgcolor: 'grey.100' }}>
+                      <Card sx={{ 
+                        height: '100%', 
+                        bgcolor: '#E1D9BC',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: 6,
+                        },
+                      }}>
                         <CardContent sx={{ p: 4 }}>
                           <Typography
                             variant="h1"
-                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                            sx={{ fontSize: '3rem', mb: 2, color: '#30364F' }}
                           >
                             👨‍👩‍👧‍👦
                           </Typography>
-                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                             Støttende Fellesskap
                           </Typography>
-                          <Typography variant="body1" color="text.secondary">
+                          <Typography variant="body1" sx={{ color: '#4a5268' }}>
                             Bli med i et vennlig og inkluderende miljø hvor alle hjelper hverandre med å bli bedre.
                           </Typography>
                         </CardContent>
@@ -215,18 +249,26 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                   
                   <Grid size={{ xs: 12, md: 4 }}>
                     <StaggerItem>
-                      <Card sx={{ height: '100%', bgcolor: 'grey.100' }}>
+                      <Card sx={{ 
+                        height: '100%', 
+                        bgcolor: '#E1D9BC',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: 6,
+                        },
+                      }}>
                         <CardContent sx={{ p: 4 }}>
                           <Typography
                             variant="h1"
-                            sx={{ fontSize: '3rem', mb: 2, color: 'primary.main' }}
+                            sx={{ fontSize: '3rem', mb: 2, color: '#30364F' }}
                           >
                             🏆
                           </Typography>
-                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                          <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                             Alle Ferdighetsnivåer
                           </Typography>
-                          <Typography variant="body1" color="text.secondary">
+                          <Typography variant="body1" sx={{ color: '#4a5268' }}>
                             Uansett om du er helt nybegynner eller en erfaren utøver, har vi klasser for deg.
                           </Typography>
                         </CardContent>
@@ -246,33 +288,27 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
           py: 8,
           px: 2,
           position: 'relative',
+          bgcolor: 'rgba(240, 240, 219, 0.85)', // Semi-transparent to show background
         }}
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            backdropFilter: 'blur(4px)',
-          }}
-        />
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <ScrollReveal>
-            <Typography variant="h2" sx={{ fontWeight: 700, mb: 4, color: 'text.primary' }}>
+            <Typography variant="h2" sx={{ fontWeight: 700, mb: 4, color: '#30364F' }}>
               {homepage?.whatIsGrappling?.title || '🤼‍♂️ Hva er Grappling?'}
             </Typography>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
             <Box sx={{ mb: 4 }}>
               {homepage?.whatIsGrappling?.content ? (
-                <Box sx={{ fontSize: '1.25rem', color: 'text.primary' }}>
+                <Box sx={{ fontSize: '1.25rem', color: '#30364F' }}>
                   <RichText content={homepage.whatIsGrappling.content} />
                 </Box>
               ) : (
                 <>
-                  <Typography variant="h6" sx={{ mb: 4, lineHeight: 1.8, color: 'text.primary' }}>
+                  <Typography variant="h6" sx={{ mb: 4, lineHeight: 1.8, color: '#30364F' }}>
                     Grappling er en fellesnevner for kampsporter som er grepsbaserte (BJJ / judo / bryting / submission wrestling), i motsetning til de som benytter slag og spark. I stedet brukes teknikker som kast, posisjonering og bakkekontroll – med mål om å avslutte kampen ved hjelp av leddlåser eller kvelinger.
                   </Typography>
-                  <Typography variant="h6" sx={{ mb: 4, lineHeight: 1.8, color: 'text.primary' }}>
+                  <Typography variant="h6" sx={{ mb: 4, lineHeight: 1.8, color: '#30364F' }}>
                     Disse avslutningene kalles submissions, fordi motstanderen må gi seg (&quot;tappe ut&quot;) for å unngå skade når teknikken utføres korrekt. (obs: man skader ikke hverandre på trening med vilje)          
                   </Typography>
                 </>
@@ -290,6 +326,14 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                 py: 2,
                 px: 4,
                 fontSize: '1.1rem',
+                bgcolor: '#30364F',
+                color: '#F0F0DB',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  bgcolor: '#4a5268',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 6px 20px rgba(48, 54, 79, 0.4)',
+                },
               }}
             >
               {homepage?.whatIsGrappling?.ctaButtonText || 'Start i Dag'}
@@ -299,7 +343,7 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
       </Box>
       
       {/* Latest News Preview Section */}
-      <Box sx={{ py: 8, px: 2, bgcolor: 'background.paper' }}>
+      <Box sx={{ py: 8, px: 2, bgcolor: 'rgba(240, 240, 219, 0.7)' }}>
         <Container maxWidth="lg">
           <ScrollReveal>
             <Box
@@ -310,14 +354,14 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
                 mb: 6,
               }}
             >
-              <Typography variant="h2" sx={{ fontWeight: 700, color: 'text.primary' }}>
+              <Typography variant="h2" sx={{ fontWeight: 700, color: '#30364F' }}>
                 {homepage?.newsSection?.title || 'Siste Nytt'}
               </Typography>
               <Button
                 component={Link}
                 href="/news"
                 endIcon={<ChevronRightIcon />}
-                sx={{ fontWeight: 500 }}
+                sx={{ fontWeight: 500, color: '#30364F' }}
               >
                 {homepage?.newsSection?.viewAllText || 'Se Alle'}
               </Button>
@@ -329,39 +373,49 @@ export default function HomeClient({ newsArticles, homepage }: HomeClientProps) 
               {newsArticles.slice(0, 3).map((article) => (
                 <Grid size={{ xs: 12, md: 4 }} key={article._id}>
                   <StaggerItem>
-                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <Card sx={{ 
+                      height: '100%', 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      bgcolor: '#E1D9BC',
+                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: 6,
+                      },
+                    }}>
                       <Box
                         sx={{
-                          bgcolor: 'grey.200',
+                          bgcolor: '#F0F0DB',
                           height: 192,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
+                          overflow: 'hidden',
                         }}
                       >
-                        <Typography color="text.secondary">
+                        <Typography sx={{ color: '#4a5268' }}>
                           Nyhetsbilde plassholder
                         </Typography>
                       </Box>
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Typography
                           variant="caption"
-                          color="text.secondary"
-                          sx={{ mb: 1, display: 'block' }}
+                          sx={{ mb: 1, display: 'block', color: '#4a5268' }}
                         >
                           {new Date(article.publishedAt).toLocaleDateString('no-NO')}
                         </Typography>
-                        <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                        <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                           {article.title}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                        <Typography variant="body1" sx={{ mb: 3, color: '#4a5268' }}>
                           {article.summary}
                         </Typography>
                         <Button
                           component={Link}
                           href="/news"
                           endIcon={<ArrowForwardIcon />}
-                          sx={{ fontWeight: 500 }}
+                          sx={{ fontWeight: 500, color: '#30364F' }}
                         >
                           {homepage?.newsSection?.readMoreText || 'Les Mer'}
                         </Button>

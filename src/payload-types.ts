@@ -73,6 +73,7 @@ export interface Config {
     'club-info': ClubInfo;
     instructors: Instructor;
     'training-programs': TrainingProgram;
+    'training-page': TrainingPage;
     news: News;
     facility: Facility;
     background: Background;
@@ -89,6 +90,7 @@ export interface Config {
     'club-info': ClubInfoSelect<false> | ClubInfoSelect<true>;
     instructors: InstructorsSelect<false> | InstructorsSelect<true>;
     'training-programs': TrainingProgramsSelect<false> | TrainingProgramsSelect<true>;
+    'training-page': TrainingPageSelect<false> | TrainingPageSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     facility: FacilitySelect<false> | FacilitySelect<true>;
     background: BackgroundSelect<false> | BackgroundSelect<true>;
@@ -397,6 +399,53 @@ export interface TrainingProgram {
   createdAt: string;
 }
 /**
+ * Manage the Training page content including general information
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "training-page".
+ */
+export interface TrainingPage {
+  id: string;
+  /**
+   * Page title displayed at the top
+   */
+  title: string;
+  /**
+   * General information section displayed below the schedule
+   */
+  generalInfo: {
+    sectionTitle: string;
+    whatToBring: {
+      title: string;
+      items: {
+        item: string;
+        id?: string | null;
+      }[];
+    };
+    hygiene: {
+      title: string;
+      /**
+       * Introductory text before the list
+       */
+      intro?: string | null;
+      items: {
+        item: string;
+        id?: string | null;
+      }[];
+    };
+    environment: {
+      title: string;
+      content: string;
+    };
+  };
+  /**
+   * Select which training programs to display on this page (leave empty to show all active programs)
+   */
+  trainingPrograms?: (string | TrainingProgram)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
@@ -477,14 +526,6 @@ export interface Background {
    * Background image for the entire site
    */
   backgroundImage?: (string | null) | Media;
-  /**
-   * Opacity of the overlay (0 = transparent, 1 = fully opaque)
-   */
-  overlayOpacity: number;
-  /**
-   * Hex color code for overlay (e.g., #000000 for black)
-   */
-  overlayColor: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -535,6 +576,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'training-programs';
         value: string | TrainingProgram;
+      } | null)
+    | ({
+        relationTo: 'training-page';
+        value: string | TrainingPage;
       } | null)
     | ({
         relationTo: 'news';
@@ -791,6 +836,50 @@ export interface TrainingProgramsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "training-page_select".
+ */
+export interface TrainingPageSelect<T extends boolean = true> {
+  title?: T;
+  generalInfo?:
+    | T
+    | {
+        sectionTitle?: T;
+        whatToBring?:
+          | T
+          | {
+              title?: T;
+              items?:
+                | T
+                | {
+                    item?: T;
+                    id?: T;
+                  };
+            };
+        hygiene?:
+          | T
+          | {
+              title?: T;
+              intro?: T;
+              items?:
+                | T
+                | {
+                    item?: T;
+                    id?: T;
+                  };
+            };
+        environment?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+            };
+      };
+  trainingPrograms?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news_select".
  */
 export interface NewsSelect<T extends boolean = true> {
@@ -834,8 +923,6 @@ export interface FacilitySelect<T extends boolean = true> {
 export interface BackgroundSelect<T extends boolean = true> {
   title?: T;
   backgroundImage?: T;
-  overlayOpacity?: T;
-  overlayColor?: T;
   updatedAt?: T;
   createdAt?: T;
 }

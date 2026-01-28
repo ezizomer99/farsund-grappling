@@ -16,6 +16,7 @@ import { Homepage } from "./collections/Homepage";
 import { ClubInfo } from "./collections/ClubInfo";
 import { Instructors } from "./collections/Instructors";
 import { TrainingPrograms } from "./collections/TrainingPrograms";
+import { TrainingPage } from "./collections/TrainingPage";
 import { News } from "./collections/News";
 import { Facility } from "./collections/Facility";
 import { Background } from "./collections/Background";
@@ -37,6 +38,7 @@ export default buildConfig({
     ClubInfo,
     Instructors,
     TrainingPrograms,
+    TrainingPage,
     News,
     Facility,
     Background,

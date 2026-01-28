@@ -19,9 +19,17 @@ export default async function NewsPage() {
 
   return (
     <PageTransition>
+      <Box
+        sx={{
+          bgcolor: 'rgba(240, 240, 219, 0.5)',
+          backdropFilter: 'blur(8px)',
+          minHeight: '100vh',
+          py: 4,
+        }}
+      >
       <Container maxWidth="md" sx={{ py: 8 }}>
         <FadeIn>
-          <Typography variant="h1" sx={{ mb: 6, color: 'text.primary', fontWeight: 700 }}>
+          <Typography variant="h1" sx={{ mb: 6, color: '#30364F', fontWeight: 700 }}>
             Nyheter
           </Typography>
         </FadeIn>
@@ -29,9 +37,9 @@ export default async function NewsPage() {
         <StaggerContainer>
           <Stack spacing={6}>
             {articles.length === 0 ? (
-              <Card>
+              <Card sx={{ bgcolor: '#E1D9BC' }}>
                 <CardContent sx={{ textAlign: 'center', py: 4 }}>
-                  <Typography color="text.secondary">
+                  <Typography sx={{ color: '#4a5268' }}>
                     Ingen nyheter tilgjengelig for øyeblikket.
                   </Typography>
                 </CardContent>
@@ -39,7 +47,15 @@ export default async function NewsPage() {
             ) : (
               articles.map((article) => (
                 <StaggerItem key={article._id}>
-                  <Card component="article" sx={{ boxShadow: 3 }}>
+                  <Card component="article" sx={{ 
+                    boxShadow: 3, 
+                    bgcolor: '#E1D9BC',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: 6,
+                    },
+                  }}>
                     {article.featuredImage?.url && (
                       <CardMedia
                         component="div"
@@ -54,7 +70,7 @@ export default async function NewsPage() {
                       </CardMedia>
                     )}
                     <CardContent sx={{ p: 4 }}>
-                      <Typography variant="h4" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                      <Typography variant="h4" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
                         {article.title}
                       </Typography>
                       <Stack
@@ -70,21 +86,23 @@ export default async function NewsPage() {
                           })}
                           size="small"
                           variant="outlined"
+                          sx={{ borderColor: '#30364F', color: '#30364F' }}
                         />
                         {article.author && (
                           <Chip
-                            icon={<PersonIcon />}
+                            icon={<PersonIcon sx={{ color: '#30364F !important' }} />}
                             label={`av ${article.author.name}`}
                             size="small"
                             variant="outlined"
+                            sx={{ borderColor: '#30364F', color: '#30364F' }}
                           />
                         )}
                       </Stack>
                       
-                      <Typography variant="body1" sx={{ mb: 3 }} color="text.secondary">
+                      <Typography variant="body1" sx={{ mb: 3, color: '#4a5268' }}>
                         {article.summary}
                       </Typography>
-                      <Box sx={{ color: 'text.primary' }}>
+                      <Box sx={{ color: '#30364F' }}>
                         <RichText content={article.content} />
                       </Box>
                     </CardContent>
@@ -95,6 +113,7 @@ export default async function NewsPage() {
           </Stack>
         </StaggerContainer>
       </Container>
+      </Box>
     </PageTransition>
   );
 }

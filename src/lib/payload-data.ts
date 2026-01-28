@@ -8,6 +8,7 @@ import type {
   NewsArticle,
   Facility,
   Background,
+  TrainingPageData,
 } from "@/lib/data";
 
 let cachedPayload: any = null;
@@ -38,7 +39,7 @@ function convertInstructor(doc: any): Instructor {
               : doc.name,
         }
       : undefined,
-    bio: doc.bio ? [doc.bio] : [],
+    bio: doc.bio || null, // richText content passed directly
     email: doc.email,
     phone: doc.phone,
     order: doc.order,
@@ -62,8 +63,9 @@ export async function getHomepage(): Promise<Homepage | null> {
       heroSection: doc.heroSection,
       whyTrainWithUs: doc.whyTrainWithUs,
       whatIsGrappling: {
-        ...doc.whatIsGrappling,
-        content: [doc.whatIsGrappling.content],
+        title: doc.whatIsGrappling?.title,
+        content: doc.whatIsGrappling?.content, // richText is already in correct format
+        ctaButtonText: doc.whatIsGrappling?.ctaButtonText,
       },
       newsSection: doc.newsSection,
     };
@@ -87,7 +89,7 @@ export async function getClubInfo(): Promise<ClubInfo | null> {
     return {
       _id: String(doc.id),
       title: doc.title,
-      story: [doc.story],
+      story: doc.story, // richText content passed directly
       mission: doc.mission,
       values: doc.values,
       contactInfo: doc.contactInfo,
@@ -154,7 +156,7 @@ export async function getTrainingPrograms(): Promise<TrainingProgram[]> {
       _id: String(doc.id),
       name: doc.name,
       slug: { current: String(doc.id) },
-      description: [doc.description],
+      description: doc.description, // richText content passed directly
       level: doc.level,
       ageGroup: doc.ageGroup,
       schedule: doc.schedule.map((s: any) => ({
@@ -182,6 +184,86 @@ export async function getTrainingPrograms(): Promise<TrainingProgram[]> {
   } catch (error) {
     console.error("Error fetching training programs:", error);
     return [];
+  }
+}
+
+export async function getTrainingPage(): Promise<TrainingPageData | null> {
+  try {
+    const payload = await getPayloadClient();
+    const result = await payload.find({
+      collection: "training-page",
+      limit: 1,
+    });
+
+    if (result.docs.length === 0) return null;
+
+    const doc = result.docs[0];
+
+    // If trainingPrograms relationship is set, use those; otherwise fetch all active programs
+    let programs: TrainingProgram[] = [];
+    if (doc.trainingPrograms && doc.trainingPrograms.length > 0) {
+      programs = doc.trainingPrograms
+        .map((p: any) => {
+          const program = typeof p === "object" ? p : null;
+          if (!program) return null;
+          return {
+            _id: String(program.id),
+            name: program.name,
+            slug: { current: String(program.id) },
+            description: program.description,
+            level: program.level,
+            ageGroup: program.ageGroup,
+            schedule:
+              program.schedule?.map((s: any) => ({
+                day: s.day,
+                startTime: s.startTime,
+                endTime: s.endTime,
+                instructor: s.instructor
+                  ? {
+                      name:
+                        typeof s.instructor === "object"
+                          ? s.instructor.name
+                          : "Unknown",
+                      slug: {
+                        current:
+                          typeof s.instructor === "object"
+                            ? s.instructor.id
+                            : s.instructor,
+                      },
+                    }
+                  : undefined,
+              })) || [],
+            isActive: program.isActive,
+            order: program.order,
+          };
+        })
+        .filter(Boolean);
+    }
+
+    return {
+      _id: String(doc.id),
+      title: doc.title || "Treningskalender",
+      generalInfo: {
+        sectionTitle: doc.generalInfo?.sectionTitle || "Generell informasjon",
+        whatToBring: {
+          title: doc.generalInfo?.whatToBring?.title || "Hva bør du ta med?",
+          items: doc.generalInfo?.whatToBring?.items || [],
+        },
+        hygiene: {
+          title: doc.generalInfo?.hygiene?.title || "Hygiene:",
+          intro: doc.generalInfo?.hygiene?.intro,
+          items: doc.generalInfo?.hygiene?.items || [],
+        },
+        environment: {
+          title: doc.generalInfo?.environment?.title || "Miljø:",
+          content: doc.generalInfo?.environment?.content || "",
+        },
+      },
+      trainingPrograms: programs.length > 0 ? programs : undefined,
+    };
+  } catch (error) {
+    console.error("Error fetching training page:", error);
+    return null;
   }
 }
 
@@ -223,7 +305,7 @@ export async function getNewsArticles(): Promise<NewsArticle[]> {
           }
         : undefined,
       summary: doc.summary,
-      content: [doc.content],
+      content: doc.content, // richText content passed directly
       status: doc.status,
     }));
   } catch (error) {
@@ -277,7 +359,7 @@ export async function getNewsArticle(
           }
         : undefined,
       summary: doc.summary,
-      content: [doc.content],
+      content: doc.content, // richText content passed directly
       status: doc.status,
     };
   } catch (error) {
@@ -318,7 +400,7 @@ export async function getFacility(): Promise<Facility | null> {
       },
       opportunities: {
         title: doc.opportunities.title,
-        description: [doc.opportunities.description],
+        description: doc.opportunities.description, // richText content passed directly
       },
     };
   } catch (error) {
@@ -353,8 +435,6 @@ export async function getBackground(): Promise<Background | null> {
                 : "Background",
           }
         : undefined,
-      overlayOpacity: doc.overlayOpacity,
-      overlayColor: doc.overlayColor,
     };
   } catch (error) {
     console.error("Error fetching background:", error);

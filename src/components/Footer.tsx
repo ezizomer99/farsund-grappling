@@ -12,9 +12,9 @@ export default async function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: '#30364F',
         backdropFilter: 'blur(8px)',
-        color: 'white',
+        color: '#F0F0DB',
         py: 6,
         px: 3,
       }}
@@ -22,25 +22,25 @@ export default async function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, md: 4 }}>
-            <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ mb: 0.5, display: 'flex', justifyContent: 'center' }}>
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="Farsund Grappling"
                 width={450}
                 height={150}
                 style={{ objectFit: 'contain' }}
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'white', lineHeight: 1.7, textAlign: 'center' }}>
-              {clubInfo?.mission || 'En dedikert kampsportklubb i Farsund som tilbyr grappling og Brazilian Jiu-Jitsu for alle nivåer.'}
+            <Typography variant="body2" sx={{ color: '#F0F0DB', lineHeight: 1.7, textAlign: 'center' }}>
+              {clubInfo?.mission || 'Plassholder'}
             </Typography>
           </Grid>
           
           <Grid size={{ xs: 12, md: 4 }}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'white' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#F0F0DB' }}>
               Kontakt
             </Typography>
-            <Box component="address" sx={{ fontStyle: 'normal', color: 'white' }}>
+            <Box component="address" sx={{ fontStyle: 'normal', color: '#F0F0DB' }}>
               {clubInfo?.contactInfo?.address && (
                 <MuiLink
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clubInfo.contactInfo.address)}`}
@@ -51,11 +51,11 @@ export default async function Footer() {
                     alignItems: 'flex-start',
                     gap: 1,
                     mb: 2,
-                    color: 'white',
+                    color: '#F0F0DB',
                     textDecoration: 'none',
                     transition: 'color 0.3s',
                     '&:hover': {
-                      color: 'primary.light',
+                      color: '#E1D9BC',
                     },
                   }}
                 >
@@ -73,11 +73,11 @@ export default async function Footer() {
                     <MuiLink
                       href={`mailto:${clubInfo.contactInfo.email}`}
                       sx={{
-                        color: 'white',
+                        color: '#F0F0DB',
                         textDecoration: 'underline',
                         transition: 'color 0.3s',
                         '&:hover': {
-                          color: 'primary.light',
+                          color: '#E1D9BC',
                         },
                       }}
                     >
@@ -90,10 +90,10 @@ export default async function Footer() {
           </Grid>
           
           <Grid size={{ xs: 12, md: 4 }}>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'white' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#F0F0DB' }}>
               Sosialt
             </Typography>
-            <Typography variant="body2" sx={{ color: 'white', mb: 2 }}>
+            <Typography variant="body2" sx={{ color: '#F0F0DB', mb: 2 }}>
               Følg oss på sosiale medier og bli en del av fellesskapet.
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -106,11 +106,11 @@ export default async function Footer() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
-                    color: 'white',
+                    color: '#F0F0DB',
                     textDecoration: 'none',
                     transition: 'color 0.3s',
                     '&:hover': {
-                      color: 'primary.light',
+                      color: '#E1D9BC',
                     },
                   }}
                 >
@@ -127,11 +127,11 @@ export default async function Footer() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
-                    color: 'white',
+                    color: '#F0F0DB',
                     textDecoration: 'none',
                     transition: 'color 0.3s',
                     '&:hover': {
-                      color: 'primary.light',
+                      color: '#E1D9BC',
                     },
                   }}
                 >
@@ -143,23 +143,23 @@ export default async function Footer() {
           </Grid>
         </Grid>
         
-        <Divider sx={{ my: 4, borderColor: 'rgba(255, 255, 255, 0.2)' }} />
+        <Divider sx={{ my: 4, borderColor: 'rgba(240, 240, 219, 0.2)' }} />
         
         <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+          <Typography variant="body2" sx={{ color: 'rgba(240, 240, 219, 0.7)' }}>
             &copy; {new Date().getFullYear()} Farsund Grappling. Alle rettigheter reservert.
           </Typography>
-          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mt: 1 }}>
+          <Typography variant="body2" sx={{ color: 'rgba(240, 240, 219, 0.7)', mt: 1 }}>
             Nettside utviklet av{' '}
             <MuiLink
               href="https://omerdigital.com"
               target="_blank"
               rel="noopener noreferrer"
               sx={{
-                color: 'primary.light',
+                color: '#E1D9BC',
                 textDecoration: 'underline',
                 '&:hover': {
-                  color: 'primary.main',
+                  color: '#F0F0DB',
                 },
               }}
             >
