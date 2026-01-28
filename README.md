@@ -6,7 +6,7 @@ A modern, dynamic website for **Farsund Grappling Club** (Brazilian Jiu-Jitsu) b
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Payload CMS](https://img.shields.io/badge/Payload_CMS-3.73.0-000000?style=flat&logo=payload&logoColor=white)
 ![Material-UI](https://img.shields.io/badge/MUI-7.3.7-007FFF?style=flat&logo=mui&logoColor=white)
-![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?style=flat&logo=cloudflare&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=flat&logo=vercel&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat&logo=mongodb&logoColor=white)
 
 ## 🎯 Features
@@ -74,8 +74,8 @@ A modern, dynamic website for **Farsund Grappling Club** (Brazilian Jiu-Jitsu) b
 ### Deployment & Hosting
 | Technology | Purpose |
 |------------|---------|
-| Cloudflare Pages | Edge hosting platform |
-| @cloudflare/next-on-pages | Build adapter |
+| Vercel | Hosting platform |
+| Vercel Blob | Media storage |
 | MongoDB Atlas | Cloud database (recommended) |
 
 ### Development Tools
@@ -156,7 +156,6 @@ npm run build        # Build for production
 npm run start        # Start production server
 npm run seed         # Populate database with initial content
 npm run payload      # Run Payload CLI commands
-npm run deploy       # Deploy to Cloudflare Pages
 ```
 
 ## 📁 Project Structure
@@ -222,8 +221,7 @@ farsund-grappling/
 ├── DEPLOYMENT_CHECKLIST.md          # Production deployment
 ├── package.json
 ├── tsconfig.json
-├── next.config.ts
-└── wrangler.jsonc                   # Cloudflare Pages config
+└── next.config.ts
 ```
 
 ## 🎨 Styling & Design
@@ -278,30 +276,31 @@ Located in `src/components/animations/`
 
 ## 🚀 Deployment
 
-### Cloudflare Pages Deployment
+### Vercel Deployment
 
 #### Prerequisites
-- Cloudflare account
-- Wrangler CLI: `npm install -g wrangler`
+- Vercel account
 - MongoDB Atlas database
 
 #### Deploy Steps
+
+1. Push your code to GitHub
+2. Import project in Vercel dashboard
+3. Configure environment variables
+4. Deploy
+
+Or use the Vercel CLI:
 ```bash
-# Build for Cloudflare Pages
-npm run pages:build
-
-# Preview locally
-npm run preview
-
-# Deploy to production
-npm run deploy
+npm i -g vercel
+vercel
 ```
 
-#### Environment Variables (Cloudflare Dashboard)
+#### Environment Variables (Vercel Dashboard)
 ```env
 PAYLOAD_SECRET=your-production-secret-32-chars-min
 MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>
-NEXT_PUBLIC_SERVER_URL=https://your-domain.com
+NEXT_PUBLIC_SERVER_URL=https://your-domain.vercel.app
+BLOB_READ_WRITE_TOKEN=<your-vercel-blob-token>
 ```
 
 See **[Deployment Checklist](./DEPLOYMENT_CHECKLIST.md)** for complete guide.
@@ -320,11 +319,6 @@ npm run lint             # Run ESLint
 # CMS
 npm run seed             # Seed database with initial content
 npm run payload          # Payload CLI commands
-
-# Deployment
-npm run pages:build      # Build for Cloudflare Pages
-npm run preview          # Preview Cloudflare build locally
-npm run deploy           # Deploy to Cloudflare Pages
 ```
 
 ### Development Workflow
@@ -333,7 +327,7 @@ npm run deploy           # Deploy to Cloudflare Pages
 2. **Edit Code**: Make changes to components/pages
 3. **Edit Content**: Use CMS at `/admin`
 4. **Test**: Verify at http://localhost:3000
-5. **Deploy**: `npm run deploy`
+5. **Build**: `npm run build` for production
 
 ### Adding New Features
 
@@ -360,7 +354,6 @@ npm run deploy           # Deploy to Cloudflare Pages
 ### Performance Optimizations
 - **Next.js Image**: Automatic optimization with Sharp
 - **Turbopack**: Fast development builds
-- **Edge Deployment**: Cloudflare edge network
 - **Code Splitting**: Automatic with App Router
 - **Server Components**: Reduced client JS
 

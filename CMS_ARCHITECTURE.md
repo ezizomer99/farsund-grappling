@@ -8,9 +8,8 @@
 | **CMS** | Payload CMS 3.x | Content management |
 | **Database** | MongoDB | Document storage |
 | **UI** | Material-UI 7.x | Component library & styling |
-| **Animations** | Framer Motion | Page transitions |
-| **Deployment** | Cloudflare Pages | Edge hosting |
-
+| **Animations** | Framer Motion | Page transitions || **Deployment** | Vercel | Hosting platform |
+| **Storage** | Vercel Blob | Media file storage |
 ## System Overview
 
 ```
@@ -231,9 +230,10 @@ Local Machine
 
 ### Production (Recommended)
 ```
-Cloudflare Pages
-├── Static Next.js Site
-├── Edge Functions for dynamic routes
+Vercel
+├── Next.js Application (Serverless)
+├── Payload CMS Backend
+├── Vercel Blob (Media Storage)
 └── Connection to MongoDB Atlas (Cloud)
 ```
 
@@ -307,7 +307,8 @@ Backend:
 └── Sharp (Image Processing)
 
 Deployment:
-├── Cloudflare Pages
+├── Vercel
+├── Vercel Blob (Media)
 └── MongoDB Atlas
 ```
 

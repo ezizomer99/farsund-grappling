@@ -9,7 +9,7 @@ A modern website for **Farsund Grappling Club** (Brazilian Jiu-Jitsu), built wit
 - **CMS**: Payload CMS 3.x with MongoDB database
 - **UI**: Material-UI (MUI) 7.x
 - **Animations**: Framer Motion 12.x
-- **Deployment**: Cloudflare Pages
+- **Deployment**: Vercel with Vercel Blob storage
 
 ## Project Structure
 
@@ -39,8 +39,8 @@ src/
 ```bash
 npm run dev          # Start development server (Turbopack)
 npm run build        # Production build
+npm run start        # Start production server
 npm run seed         # Seed CMS database with initial content
-npm run deploy       # Deploy to Cloudflare Pages
 npm run lint         # Run ESLint
 ```
 

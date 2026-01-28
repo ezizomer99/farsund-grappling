@@ -24,7 +24,7 @@ Use this checklist when you're ready to deploy the CMS to production.
 - [ ] Configure MongoDB network access
 
 ### Environment Variables (Production)
-Create these in your Cloudflare Pages settings:
+Set these in your hosting environment:
 
 ```env
 # REQUIRED
@@ -56,50 +56,56 @@ NODE_ENV=production
 - [ ] Verify all links work
 - [ ] Check form submissions (if any)
 
-## 🌐 Cloudflare Pages Deployment
+## 🌐 Vercel Deployment
 
 ### 1. Prepare for Deployment
 
 ```bash
-# Build the project
+# Build the project locally to test
 npm run build
 
 # Test production build locally
 npm run start
 ```
 
-### 2. Deploy to Cloudflare Pages
+### 2. Deploy to Vercel
 
+**Option A: Git Integration (Recommended)**
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com) and import your repository
+3. Vercel will auto-detect Next.js settings
+4. Add environment variables (see below)
+5. Click Deploy
+
+**Option B: Vercel CLI**
 ```bash
-# Build for Cloudflare Pages
-npm run pages:build
-
-# Deploy
-npm run deploy
+npm i -g vercel
+vercel
 ```
 
-Or use Cloudflare Pages dashboard:
-1. Connect your Git repository
-2. Set build command: `npm run pages:build`
-3. Set output directory: `.vercel/output/static`
-4. Add environment variables (see above)
+### 3. Configure Environment Variables in Vercel
 
-### 3. Configure Environment Variables in Cloudflare
-
-Go to Cloudflare Pages → Settings → Environment Variables:
+Go to Vercel Dashboard → Project Settings → Environment Variables:
 
 Add all production environment variables:
 - `PAYLOAD_SECRET`
 - `MONGODB_URI`
 - `NEXT_PUBLIC_SERVER_URL`
+- `BLOB_READ_WRITE_TOKEN` (for Vercel Blob storage)
 
-### 4. Custom Domain Setup
+### 4. Set Up Vercel Blob Storage
 
-In Cloudflare Pages:
-1. Go to Custom Domains
-2. Add your domain
+1. Go to Vercel Dashboard → Storage
+2. Create a new Blob store
+3. Connect it to your project
+4. The `BLOB_READ_WRITE_TOKEN` will be auto-added
+
+### 5. Custom Domain Setup
+
+1. Go to Vercel Dashboard → Project → Settings → Domains
+2. Add your custom domain
 3. Follow DNS configuration instructions
-4. Wait for SSL certificate provisioning
+4. SSL certificate is automatic
 
 ## 🔒 Post-Deployment Security
 
@@ -116,7 +122,7 @@ In Cloudflare Pages:
 - [ ] Go to Network Access
 - [ ] Add IP addresses:
   - [ ] Your office IP (if accessing from office)
-  - [ ] Cloudflare Pages IP ranges (if needed)
+  - [ ] Your hosting provider IP ranges (if needed)
   - [ ] Remove `0.0.0.0/0` if present (allows all IPs)
 - [ ] Go to Database Access
 - [ ] Review user permissions
@@ -178,15 +184,15 @@ Need help? See the guide: [link to CMS_SETUP_GUIDE.md]
 
 ### What to Monitor
 - [ ] Database storage usage (MongoDB Atlas dashboard)
-- [ ] Media storage (public/media folder size)
-- [ ] Website performance (Cloudflare Analytics)
-- [ ] Error logs (Cloudflare Pages logs)
+- [ ] Media storage (Vercel Blob dashboard)
+- [ ] Website performance (Vercel Analytics)
+- [ ] Error logs (Vercel deployment logs)
 - [ ] User activity (review CMS access logs)
 
 ### Regular Tasks
 
 **Daily:**
-- Check Cloudflare Pages deployment status
+- Check Vercel deployment status
 - Review any error notifications
 
 **Weekly:**
@@ -210,10 +216,10 @@ Need help? See the guide: [link to CMS_SETUP_GUIDE.md]
 
 ### If CMS Goes Down
 
-1. Check Cloudflare Pages status
+1. Check Vercel status at [status.vercel.com](https://status.vercel.com)
 2. Verify MongoDB Atlas is online
-3. Check environment variables are set
-4. Review deployment logs
+3. Check environment variables in Vercel dashboard
+4. Review deployment logs in Vercel
 5. Rollback to previous deployment if needed
 
 ### If Database Connection Fails
@@ -246,11 +252,11 @@ If you plan to add a mobile app in the future:
 
 If something goes wrong:
 
-### Cloudflare Pages Rollback
-1. Go to Cloudflare Pages dashboard
-2. Find Deployments section
-3. Click on previous successful deployment
-4. Click "Rollback to this deployment"
+### Vercel Rollback
+1. Go to Vercel Dashboard → Your Project → Deployments
+2. Find a previous successful deployment
+3. Click the three dots menu (⋮)
+4. Select "Promote to Production"
 
 ### Database Rollback
 1. Access MongoDB Atlas
@@ -299,13 +305,13 @@ Once everything is checked:
 
 ## 📧 Support Contacts
 
+**Vercel Support:**
+- Documentation: https://vercel.com/docs
+- Status: https://status.vercel.com
+
 **MongoDB Atlas Support:**
 - Website: https://www.mongodb.com/cloud/atlas/support
 - Documentation: https://docs.atlas.mongodb.com/
-
-**Cloudflare Pages Support:**
-- Website: https://developers.cloudflare.com/pages/
-- Community: https://community.cloudflare.com/
 
 **Payload CMS Support:**
 - Documentation: https://payloadcms.com/docs
@@ -314,10 +320,10 @@ Once everything is checked:
 
 ## 🎓 Additional Resources
 
+- [Vercel Documentation](https://vercel.com/docs)
 - [Payload CMS Documentation](https://payloadcms.com/docs)
-- [Next.js Deployment](https://nextjs.org/docs/deployment)
+- [Next.js Deployment on Vercel](https://nextjs.org/docs/deployment)
 - [MongoDB Atlas Best Practices](https://docs.atlas.mongodb.com/best-practices/)
-- [Cloudflare Pages Documentation](https://developers.cloudflare.com/pages/)
 
 ---
 

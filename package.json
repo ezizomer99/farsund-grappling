@@ -8,9 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy",
     "seed": "tsx src/scripts/seed.ts",
     "payload": "payload"
   },
@@ -22,7 +19,6 @@
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
     "@mui/material-nextjs": "^7.3.7",
-    "@opennextjs/cloudflare": "^1.6.5",
     "@payloadcms/db-mongodb": "^3.73.0",
     "@payloadcms/next": "^3.73.0",
     "@payloadcms/richtext-lexical": "^3.73.0",
@@ -39,7 +35,6 @@
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.13",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^18.3.23",
@@ -47,7 +42,6 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "15.4.6",
     "tsx": "^4.20.3",
-    "typescript": "^5",
-    "wrangler": "^4.28.1"
+    "typescript": "^5"
   }
 }

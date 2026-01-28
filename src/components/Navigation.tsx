@@ -329,14 +329,6 @@ export default function Navigation() {
           }}
         >
           <Box sx={{ fontSize: '1.5rem', mb: 0.5 }}>🥋</Box>
-          <Box sx={{ 
-            fontSize: '0.7rem', 
-            color: 'rgba(240, 240, 219, 0.6)',
-            letterSpacing: '1px',
-            textTransform: 'uppercase',
-          }}>
-            Train Hard, Stay Humble
-          </Box>
         </Box>
       </Drawer>
     </>

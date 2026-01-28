@@ -260,7 +260,7 @@ Before giving instructors access:
 - [ ] Create individual instructor accounts with strong passwords
 - [ ] Test permission levels
 - [ ] Enable MongoDB authentication
-- [ ] Use HTTPS in production (Cloudflare handles this)
+- [ ] Use HTTPS in production
 - [ ] Set up regular database backups
 - [ ] Review MongoDB Atlas IP whitelist
 
