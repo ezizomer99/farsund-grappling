@@ -1,163 +1,344 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// TODO: Add actual logo image
-// Replace the text logo in the navigation bar with an actual image logo
-// Implementation example:
-// import Image from 'next/image';
-// ...
-// <Link href="/">
-//   <Image src="/logo.png" alt="Farsund Grappling Logo" width={180} height={40} />
-// </Link>
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Box,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Navigation() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
-  // Toggle menu function
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  useEffect(() => {
+    setMounted(true);
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 20);
+    };
+    // Check initial scroll position
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Scroll to top when pathname changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   
   // Navigation links
   const navLinks = [
-    { name: 'Hjem', href: '/' },
-    { name: 'Trening', href: '/training' },
-    { name: 'Bli Medlem', href: '/become-member' },
-    { name: 'Om Oss', href: '/about' },
-    { name: 'Nyheter', href: '/news' },
+    { name: 'Hjem', href: '/', icon: '🏠' },
+    { name: 'Trening', href: '/training', icon: '🥋' },
+    { name: 'Bli Medlem', href: '/become-member', icon: '✨' },
+    { name: 'Om Oss', href: '/about', icon: '👥' },
+    { name: 'Nyheter', href: '/news', icon: '📰' },
   ];
 
-  return (
-    <motion.nav 
-      className="bg-black/70 backdrop-blur-sm text-white shadow-md fixed top-0 left-0 right-0 z-50"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: 'spring', stiffness: 100, damping: 15 }}
-    >
-      <div className="container mx-auto px-4">
-        <div className="py-4">
-          {/* Desktop and Mobile Header */}
-          <div className="flex justify-between items-center">
-            <motion.div 
-              className="flex items-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Link href="/" className="text-xl font-bold hover:text-blue-400 transition-colors">
-                {/* This will be replaced with an actual logo image in the future */}
-                <span className="text-xl font-bold">Farsund Grappling</span>
+  const toggleDrawer = (open: boolean) => () => {
+    setIsMenuOpen(open);
+  };
+
+  // Prevent hydration mismatch by not rendering conditional content until mounted
+  if (!mounted) {
+    return (
+      <AppBar 
+        position="fixed" 
+        elevation={0}
+        sx={{ 
+          backgroundColor: 'rgba(48, 54, 79, 0.95)',
+          backdropFilter: 'blur(20px)',
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters sx={{ py: { xs: 0.5, md: 1 }, minHeight: { xs: 64, md: 72 } }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Image
+                  src="/logo.svg"
+                  alt="Farsund Grappling"
+                  width={150}
+                  height={50}
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
               </Link>
-            </motion.div>
-            
-            {/* Hamburger Icon for Mobile */}
-            <motion.button 
-              className="sm:hidden p-2 focus:outline-none" 
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-              whileTap={{ scale: 0.95 }}
-            >
-              <div className="w-6 h-4 relative flex flex-col justify-between">
-                <span className={`bg-white h-0.5 w-full block rounded-sm transition-transform ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-                <span className={`bg-white h-0.5 w-full block rounded-sm transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-                <span className={`bg-white h-0.5 w-full block rounded-sm transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-              </div>
-            </motion.button>
-            
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    );
+  }
+
+  return (
+    <>
+      <AppBar 
+        position="fixed" 
+        elevation={0}
+        sx={{ 
+          backgroundColor: hasScrolled ? 'rgba(48, 54, 79, 0.95)' : 'rgba(48, 54, 79, 0.85)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: hasScrolled ? '1px solid rgba(225, 217, 188, 0.1)' : 'none',
+          transition: 'background-color 0.3s ease, border-bottom 0.3s ease',
+          zIndex: theme.zIndex.appBar,
+          boxSizing: 'border-box',
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar 
+            disableGutters 
+            sx={{ 
+              py: { xs: 0.5, md: 1 }, 
+              minHeight: { xs: 64, md: 72 },
+              justifyContent: 'space-between',
+            }}
+          >
+            {/* Logo */}
+            <Box>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    transition: 'opacity 0.2s',
+                    '&:hover': {
+                      opacity: 0.85,
+                    },
+                  }}
+                >
+                  <Image
+                    src="/logo.svg"
+                    alt="Farsund Grappling"
+                    width={isMobile ? 120 : 150}
+                    height={isMobile ? 42 : 50}
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </Box>
+              </Link>
+            </Box>
+
             {/* Desktop Navigation */}
-            <div className="hidden sm:flex gap-2">
-              {navLinks.map((link, index) => {
-                const isActive = pathname === link.href;
-                
-                return (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ 
-                      duration: 0.3, 
-                      delay: 0.1 * index,
-                      type: 'spring',
-                      stiffness: 100,
-                    }}
-                    className="relative"
-                  >
-                    <Link 
-                      href={link.href}
-                      className={`px-4 py-2 rounded-md transition-all duration-300 block ${
-                        isActive 
-                          ? 'text-white' 
-                          : 'text-white hover:text-blue-400 hover:bg-gray-800/50'
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    {/* Indicator below the link */}
-                    {isActive && (
-                      <motion.div
-                        className="h-1 bg-blue-500 absolute bottom-0 left-0 right-0 mx-4 rounded-t-full"
-                        layoutId="activeNavIndicator"
-                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                      />
-                    )}
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-          
-          {/* Mobile Navigation Menu */}
-          <AnimatePresence>
-            {isMenuOpen && (
-              <motion.div 
-                className="sm:hidden mt-4 flex flex-col gap-2 border-t border-gray-800 pt-4"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
+            {!isMobile && (
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  gap: 0.5,
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: 3,
+                  padding: 0.75,
+                }}
               >
-                {navLinks.map((link, index) => {
+                {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   
                   return (
-                    <motion.div
+                    <Box
                       key={link.name}
-                      initial={{ x: -20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.05 * index }}
-                      className="relative"
+                      sx={{ position: 'relative' }}
                     >
-                      <Link 
-                        href={link.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`px-4 py-3 rounded-md transition-all duration-300 block ${
-                          isActive 
-                            ? 'text-white' 
-                            : 'text-white hover:text-blue-400 hover:bg-gray-800/50'
-                        }`}
-                      >
-                        {link.name}
-                      </Link>
                       {isActive && (
-                        <motion.div
-                          className="w-1 bg-blue-500 absolute top-0 bottom-0 left-0 rounded-r-full"
-                          layoutId="mobileActiveIndicator"
-                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        <Box
+                          component={motion.div}
+                          layoutId="activeNavPill"
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                          sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'linear-gradient(135deg, rgba(225, 217, 188, 0.25) 0%, rgba(225, 217, 188, 0.15) 100%)',
+                            borderRadius: 2,
+                            boxShadow: '0 0 20px rgba(225, 217, 188, 0.2)',
+                          }}
                         />
                       )}
-                    </motion.div>
+                      <Button
+                        component={Link}
+                        href={link.href}
+                        sx={{
+                          color: '#F0F0DB',
+                          px: 2.5,
+                          py: 1,
+                          fontWeight: isActive ? 600 : 400,
+                          fontSize: '0.95rem',
+                          position: 'relative',
+                          zIndex: 1,
+                          textTransform: 'none',
+                          letterSpacing: '0.3px',
+                          borderRadius: 2,
+                          '&:hover': {
+                            backgroundColor: isActive ? 'transparent' : 'rgba(240,240,219,0.1)',
+                          },
+                          transition: 'background-color 0.2s ease',
+                        }}
+                      >
+                        {link.name}
+                      </Button>
+                    </Box>
                   );
                 })}
-              </motion.div>
+              </Box>
             )}
-          </AnimatePresence>
-        </div>
-      </div>
-    </motion.nav>
+
+            {/* Mobile Menu Icon */}
+            {isMobile && (
+              <IconButton
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+                sx={{ 
+                  color: '#F0F0DB',
+                  backgroundColor: 'rgba(225, 217, 188, 0.1)',
+                  padding: 1,
+                  '&:hover': {
+                    backgroundColor: 'rgba(225, 217, 188, 0.2)',
+                  },
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="right"
+        open={isMenuOpen}
+        onClose={toggleDrawer(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: '80%',
+            maxWidth: 300,
+            background: 'linear-gradient(180deg, #30364F 0%, #252a3d 100%)',
+            color: '#F0F0DB',
+            borderLeft: '1px solid rgba(225, 217, 188, 0.1)',
+          },
+        }}
+      >
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          p: 2,
+          borderBottom: '1px solid rgba(225, 217, 188, 0.1)',
+        }}>
+          <Image
+            src="/logo.svg"
+            alt="Farsund Grappling"
+            width={100}
+            height={35}
+            style={{ objectFit: 'contain' }}
+          />
+          <IconButton
+            onClick={toggleDrawer(false)}
+            sx={{ 
+              color: '#F0F0DB',
+              backgroundColor: 'rgba(225, 217, 188, 0.1)',
+              '&:hover': {
+                backgroundColor: 'rgba(225, 217, 188, 0.2)',
+              },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        
+        <List sx={{ pt: 2, px: 1 }}>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            
+            return (
+              <ListItem 
+                key={link.name} 
+                disablePadding
+                sx={{ mb: 0.5 }}
+              >
+                <ListItemButton
+                  component={Link}
+                  href={link.href}
+                  onClick={toggleDrawer(false)}
+                  sx={{
+                    py: 1.5,
+                    px: 2,
+                    borderRadius: 2,
+                    backgroundColor: isActive 
+                      ? 'rgba(225, 217, 188, 0.15)' 
+                      : 'transparent',
+                    border: isActive 
+                      ? '1px solid rgba(225, 217, 188, 0.2)' 
+                      : '1px solid transparent',
+                    '&:hover': {
+                      backgroundColor: 'rgba(225, 217, 188, 0.1)',
+                    },
+                  }}
+                >
+                  <Box sx={{ mr: 2, fontSize: '1.1rem' }}>{link.icon}</Box>
+                  <ListItemText 
+                    primary={link.name}
+                    primaryTypographyProps={{
+                      fontWeight: isActive ? 600 : 400,
+                      fontSize: '1rem',
+                    }}
+                  />
+                  {isActive && (
+                    <Box
+                      sx={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        backgroundColor: '#E1D9BC',
+                        boxShadow: '0 0 10px rgba(225, 217, 188, 0.5)',
+                      }}
+                    />
+                  )}
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+        
+        {/* Decorative element */}
+        <Box 
+          sx={{ 
+            mt: 'auto', 
+            p: 2,
+            borderTop: '1px solid rgba(225, 217, 188, 0.1)',
+            textAlign: 'center',
+          }}
+        >
+          <Box sx={{ fontSize: '1.5rem', mb: 0.5 }}>🥋</Box>
+          <Box sx={{ 
+            fontSize: '0.7rem', 
+            color: 'rgba(240, 240, 219, 0.6)',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+          }}>
+            Train Hard, Stay Humble
+          </Box>
+        </Box>
+      </Drawer>
+    </>
   );
 }

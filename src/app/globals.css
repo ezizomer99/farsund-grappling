@@ -1,30 +1,18 @@
-@import "tailwindcss";
-
+/* Farsund Grappling Color Palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-navbar: #30364F;
+  /* --color-background: #ACBAC4; */
+  --color-cards: #E1D9BC;
+  --color-accent: #F0F0DB;
+  
+  /* RGB values for opacity variations */
+  --color-navbar-rgb: 48, 54, 79;
+  --color-background-rgb: 172, 186, 196;
+  --color-cards-rgb: 225, 217, 188;
+  --color-accent-rgb: 240, 240, 219;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+/* Custom utility classes for background images */
 .bg-grappling-image {
   background-size: cover;
   background-position: center;
@@ -33,5 +21,10 @@ body {
 }
 
 .bg-grappling-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(var(--color-navbar-rgb), 0.7);
+}
+
+/* Background gradient utility */
+.bg-gradient-custom {
+  background: linear-gradient(135deg, var(--color-background) 0%, var(--color-accent) 100%);
 }

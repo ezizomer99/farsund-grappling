@@ -1,79 +1,173 @@
-import { getClubInfo } from "@/lib/sanity.queries";
+import { getClubInfo } from "@/lib/payload-data";
+import { Box, Container, Typography, Link as MuiLink, Divider, Grid } from '@mui/material';
+import Image from 'next/image';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import EmailIcon from '@mui/icons-material/Email';
 
 export default async function Footer() {
   const clubInfo = await getClubInfo();
   return (
-    <footer className="bg-black/70 backdrop-blur-sm text-white p-6">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">{clubInfo?.title || 'Farsund Grappling'}</h3>
-            <p className="text-white">
-              {clubInfo?.mission || 'En dedikert kampsportklubb i Farsund som tilbyr grappling og Brazilian Jiu-Jitsu for alle nivåer.'}
-            </p>
-          </div>
+    <Box
+      component="footer"
+      sx={{
+        backgroundColor: '#30364F',
+        backdropFilter: 'blur(8px)',
+        color: '#F0F0DB',
+        py: 6,
+        px: 3,
+      }}
+    >
+      <Container maxWidth="lg">
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Box sx={{ mb: 0.5, display: 'flex', justifyContent: 'center' }}>
+              <Image
+                src="/logo.svg"
+                alt="Farsund Grappling"
+                width={450}
+                height={150}
+                style={{ objectFit: 'contain' }}
+              />
+            </Box>
+            <Typography variant="body2" sx={{ color: '#F0F0DB', lineHeight: 1.7, textAlign: 'center' }}>
+              {clubInfo?.mission || 'Plassholder'}
+            </Typography>
+          </Grid>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Kontakt</h3>
-            <address className="not-italic text-white">
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#F0F0DB' }}>
+              Kontakt
+            </Typography>
+            <Box component="address" sx={{ fontStyle: 'normal', color: '#F0F0DB' }}>
               {clubInfo?.contactInfo?.address && (
-                <a 
+                <MuiLink
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clubInfo.contactInfo.address)}`}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 1,
+                    mb: 2,
+                    color: '#F0F0DB',
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                    '&:hover': {
+                      color: '#E1D9BC',
+                    },
+                  }}
                 >
-                  <div className="whitespace-pre-line">{clubInfo.contactInfo.address}</div>
-                </a>
+                  <LocationOnIcon sx={{ fontSize: 20, mt: 0.3 }} />
+                  <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                    {clubInfo.contactInfo.address}
+                  </Typography>
+                </MuiLink>
               )}
-            </address>
-            {clubInfo?.contactInfo?.email && (
-              <p>E-post: <a href={`mailto:${clubInfo.contactInfo.email}`} className="underline hover:text-blue-400 transition-colors">{clubInfo.contactInfo.email}</a></p>
-            )}
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Sosialt</h3>
-            <p className="text-white mb-4">
+              {clubInfo?.contactInfo?.email && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <EmailIcon sx={{ fontSize: 20 }} />
+                  <Typography variant="body2">
+                    E-post:{' '}
+                    <MuiLink
+                      href={`mailto:${clubInfo.contactInfo.email}`}
+                      sx={{
+                        color: '#F0F0DB',
+                        textDecoration: 'underline',
+                        transition: 'color 0.3s',
+                        '&:hover': {
+                          color: '#E1D9BC',
+                        },
+                      }}
+                    >
+                      {clubInfo.contactInfo.email}
+                    </MuiLink>
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          </Grid>
+          
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#F0F0DB' }}>
+              Sosialt
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#F0F0DB', mb: 2 }}>
               Følg oss på sosiale medier og bli en del av fellesskapet.
-            </p>
-            <div className="flex space-x-4">
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
               {clubInfo?.contactInfo?.socialMedia?.instagram && (
-                <a 
+                <MuiLink
                   href={clubInfo.contactInfo.socialMedia.instagram}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-white hover:text-blue-400 transition-colors"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    color: '#F0F0DB',
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                    '&:hover': {
+                      color: '#E1D9BC',
+                    },
+                  }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="mr-2">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                  @farsundgrappling
-                </a>
+                  <InstagramIcon />
+                  <Typography variant="body2">@farsundgrappling</Typography>
+                </MuiLink>
               )}
-            </div>
-            <div className="mt-3">
               {clubInfo?.contactInfo?.socialMedia?.facebook && (
-                <a 
+                <MuiLink
                   href={clubInfo.contactInfo.socialMedia.facebook}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-white hover:text-blue-400 transition-colors"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    color: '#F0F0DB',
+                    textDecoration: 'none',
+                    transition: 'color 0.3s',
+                    '&:hover': {
+                      color: '#E1D9BC',
+                    },
+                  }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="mr-2">
-                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                  </svg>
-                  Farsund Grappling - Facebook Gruppe
-                </a>
+                  <FacebookIcon />
+                  <Typography variant="body2">Farsund Grappling - Facebook Gruppe</Typography>
+                </MuiLink>
               )}
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Grid>
+        </Grid>
         
-        <div className="border-t border-gray-800 mt-8 pt-6 text-sm text-gray-400 text-center">
-          <p>&copy; {new Date().getFullYear()} Farsund Grappling. Alle rettigheter reservert.</p>
-          <p className="mt-2">Nettside utviklet av <a href="https://omerdigital.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">OmerDigital</a></p>
-        </div>
-      </div>
-    </footer>
+        <Divider sx={{ my: 4, borderColor: 'rgba(240, 240, 219, 0.2)' }} />
+        
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="body2" sx={{ color: 'rgba(240, 240, 219, 0.7)' }}>
+            &copy; {new Date().getFullYear()} Farsund Grappling. Alle rettigheter reservert.
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'rgba(240, 240, 219, 0.7)', mt: 1 }}>
+            Nettside utviklet av{' '}
+            <MuiLink
+              href="https://omerdigital.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                color: '#E1D9BC',
+                textDecoration: 'underline',
+                '&:hover': {
+                  color: '#F0F0DB',
+                },
+              }}
+            >
+              OmerDigital
+            </MuiLink>
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
   );
 }
