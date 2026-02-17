@@ -48,7 +48,7 @@ export default async function FrontendLayout({
   const backgroundImageUrl = background?.backgroundImage?.url || null;
   
   return (
-    <html lang="en" className={`${roboto.variable} ${oswald.variable}`}>
+    <html lang="en" className={`${roboto.variable} ${oswald.variable}`} style={{ overflowX: 'hidden' }}>
       <body
         style={{
           display: 'flex',
@@ -62,25 +62,37 @@ export default async function FrontendLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             {/* Dynamic Background Image - always show, no gradient fallback */}
-            <div 
-              style={{ 
+            <div
+              style={{
                 position: 'fixed',
                 top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
                 zIndex: -1,
-                backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
-                backgroundColor: '#F0F0DB',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
+                overflow: 'hidden',
               }}
-            ></div>
+            >
+              <div 
+                style={{ 
+                  position: 'absolute',
+                  top: '-10px',
+                  left: '-10px',
+                  right: '-10px',
+                  bottom: '-10px',
+                  backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
+                  backgroundColor: '#F0F0DB',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  filter: 'blur(5px)',
+                }}
+              />
+            </div>
             
             <ClientScrollEffects />
             <Navigation />
-            <main style={{ flexGrow: 1, paddingTop: '72px' }}>
+            <main style={{ flexGrow: 1, paddingTop: '64px' }}>
               {children}
             </main>
             <Footer />

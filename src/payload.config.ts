@@ -19,7 +19,6 @@ import { Instructors } from "./collections/Instructors";
 import { TrainingPrograms } from "./collections/TrainingPrograms";
 import { TrainingPage } from "./collections/TrainingPage";
 import { News } from "./collections/News";
-import { Facility } from "./collections/Facility";
 import { Background } from "./collections/Background";
 
 const filename = fileURLToPath(import.meta.url);
@@ -41,7 +40,6 @@ export default buildConfig({
     TrainingPrograms,
     TrainingPage,
     News,
-    Facility,
     Background,
   ],
   editor: lexicalEditor({}),

@@ -58,7 +58,6 @@ This will create:
 - Sample instructor profile
 - Training programs
 - News articles
-- Facility information
 - Membership details
 
 **Default Admin Login:**
@@ -150,13 +149,6 @@ Open your browser and navigate to:
   - Membership Types: Add different membership options
   - How to Join: Instructions for becoming a member
   - Contact: Contact information for membership inquiries
-
-#### Facility
-- **Location**: Collections → Facility
-- **Edit**: Click on the facility entry
-- **Sections**:
-  - Training Area: Title, subtitle, and image
-  - Opportunities: What your facility offers
 
 #### Background Settings
 - **Location**: Collections → Background

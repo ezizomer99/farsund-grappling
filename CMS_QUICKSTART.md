@@ -97,7 +97,6 @@ See [CMS_SETUP_GUIDE.md](./CMS_SETUP_GUIDE.md) for complete documentation.
 ### ✅ About Page
 - Edit club story
 - Manage instructor cards
-- Update facility info
 - Add Google Maps location
 
 ### ✅ Visual Settings

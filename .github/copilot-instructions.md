@@ -83,7 +83,6 @@ npm run lint         # Run ESLint
 | `TrainingPrograms` | Class schedules and program descriptions            |
 | `News`             | News articles with rich text and featured images    |
 | `MembershipInfo`   | Membership pricing and types                        |
-| `Facility`         | Training facility information                       |
 | `Background`       | Site-wide visual settings                           |
 | `Media`            | Uploaded images and files                           |
 

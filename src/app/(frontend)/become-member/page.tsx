@@ -22,7 +22,7 @@ export default async function BecomeMemberPage() {
           py: 4,
         }}
       >
-      <Container maxWidth="md" sx={{ py: 12 }}>
+      <Container maxWidth="md" sx={{ pt: 2, pb: 12 }}>
         <Box sx={{ textAlign: 'center' }}>
           <FadeIn>
             <Typography variant="h1" sx={{ mb: 6, color: '#30364F', fontWeight: 700 }}>

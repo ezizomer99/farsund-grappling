@@ -22,8 +22,7 @@ I've created a **complete, production-ready Content Management System (CMS)** fo
 9. `src/collections/TrainingPrograms.ts` - Training classes
 10. `src/collections/News.ts` - News articles
 11. `src/collections/MembershipInfo.ts` - Membership details
-12. `src/collections/Facility.ts` - Facility information
-13. `src/collections/Background.ts` - Visual settings
+12. `src/collections/Background.ts` - Visual settings
 
 #### Admin Panel Routes (5 files):
 14. `src/app/(payload)/layout.tsx` - Admin layout
@@ -76,7 +75,6 @@ I've created a **complete, production-ready Content Management System (CMS)** fo
   - Bio and accolades
   - Contact information
   - Display order
-- ✅ Facility information
 - ✅ Google Maps location (paste embed URL)
 
 ### 4. **Become Member Page** (`/become-member`)

@@ -20,7 +20,6 @@
 - [x] **Training Programs** - Classes with schedules and instructors
 - [x] **News** - Blog posts with featured images and publishing
 - [x] **Membership Info** - Pricing, types, features, contact
-- [x] **Facility** - Training area and opportunities
 - [x] **Background** - Site-wide background and overlay settings
 
 ### Data Management
@@ -66,9 +65,9 @@ To start using the CMS data immediately:
 3. **About Page** - Update `src/app/about/page.tsx`:
    ```typescript
    // Change from:
-   import { getInstructors, getClubInfo, getFacility } from "@/lib/data";
+   import { getInstructors, getClubInfo } from "@/lib/data";
    // To:
-   import { getInstructors, getClubInfo, getFacility } from "@/lib/payload-data";
+   import { getInstructors, getClubInfo } from "@/lib/payload-data";
    ```
 
 4. **News Page** - Update `src/app/news/page.tsx`:

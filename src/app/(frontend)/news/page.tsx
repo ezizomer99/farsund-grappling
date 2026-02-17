@@ -27,7 +27,7 @@ export default async function NewsPage() {
           py: 4,
         }}
       >
-      <Container maxWidth="md" sx={{ py: 8 }}>
+      <Container maxWidth="md" sx={{ pt: 2, pb: 8 }}>
         <FadeIn>
           <Typography variant="h1" sx={{ mb: 6, color: '#30364F', fontWeight: 700 }}>
             Nyheter
@@ -69,14 +69,13 @@ export default async function NewsPage() {
                         />
                       </CardMedia>
                     )}
-                    <CardContent sx={{ p: 4 }}>
-                      <Typography variant="h4" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
+                    <CardContent sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
+                      <Typography variant="h4" sx={{ mb: 2, fontWeight: 600, color: '#30364F', fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' } }}>
                         {article.title}
                       </Typography>
                       <Stack
                         direction="row"
-                        spacing={2}
-                        sx={{ mb: 3 }}
+                        sx={{ mb: 3, flexWrap: 'wrap', gap: 1 }}
                       >
                         <Chip
                           label={new Date(article.publishedAt).toLocaleDateString('no-NO', { 

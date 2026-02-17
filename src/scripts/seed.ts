@@ -82,9 +82,9 @@ async function seed() {
     const adminUser = await payload.create({
       collection: "users",
       data: {
-        email: "oemerdigital@gmail.com",
-        password: "GiannisFinalsMVP21!",
-        name: "OemerDigital",
+        email: "test@test.no",
+        password: "test123!",
+        name: "test bruker",
         role: "admin",
       },
     });
@@ -93,6 +93,7 @@ async function seed() {
     console.log("Creating homepage content...");
     await payload.create({
       collection: "homepage",
+      draft: false,
       data: {
         title: "Homepage",
         heroSection: {
@@ -143,6 +144,7 @@ async function seed() {
     console.log("Creating club info...");
     await payload.create({
       collection: "club-info",
+      draft: false,
       data: {
         title: "Farsund Grappling",
         story: createRichText([
@@ -175,6 +177,7 @@ async function seed() {
     console.log("Creating instructor...");
     const instructor = await payload.create({
       collection: "instructors",
+      draft: false,
       data: {
         name: "Instruktør Navn",
         title: "Hovedinstruktør",
@@ -192,6 +195,7 @@ async function seed() {
     console.log("Creating training programs...");
     await payload.create({
       collection: "training-programs",
+      draft: false,
       data: {
         name: "Voksne Nybegynner",
         description: createRichText([
@@ -220,6 +224,7 @@ async function seed() {
 
     await payload.create({
       collection: "training-programs",
+      draft: false,
       data: {
         name: "Alle Nivåer",
         description: createRichText([
@@ -242,6 +247,7 @@ async function seed() {
 
     await payload.create({
       collection: "training-programs",
+      draft: false,
       data: {
         name: "Open Mat",
         description: createRichText([
@@ -265,6 +271,7 @@ async function seed() {
     console.log("Creating news articles...");
     await payload.create({
       collection: "news",
+      draft: false,
       data: {
         title: "Velkommen til Farsund Grappling!",
         slug: "velkommen-til-farsund-grappling",
@@ -281,6 +288,7 @@ async function seed() {
 
     await payload.create({
       collection: "news",
+      draft: false,
       data: {
         title: "Nye Begynnerkurs Starter Snart",
         slug: "nye-begynnerkurs-starter-snart",
@@ -297,6 +305,7 @@ async function seed() {
 
     await payload.create({
       collection: "news",
+      draft: false,
       data: {
         title: "Treningsutstyr og Anbefalinger",
         slug: "treningsutstyr-og-anbefalinger",
@@ -311,25 +320,6 @@ async function seed() {
       },
     });
 
-    // Create Facility
-    console.log("Creating facility info...");
-    await payload.create({
-      collection: "facility",
-      data: {
-        title: "Våre Fasiliteter",
-        trainingArea: {
-          title: "Moderne Treningsarena",
-          subtitle: "Vi holder til på Løft Gym i Farsund",
-        },
-        opportunities: {
-          title: "Hva Vi Tilbyr",
-          description: createRichText([
-            "Dedikert treningsareal for grappling med profesjonelle matter og utstyr.",
-          ]),
-        },
-      },
-    });
-
     // Create Background
     console.log("Creating background settings...");
     await payload.create({
@@ -341,8 +331,8 @@ async function seed() {
 
     console.log("✅ Seed completed successfully!");
     console.log("\n📧 Admin Login:");
-    console.log("Email: oemerdigital@gmail.com");
-    console.log("Password: GiannisFinalsMVP21!");
+    console.log("Email: test@test.no");
+    console.log("Password: test123!");
     console.log("\n🌐 Access the CMS at: http://localhost:3000/admin");
 
     process.exit(0);

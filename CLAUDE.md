@@ -11,7 +11,7 @@ This is the **Farsund Grappling Club** website - a Next.js 16 application with P
 - **CMS**: Payload CMS 3.x with MongoDB
 - **UI**: Material-UI (MUI) 7.x
 - **Animations**: Framer Motion 12.x
-- **Deployment**: Cloudflare Pages via @cloudflare/next-on-pages
+- **Deployment**: Vercel with Vercel Blob storage
 
 ## Essential Commands
 
@@ -21,8 +21,7 @@ npm run dev              # Start dev server with Turbopack
 
 # Build & Deploy
 npm run build            # Next.js production build
-npm run pages:build      # Build for Cloudflare Pages
-npm run deploy           # Deploy to Cloudflare
+# Deploy via Vercel CLI: vercel deploy
 
 # CMS
 npm run seed             # Seed database with initial content

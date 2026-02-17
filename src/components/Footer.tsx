@@ -152,7 +152,7 @@ export default async function Footer() {
           <Typography variant="body2" sx={{ color: 'rgba(240, 240, 219, 0.7)', mt: 1 }}>
             Nettside utviklet av{' '}
             <MuiLink
-              href="https://omerdigital.com"
+              href="https://omerdigital.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               sx={{
@@ -163,7 +163,7 @@ export default async function Footer() {
                 },
               }}
             >
-              OmerDigital
+              ØmerDigital
             </MuiLink>
           </Typography>
         </Box>

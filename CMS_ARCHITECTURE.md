@@ -30,8 +30,7 @@
 │   • Instructors     │                     │
 │   • Training Prog   │                     │
 │   • News            │                     │ Fetch Data
-│   • Membership Info │                     │
-│   • Facility        │      ┌──────────────┴───────────────────┐
+│   • Membership Info │      ┌──────────────┴───────────────────┐
 │   • Background      │      │   Next.js Pages (Frontend)       │
 └─────────────────────┘      │   - Homepage (/)                 │
                              │   - Training (/training)          │
@@ -75,7 +74,6 @@ farsund-grappling/
 │   │   ├── TrainingPrograms.ts       # Class schedules
 │   │   ├── TrainingPage.ts           # Training page settings
 │   │   ├── News.ts                   # News articles
-│   │   ├── Facility.ts               # Facility information
 │   │   └── Background.ts             # Visual settings
 │   │
 │   ├── components/                   # Reusable React components
@@ -281,12 +279,7 @@ Vercel
 - How to join instructions
 - Contact information
 
-### 🏋️ Facility
-- Training area info
-- Facility images
-- Opportunities description
-
-### 🎨 Background
+###  Background
 - Background image upload
 - Overlay color and opacity
 

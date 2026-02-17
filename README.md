@@ -25,7 +25,7 @@ A modern, dynamic website for **Farsund Grappling Club** (Brazilian Jiu-Jitsu) b
 |------|-------|-------------|
 | **Home** | `/` | Welcome page with club overview, features, and latest news |
 | **Training** | `/training` | Dynamic training schedule calendar and program descriptions |
-| **About** | `/about` | Club information, instructor profiles, and facilities |
+| **About** | `/about` | Club information, instructor profiles |
 | **News** | `/news` | Latest club news and updates with rich text content |
 | **Become Member** | `/become-member` | Membership information and pricing options |
 | **CMS Admin** | `/admin` | Content management panel (login required) |
@@ -184,7 +184,6 @@ farsund-grappling/
 │   │   ├── TrainingPrograms.ts      # Training classes
 │   │   ├── News.ts                  # News articles
 │   │   ├── MembershipInfo.ts        # Membership details
-│   │   ├── Facility.ts              # Facility information
 │   │   └── Background.ts            # Visual settings
 │   │
 │   ├── components/                  # Reusable React components
@@ -261,7 +260,6 @@ Located in `src/components/animations/`
 | **TrainingPrograms** | Class schedules | Name, schedule, level, age group |
 | **ClubInfo** | Club details | Story, contact, location |
 | **MembershipInfo** | Pricing | Types, prices, benefits |
-| **Facility** | Gym info | Description, features |
 | **Background** | Site visuals | Background image, overlay |
 | **Media** | Uploads | Images, files |
 | **Users** | Accounts | Email, password, role |

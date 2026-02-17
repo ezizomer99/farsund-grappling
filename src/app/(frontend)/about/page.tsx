@@ -1,6 +1,6 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import Image from "next/image";
-import { getInstructors, getFacility, getClubInfo } from "@/lib/payload-data";
+import { getInstructors, getClubInfo } from "@/lib/payload-data";
 import { PageTransition, FadeIn } from "@/components/animations";
 import { RichText } from "@/components/RichText";
 import {
@@ -17,14 +17,13 @@ import {
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PersonIcon from '@mui/icons-material/Person';
-import ImageIcon from '@mui/icons-material/Image';
+
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function AboutPage() {
   noStore(); // Opt out of static generation for fresh data
   const instructors = await getInstructors();
-  const facility = await getFacility();
   const clubInfo = await getClubInfo();
   return (
     <PageTransition> 
@@ -36,7 +35,7 @@ export default async function AboutPage() {
           py: 4,
         }}
       >
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Container maxWidth="lg" sx={{ pt: 2, pb: 8 }}>
         <FadeIn>
           <Typography variant="h1" sx={{ mb: 6, color: '#30364F', fontWeight: 700 }}>
             Om Farsund Grappling
@@ -73,7 +72,7 @@ export default async function AboutPage() {
         {/* Instructors */}
         <Box component="section" sx={{ mb: 8 }}>
           <Typography variant="h4" sx={{ mb: 3, color: '#30364F', fontWeight: 600 }}>
-            Våre Instruktører
+            Instruktør
           </Typography>
           <Stack spacing={4}>
             {instructors.map((instructor) => (
@@ -167,100 +166,6 @@ export default async function AboutPage() {
               </Card>
             ))}
           </Stack>
-        </Box>
-      
-        {/* Facilities */}
-        <Box component="section" sx={{ mb: 8 }}>
-          <Typography variant="h4" sx={{ mb: 3, color: '#30364F', fontWeight: 600 }}>
-            {facility?.title || 'Våre Fasiliteter'}
-          </Typography>
-          <Card sx={{ 
-            bgcolor: '#E1D9BC',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            '&:hover': {
-              transform: 'translateY(-4px)',
-              boxShadow: 4,
-            },
-          }}>
-            <CardContent sx={{ p: 4 }}>
-              <Grid container spacing={4}>
-                {/* Left side - Training area info and image */}
-                <Grid size={{ xs: 12, lg: 6 }}>
-                  <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, color: '#30364F' }}>
-                    {facility?.trainingArea?.title || ''}
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      mb: 4,
-                      display: 'flex',
-                      alignItems: 'center',
-                      color: '#4a5268',
-                    }}
-                  >
-                    {facility?.trainingArea?.subtitle || 'Dette er vårt område'}
-                  </Typography>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      height: 400,
-                      borderRadius: 2,
-                      overflow: 'hidden',
-                      bgcolor: '#F0F0DB',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {facility?.trainingArea?.image?.url ? (
-                      <Image
-                        src={facility.trainingArea.image.url}
-                        alt={facility.trainingArea.image.alt || 'Training area'}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    ) : (
-                      <Box
-                        sx={{
-                          textAlign: 'center',
-                          color: '#4a5268',
-                        }}
-                      >
-                        <ImageIcon sx={{ fontSize: 48, mb: 1 }} />
-                        <Typography variant="body2">
-                          Treningsområde bilde kommer snart
-                        </Typography>
-                      </Box>
-                    )}
-                  </Box>
-                </Grid>
-                
-                {/* Right side - Opportunities */}
-                <Grid size={{ xs: 12, lg: 6 }}>
-                  <Typography variant="h5" sx={{ mb: 3, fontWeight: 600, color: '#30364F' }}>
-                    {facility?.opportunities?.title || 'Muligheter'}
-                  </Typography>
-                  {facility?.opportunities?.description ? (
-                    <Box sx={{ color: '#30364F' }}>
-                      <RichText content={facility.opportunities.description} />
-                    </Box>
-                  ) : (
-                    <>
-                      <Typography sx={{ mb: 3, color: '#30364F' }}>
-                        Det å ha et BJJ-område inne i et styrketreningsstudio gir deg unike muligheter.
-                      </Typography>
-                      <Typography sx={{ mb: 3, color: '#30364F' }}>
-                        Du kan kombinere kampsporttrening med styrketrening i samme økt, noe som gir deg en komplett treningsopplevelse.
-                      </Typography>
-                      <Typography sx={{ color: '#30364F' }}>
-                        Etter en intens BJJ-økt kan du fokusere på styrke og kondisjon, eller omvendt - starte med styrketrening før du går over til teknikk og sparring.
-                      </Typography>
-                    </>
-                  )}
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
         </Box>
       
         {/* Location */}

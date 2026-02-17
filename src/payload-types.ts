@@ -75,7 +75,6 @@ export interface Config {
     'training-programs': TrainingProgram;
     'training-page': TrainingPage;
     news: News;
-    facility: Facility;
     background: Background;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -92,7 +91,6 @@ export interface Config {
     'training-programs': TrainingProgramsSelect<false> | TrainingProgramsSelect<true>;
     'training-page': TrainingPageSelect<false> | TrainingPageSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
-    facility: FacilitySelect<false> | FacilitySelect<true>;
     background: BackgroundSelect<false> | BackgroundSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -484,39 +482,6 @@ export interface News {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "facility".
- */
-export interface Facility {
-  id: string;
-  title: string;
-  trainingArea: {
-    title: string;
-    subtitle?: string | null;
-    image?: (string | null) | Media;
-  };
-  opportunities: {
-    title: string;
-    description: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "background".
  */
 export interface Background {
@@ -584,10 +549,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'news';
         value: string | News;
-      } | null)
-    | ({
-        relationTo: 'facility';
-        value: string | Facility;
       } | null)
     | ({
         relationTo: 'background';
@@ -891,28 +852,6 @@ export interface NewsSelect<T extends boolean = true> {
   summary?: T;
   content?: T;
   status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "facility_select".
- */
-export interface FacilitySelect<T extends boolean = true> {
-  title?: T;
-  trainingArea?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        image?: T;
-      };
-  opportunities?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }

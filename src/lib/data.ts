@@ -111,23 +111,6 @@ export interface Homepage {
   };
 }
 
-export interface Facility {
-  _id: string;
-  title: string;
-  trainingArea: {
-    title: string;
-    subtitle: string;
-    image?: {
-      url: string;
-      alt: string;
-    };
-  };
-  opportunities: {
-    title: string;
-    description: any[];
-  };
-}
-
 export interface Background {
   _id: string;
   title: string;
@@ -467,29 +450,6 @@ export const homepage: Homepage = {
   },
 };
 
-export const facility: Facility = {
-  _id: "facility1",
-  title: "Våre Fasiliteter",
-  trainingArea: {
-    title: "Moderne Treningsarena",
-    subtitle: "Vi holder til på Løft Gym i Farsund",
-  },
-  opportunities: {
-    title: "Hva Vi Tilbyr",
-    description: [
-      {
-        _type: "block",
-        children: [
-          {
-            _type: "span",
-            text: "Dedikert treningsareal for grappling med profesjonelle matter og utstyr.",
-          },
-        ],
-      },
-    ],
-  },
-};
-
 export const background: Background = {
   _id: "background1",
   title: "Background",
@@ -525,10 +485,6 @@ export function getClubInfo(): ClubInfo {
 
 export function getTrainingPrograms(): TrainingProgram[] {
   return trainingPrograms;
-}
-
-export function getFacility(): Facility {
-  return facility;
 }
 
 export function getHomepage(): Homepage {

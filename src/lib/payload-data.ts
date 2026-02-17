@@ -6,7 +6,6 @@ import type {
   Instructor,
   TrainingProgram,
   NewsArticle,
-  Facility,
   Background,
   TrainingPageData,
 } from "@/lib/data";
@@ -368,47 +367,6 @@ export async function getNewsArticle(
   }
 }
 
-export async function getFacility(): Promise<Facility | null> {
-  try {
-    const payload = await getPayloadClient();
-    const result = await payload.find({
-      collection: "facility",
-      limit: 1,
-    });
-
-    if (result.docs.length === 0) return null;
-
-    const doc = result.docs[0];
-    return {
-      _id: String(doc.id),
-      title: doc.title,
-      trainingArea: {
-        title: doc.trainingArea.title,
-        subtitle: doc.trainingArea.subtitle,
-        image: doc.trainingArea.image
-          ? {
-              url:
-                typeof doc.trainingArea.image === "object"
-                  ? doc.trainingArea.image.url
-                  : doc.trainingArea.image,
-              alt:
-                typeof doc.trainingArea.image === "object"
-                  ? doc.trainingArea.image.alt
-                  : doc.trainingArea.title,
-            }
-          : undefined,
-      },
-      opportunities: {
-        title: doc.opportunities.title,
-        description: doc.opportunities.description, // richText content passed directly
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching facility:", error);
-    return null;
-  }
-}
-
 export async function getBackground(): Promise<Background | null> {
   try {
     const payload = await getPayloadClient();
@@ -449,6 +407,5 @@ export type {
   Instructor,
   TrainingProgram,
   NewsArticle,
-  Facility,
   Background,
 };

@@ -181,13 +181,13 @@ function renderNode(node: LexicalNode, index: number): React.ReactNode {
     const imageUrl = node.value?.url
     if (!imageUrl) return null
     return (
-      <Box key={index} sx={{ my: 3 }}>
+      <Box key={index} sx={{ my: 3, width: '100%', maxWidth: '100%' }}>
         <Image
           src={imageUrl}
           alt={node.value?.alt || 'Image'}
           width={800}
           height={600}
-          style={{ borderRadius: '8px' }}
+          style={{ borderRadius: '8px', width: '100%', height: 'auto', maxWidth: '100%' }}
         />
       </Box>
     )
